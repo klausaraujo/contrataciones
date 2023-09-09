@@ -41,12 +41,14 @@
 		<script src="<?=base_url()?>/public/js/chart-custom.js"></script>
 		<!-- Custom JavaScript -->
 		<script src="<?=base_url()?>/public/js/custom.js"></script>
+		<!--<script src="<?=base_url()?>/public/datatable/datatables.min.js"></script>
+		<script src="<?=base_url()?>/public/datatable/dataTables.responsive.min.js"></script>-->
 		<script src="<?=base_url()?>/public/datatable/jquery.dataTables.min.js"></script>
 		<script src="<?=base_url()?>/public/datatable/dataTables.bootstrap4.min.js"></script>
 		<script src="<?=base_url()?>public/js/jquery.validate.min.js"></script>
 		<script src="<?=base_url()?>/public/js/general.js"></script>
 		<script>
-			let botones = '<"row"<"col-11 mt-2 mb-4"B><"col-6 float-left my-2"l><"col-6 float-right my-2"f><"col-12"rt><"col-6 float-left"i><"col-6 float-right"p>>';
+			let botones = '<"row"<"col-sm-12 mt-2 mb-4"B><"col-sm-6 float-left my-2"l><"col-sm-6 float-right my-2"f>rt>ip';
 			const base_url = '<?=base_url()?>', segmento = '<?=$this->uri->segment(1)?>', segmento2 = '<?=$this->uri->segment(2)?>';
 			const opt = { style:'decimal', minimumFractionDigits: 2 };
 			const lngDataTable = {
@@ -143,24 +145,9 @@
 			});
 			<?}?>
 		</script>
-		<?}else if($this->uri->segment(1) === 'tostado'){ ?>
-		<script src="<?=base_url()?>public/js/tostado/tostado.js"></script>
-		<script>
-			let botonesTos = JSON.parse('<?=$this->session->userdata('perTost')?>');
-			<?if($this->uri->segment(2) == ''){?>
-			let btnEdit = false, btnAnular = false, btnPdf = false, btnOp = false;
-			
-			$.each(botonesTos,function(i,e){
-				if(e.idpermiso === '28') btnEdit = true;
-				else if(e.idpermiso === '29') btnAnular = true;
-				else if(e.idpermiso === '30') btnPdf = true;
-				else if(e.idpermiso === '31') btnOp = true;
-			});
-			<?}?>
-		</script>
 		<?}?>
 		<?if(($this->uri->segment(1) === 'proveedores' || $this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'servicios' || 
-				$this->uri->segment(1) === 'certificaciones' || $this->uri->segment(1) === 'ventas' || $this->uri->segment(1) === 'tostado') && $this->uri->segment(2) == ''){ ?>
+				$this->uri->segment(1) === 'certificaciones' || $this->uri->segment(1) === 'ventas') && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 		</script>
@@ -185,8 +172,7 @@
 			});
 		</script>
 		<?}else if(($this->uri->segment(1) === 'proveedores' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar')) || 
-			($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && ($this->uri->segment(3) === 'nuevo' || $this->uri->segment(3) === 'editar')) ||
-			($this->uri->segment(1) === 'tostado' && ($this->uri->segment(2) === 'nuevo' || $this->uri->segment(2) === 'editar'))){ ?>
+			($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && ($this->uri->segment(3) === 'nuevo' || $this->uri->segment(3) === 'editar'))){ ?>
 		<script src="<?=base_url()?>public/js/mapa/map.js"></script>
 		<script>
 			let map = null;
@@ -196,15 +182,6 @@
 				map = mapa(opt);
 			}
 		</script>
-		<?}elseif($this->uri->segment(1) === 'proveedores'  && substr($this->uri->segment(2),0,strlen('reporte')) === 'reporte'){?>
-			<!--<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-			<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-			<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-			<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>-->
-			<script src="<?=base_url()?>/public/js/proveedores/reportes.js"></script>
 		<?}else if($this->uri->segment(2) === 'parametros'){?>
 		<script>
 			let catadores = JSON.parse('<?=json_encode($catadores)?>');
@@ -249,6 +226,120 @@
 				data: $data,
 				options: optGrafico
 			});
+			
+			
+			
+			
+//if (jQuery('#am-radar-chart').length) {
+	/*window.onload = function(){
+    am4core.ready(function(){
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance 
+        chart = am4core.create('am-radar-chart', am4charts.RadarChart);
+        chart.colors.list = [am4core.color("#089bab")];
+		let title = chart.titles.create();
+		title.text = 'ANALISIS SENSORIAL';
+		title.fontSize = 20;
+
+        // Add data 
+        chart.data = [
+			{'sensoriales': "SABOR", 'litres': 20, 'units': 20},
+			{'sensoriales': 'OLOR', 'litres': 15, 'units': 15},
+			{'sensoriales': 'DISQUE', 'litres': 10, 'units': 10},
+			{'sensoriales': 'TACTO', 'litres': 7, 'units': 7},
+			{'sensoriales': 'OLFATO','litres': 4, 'units': 4}
+		];
+
+        // Create axes 
+        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = 'sensoriales';
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.renderer.axisFills.template.fill = chart.colors.getIndex(1);
+        valueAxis.renderer.axisFills.template.fillOpacity = 0.05;
+
+        // Create and configure series 
+        var series = chart.series.push(new am4charts.RadarSeries());
+        series.dataFields.valueY = 'litres';
+        series.dataFields.categoryX = 'sensoriales';
+        series.name = 'Aromas';
+        series.strokeWidth = 2;
+		series.zIndex = 2;
+	
+		let series2 = chart.series.push(new am4charts.RadarColumnSeries());
+		series2.dataFields.valueY = 'units';
+		series2.dataFields.categoryX = 'sensoriales';
+		series2.name = 'Units';
+		series2.strokeWidth = 0;
+		series2.columns.template.fill = am4core.color("#CDA2AB");
+		series2.columns.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";
+		
+		/*chart.xAxes.rangeChangeAnimation.once('animationended', (ev) => {
+			console.log('Listo');
+			setTimeout(function(){
+				let svg = document.querySelector('svg');
+
+				let svgURL = new XMLSerializer().serializeToString(svg);
+				//let encoded = btoa(svgURL);
+				let encoded = btoa(unescape(encodeURIComponent(svgURL)));
+				//console.log(encoded);
+				//console.log(encodeURIComponent(svgURL));
+				$('#imagen').attr('src', 'data:image/svg+xml;base64,' + encoded);
+				
+			}, 500);
+		});*/
+		//console.log(chart);
+		
+		/*chart.events.on('frameended', (ev) => {
+			setTimeout(function(){
+				let svg = document.querySelector('svg');
+
+				let svgURL = new XMLSerializer().serializeToString(svg);
+				//let encoded = btoa(svgURL);
+				let encoded = btoa(unescape(encodeURIComponent(svgURL)));
+				//console.log(encoded);
+				//console.log(encodeURIComponent(svgURL));
+				$('#imagen').attr('src', 'data:image/svg+xml;base64,' + encoded);
+				
+			}, 500);
+		});*/
+		/*chart.events.on('beforedatavalidated', function(ev) {
+			setTimeout(function(){
+				let svg = document.querySelector('svg');
+
+				let svgURL = new XMLSerializer().serializeToString(svg);
+				//let encoded = btoa(svgURL);
+				let encoded = btoa(unescape(encodeURIComponent(svgURL)));
+				//console.log(encoded);
+				//console.log(encodeURIComponent(svgURL));
+				$('#imagen').attr('src', 'data:image/svg+xml;base64,' + encoded);
+				
+			}, 1000);
+		});*/
+		/*chart.events.on('extremeschanged',function(){
+			let svg = document.querySelector('svg');
+
+			let svgURL = new XMLSerializer().serializeToString(svg);
+			//let encoded = btoa(svgURL);
+			let encoded = btoa(unescape(encodeURIComponent(svgURL)));
+			//console.log(encoded);
+			//console.log(encodeURIComponent(svgURL));
+			$('#imagen').attr('src', 'data:image/svg+xml;base64,' + encoded);
+		});*/
+	//}); // end am4core.ready()
+//}
+//}
+			
+			
+			
+			
+			
+			
+			
 		</script>
 		<?}elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'ventascliente'){ ?>
 		<script>
