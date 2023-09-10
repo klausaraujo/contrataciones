@@ -17,7 +17,7 @@
       <!-- loader END -->
         <!-- Sign in Start -->
         <section class="sign-in-page">
-            <div class="container sign-in-page-bg mt-5 p-0">
+            <div class="container sign-in-page-bg p-0">
                 <div class="row no-gutters">
                     <div class="col-md-6 text-center">
                         <div class="sign-in-detail text-white">
