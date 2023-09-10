@@ -15,103 +15,79 @@
 				<nav class="iq-sidebar-menu">
 					<ul id="iq-sidebar-toggle" class="iq-menu">
 						<li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Panel de Navegaci&oacute;n</span></li>
-						<li class="<?php echo $this->uri->segment(1) == '' ? 'active main-active': ''; ?>" >
+						<li class="<?=$this->uri->segment(1) == '' ? 'active main-active': ''; ?>" >
 							<a href="<?=base_url()?>" class="iq-waves-effect"><i class="ri-home-8-fill"></i><span>Inicio</span></a>
 						</li>
-						<?php 
-							if($this->uri->segment(1) == '') {
-								$listaModulos = $usuario->modulos;
-								foreach($listaModulos as $row): ?>
-							<li>
-							<?php	if($row->activo > 0 && ! empty($usuario->sucursales)){ ?>
-							<a href="<?=base_url().$row->url?>" class="iq-waves-effect">
-								<i class="<?=$row->mini?>" aria-hidden="true"></i>
-								<span><?=$row->menu?></span>
-							</a>
-							<?php 	}else { ?>
-								<span class="disable">
-									<div class="pull-left">
-										<i class="<?=$row->mini?> mr-20" aria-hidden="true"></i>
-										<span class="right-nav-text"><?=$row->menu?></span>
-									</div>
-									<div class="clearfix"></div>
-								</span>
-							<?php 	} ?>
-							</li>
-						<?php 	endforeach;
-							}else{
+				<? 
+						if($this->uri->segment(1) == ''){
+							foreach($usuario->modulos as $row): ?>
+						<li>
+				<?				if($row->activo > 0){ ?>
+							<a href="<?=base_url().$row->url?>" class="iq-waves-effect"><i class="<?=$row->mini?>" aria-hidden="true"></i><span><?=$row->menu?></span></a>
+				<?				}else { ?>
+							<span class="disable"><div class="pull-left">
+								<i class="<?=$row->mini?> mr-20" aria-hidden="true"></i><span class="right-nav-text"><?=$row->menu?></span></div>
+								<div class="clearfix"></div>
+							</span>
 						
-							$lMenu = $usuario->menus;
-							$lMod = $usuario->modulos;
-							$submenu = $usuario->submenus;
-							
-							$idModulo = ""; $i = 0;
-							foreach($lMod as $row): if($row->url === $this->uri->segment(1)) $idModulo = $row->idmodulo; endforeach;
-							if(!empty($lMenu)){
-								foreach($lMenu as $row):
-									if($row->idmodulo === $idModulo){
-								?>
-								<li id="menu<?=$row->idmenu?>">
-								<?  if($row->nivel === '0'){
-										if($row->activo === '1'){ ?>
-									<a href="<?=base_url().$row->url?>" id="linkAjax">
-										<div class="pull-left">
-											<i class="<?=$row->icono?> mr-20"></i>
-											<span class="right-nav-text"><?=$row->descripcion?></span>
-										</div>
-										<!--<div class="clearfix"></div>-->
-									</a>
-									<?php 	}else{ ?>	
-									<span class="disable">
-										<div class="pull-left">
-											<i class="<?=$row->icono?> mr-20"></i>
-											<span class="right-nav-text"><?=$row->descripcion?></span>
-										</div>
-										<!--<div class="clearfix"></div>-->
+				<?				} ?>
+						</li>
+				<?			endforeach;
+						}else{
+						// Area del bucle del menu
+							foreach($usuario->modulos as $row): if($row->url === $this->uri->segment(1)) $idmodulo = $row->idmodulo; endforeach;
+								
+							$permiso = false; $subpermiso = false;
+								
+							foreach($usuario->menugeneral as $row):
+								if($idmodulo === $row->idmodulo){	?>
+						<li>
+				<?					foreach($usuario->menus as $fila): if($fila->idmenu === $row->idmenu && $fila->activo === '1') $permiso = true; endforeach;
+									if($permiso && $row->activo === '1'){
+										if($row->nivel === '0'){
+				?>
+							<a href="<?=base_url().$row->url?>" class="iq-waves-effect"><i class="<?=$row->icono?>"></i><span><?=$row->descripcion?></span></a>
+				<?						}else{	?>
+						<!-- Area de submenus -->
+							<a href="#submenu_<?=$row->idmenu?>" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false">
+								<i class="<?=$row->icono?>"></i><span><?=$row->descripcion?></span><i class="ri-arrow-right-s-line iq-arrow-right"></i>
+							</a>
+							<ul id="submenu_<?=$row->idmenu?>" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+				<?							foreach($usuario->submenugeneral as $row2):
+												if($row2->idmenu === $row->idmenu){	?>
+								<li>
+				<?									foreach($usuario->submenus as $fila1):
+														if($fila1->idmenudetalle === $row2->idmenudetalle && $fila1->activo === '1') $subpermiso = true;
+													endforeach;
+													if($subpermiso && $row2->activo === '1'){	?>
+									<a href="<?=base_url().$this->uri->segment(1).'/'.$row2->url?>" style="color:#117428" ><i class="<?=$row2->icono?>"></i><?=$row2->descripcion?></a>
+				<?									}else{	?>
+									<span class="disable"><div class="pull-left">
+										<i class="<?=$row2->icono?> mr-20" aria-hidden="true"></i><span class="right-nav-text"><?=$row2->descripcion?></span></div>
+										<div class="clearfix"></div>
 									</span>
-									<?php }							
-									}else{ ?>
-									<a href="javascript:void(0);" data-toggle="collapse" data-target="#sub_<?=$row->idmenu?>">
-										<div class="pull-left">
-											<i class="<?=$row->icono?>  mr-20"></i>
-											<span class="right-nav-text"><?=$row->descripcion?></span>
-										</div>
-										<!--<div class="clearfix"></div>-->
-									</a>
-									<?//if($row->nivel === '1'){?>
-										<div class="submenu-1">
-											<ul id="sub_<?=$row->idmenu?>" class="collapse collapse-level-1 pb-1 pl-1">
-											<?  foreach($submenu as $srow):
-													if($row->idmenu === $srow->idmenu){ ?>
-												<li><a href="<?=$srow->url?>" rel=""><i class="<?=$srow->icono?> mr-20"></i><?=$srow->descripcion?></a></li>
-													<?}
-												endforeach; ?> 
-											</ul>
-										</div>
-									<?  } ?>
+									<!--<i class="<?=$row2->icono?>"></i><span><?=$row2->descripcion?></span>-->
+				<?									}
+												}
+												$subpermiso = false;	?>
 								</li>
-								<?php
-									}
-								endforeach;
-							}
-							}
-					  ?>
-						<!--<li>
-							<a href="#" class="iq-waves-effect"><i class="ri-hospital-fill"></i><span>Doctor Dashboard</span></a>
-						</li>
-						<li>
-							<a href="#" class="iq-waves-effect"><i class="ri-home-8-fill"></i><span>Hospital Dashboard 1 </span></a>
-						</li>
-						<li>
-							<a href="#" class="iq-waves-effect"><i class="ri-briefcase-4-fill"></i><span>Hospital Dashboard 2</span></a>
-						</li>
-						<li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Components</span></li>
-						<li>
-							<a href="#ui-elements" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i class="ri-apps-fill"></i><span>UI Elements</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-							<ul id="ui-elements" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-								<li><a href="ui-colors.html"><i class="ri-font-color"></i>colors</a></li>
+				<?							endforeach;	?>	
 							</ul>
-						</li>-->
+						<!-- Fin del Area de submenus -->
+				<?							}
+									}else{	?>
+							<span class="disable"><div class="pull-left">
+								<i class="<?=$row->icono?> mr-20" aria-hidden="true"></i><span class="right-nav-text"><?=$row->descripcion?></span></div>
+								<div class="clearfix"></div>
+							</span>
+							<!--<i class="<?=$row->icono?>"></i><span><?=$row->descripcion?></span>-->
+				<?					}
+								$permiso = false;
+								}	?>
+						</li>
+				<?			endforeach;
+						}	?>
+						<!-- Fin del area del bucle del menu -->
                     </ul>
 				</nav>
 				<div class="p-3"></div>

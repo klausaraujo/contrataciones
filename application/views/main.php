@@ -28,21 +28,6 @@
 					<?php 
 						//echo date_default_timezone_get();
 						if($this->uri->segment(1) == '') $this->load->view('modulos');
-						elseif($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) == '') $this->load->view('proveedores/proveedores');
-						elseif($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'nuevo') $this->load->view('proveedores/form-new');
-						elseif($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'editar') $this->load->view('proveedores/form-editar');
-						elseif($this->uri->segment(1) === 'proveedores' && $this->uri->segment(2) === 'transacciones') $this->load->view('proveedores/transacciones');
-						elseif($this->uri->segment(1) === 'servicios' && $this->uri->segment(2) == '') $this->load->view('servicios/servicios');
-						elseif($this->uri->segment(1) === 'servicios' && $this->uri->segment(2) === 'nuevo') $this->load->view('servicios/form-new');
-						elseif($this->uri->segment(1) === 'servicios' && $this->uri->segment(2) === 'editar') $this->load->view('servicios/form-editar');
-						elseif($this->uri->segment(1) === 'certificaciones' && $this->uri->segment(2) == '') $this->load->view('certificaciones/certificaciones');
-						elseif($this->uri->segment(1) === 'certificaciones' && $this->uri->segment(2) === 'nuevo') $this->load->view('certificaciones/form-new');
-						elseif($this->uri->segment(1) === 'certificaciones' && $this->uri->segment(2) === 'editar') $this->load->view('certificaciones/form-editar');
-						elseif($this->uri->segment(1) === 'certificaciones' && $this->uri->segment(2) === 'parametros') $this->load->view('certificaciones/parametros');
-						elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) == '') $this->load->view('ventas/clientes');
-						elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && $this->uri->segment(3) === 'nuevo') $this->load->view('ventas/form-new');
-						elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'cliente' && $this->uri->segment(3) === 'editar') $this->load->view('ventas/form-editar');
-						elseif($this->uri->segment(1) === 'ventas' && $this->uri->segment(2) === 'ventascliente') $this->load->view('ventas/ventas');
 						elseif($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) == '') $this->load->view('usuarios/usuarios');
 						elseif($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) === 'nuevo') $this->load->view('usuarios/form-new');
 						elseif($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) === 'editar') $this->load->view('usuarios/form-editar');

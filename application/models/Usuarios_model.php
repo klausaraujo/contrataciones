@@ -56,7 +56,7 @@ class Usuarios_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function sucursalesUser()
+	/*public function sucursalesUser()
 	{
 		$this->db->select('*');
 		$this->db->from('sucursal');
@@ -64,7 +64,7 @@ class Usuarios_model extends CI_Model
 		$this->db->order_by('idsucursal','asc');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
-	}
+	}*/
 	public function buscaPermisos($data)
 	{
 		$this->db->select('*');
@@ -74,7 +74,7 @@ class Usuarios_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function buscaSucursales($data)
+	/*public function buscaSucursales($data)
 	{
 		$this->db->select('*');
 		$this->db->from('usuarios_sucursal');
@@ -82,7 +82,7 @@ class Usuarios_model extends CI_Model
 		$this->db->order_by('idsucursal','asc');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
-	}
+	}*/
 	public function registrarPer($where,$data,$tabla)
 	{
 		$this->db->trans_begin();

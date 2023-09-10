@@ -15,7 +15,7 @@ class Main extends CI_Controller
 			$seg = $this->uri->segment(1);
 			foreach($this->usuario->modulos as $mod):
 				if($mod->url === $seg){
-					if($mod->activo && !empty($this->usuario->sucursales)) $this->modulo = true;
+					if($mod->activo) $this->modulo = true;
 				}
 			endforeach;
 			
@@ -28,109 +28,28 @@ class Main extends CI_Controller
 
     public function index(){}
 	
-	public function proveedores()
-	{
-		$this->load->model('Usuarios_model');
-		//$mod = $this->input->get('mod');
-		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 1,'po.activo' => 1]);
-		$this->session->set_userdata('perProv', json_encode($bot));
-		
-		$headers = array(
-			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Documento', 'targets' => 2],'3'=>['title' => 'N&uacute;mero', 'targets' => 3],
-			'4'=>['title' => 'RUC', 'targets' => 4],'5'=>['title' => 'Nombre / Raz&oacute;n Social', 'targets' => 5],'6'=>['title' => 'Direcci&oacute;n', 'targets' => 6],
-			'7'=>['title' => 'Zona', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],'9'=>['targets' => 1, 'visible' => false],
-		);
-		$this->load->view('main',['headers' => $headers]);
-	}
-	public function ventas()
-	{
-		$this->load->model('Usuarios_model');
-		//$mod = $this->input->get('mod');
-		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 5,'po.activo' => 1]);
-		$this->session->set_userdata('perVent', json_encode($bot));
-		
-		$headers = array(
-			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Tipo Documento', 'targets' => 2],'3'=>['title' => 'N&uacute;mero', 'targets' => 3],
-			'4'=>['title' => 'RUC', 'targets' => 4],'5'=>['title' => 'Nombre / Raz&oacute;n Social', 'targets' => 5],'6'=>['title' => 'Direcci&oacute;n', 'targets' => 6],
-			'7'=>['title' => 'Zona', 'targets' => 7],'8'=>['title' => 'Estado', 'targets' => 8],'9'=>['targets' => 1, 'visible' => false],
-		);
-		$this->load->view('main',['headers' => $headers]);
-	}
 	public function usuarios()
 	{
 		$this->load->model('Usuarios_model');
-		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 4,'po.activo' => 1]);
+		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 1,'po.activo' => 1]);
 		$this->session->set_userdata('perUser', json_encode($bot));
 		$permisos = $this->Usuarios_model->permisosOpciones();
-		$sucursales = $this->Usuarios_model->sucursalesUser();
+		//$sucursales = $this->Usuarios_model->sucursalesUser();
 		$modulos = $this->Usuarios_model->buscaModulos();
-		$pMenus = $this->Usuarios_model->permisosOpciones();
+		//$pMenus = $this->Usuarios_model->permisosOpciones();
 		
 		$headers = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Documento', 'targets' => 2],'3'=>['title' => 'N&uacute;mero', 'targets' => 3],
 			'4'=>['title' => 'Avatar', 'targets' => 4],'5'=>['title' => 'Apellidos', 'targets' => 5],'6'=>['title' => 'nombres', 'targets' => 6],'7'=>['title' => 'Usuario', 'targets' => 7],
-			'8'=>['title' => 'Perfil', 'targets' => 8],'9'=>['title' => 'Estado', 'targets' => 9],/*'10'=>['title' => 'Estado', 'targets' => 10],'11'=>['targets' => 'no-sort', 'orderable' => false],*/
+			'8'=>['title' => 'Perfil', 'targets' => 8],'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['title' => 'Estado', 'targets' => 10],'11'=>['targets' => 'no-sort', 'orderable' => false],
 			'10'=>['targets' => 1, 'visible' => false],
 		);
 		$data = array(
 			'permisos' => $permisos,
 			'headers' => $headers,
-			'sucursales' => $sucursales,
+			//'sucursales' => $sucursales,
 			'modulos' => $modulos,
 		);
-		$this->load->view('main',$data);
-	}
-	public function servicios()
-	{
-		$this->load->model('Servicios_model');
-		$this->load->model('Usuarios_model');
-		$bot = null; $saldo = 0; $headers = null;
-		
-		if($this->uri->segment(1) === 'servicios'){
-			$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 2,'po.activo' => 1]);
-			$saldo = $this->Servicios_model->traeSaldo(['idsucursal' => $this->usuario->sucursales[0]->idsucursal]);
-			$headers = array(
-				'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Nro. Operaci&oacute;n','targets' => 2],
-				'3'=>['title' => 'Sucursal', 'targets' => 3],'4'=>['title' => 'Tipo Operaci&oacute;n', 'targets' => 4],'5'=>['title' => 'Monto', 'targets' => 5],
-				'6'=>['title' => 'Fecha', 'targets' => 6],/*'7'=>['title' => 'Estado', 'targets' => 7],*/'7'=>['targets' => 'no-sort', 'orderable' => false],
-				'8'=>['targets' => 1, 'visible' => false],
-			);
-		}else{
-			$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 3,'po.activo' => 1]);
-			$headers = array(
-				'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'A&ntilde;o','targets' => 2],
-				'3'=>['title' => 'Nro. Certificado', 'targets' => 3],'4'=>['title' => 'Productor', 'targets' => 4],'5'=>['title' => 'Sucursal', 'targets' => 5],
-				'6'=>['title' => 'Fecha', 'targets' => 6],'7'=>['title' => 'Estado', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
-				'8'=>['targets' => 1, 'visible' => false],
-			);
-		}
-		
-		$this->session->set_userdata('perServ', json_encode($bot));
-		$anio = $this->Servicios_model->anio();
-		$mes = $this->Servicios_model->mes();
-		
-		
-		$data = ['headers' => $headers, 'anio' => $anio, 'mes' => $mes, 'saldo' => $saldo];
-		$this->load->view('main',$data);
-	}
-	public function tostado()
-	{
-		$this->load->model('Servicios_model');
-		$this->load->model('Usuarios_model');
-		//$mod = $this->input->get('mod');
-		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 6,'po.activo' => 1]);
-		$this->session->set_userdata('perTost', json_encode($bot));
-		
-		$headers = array(
-			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Nro. Orden','targets' => 2],
-			'3'=>['title' => 'Fecha Registro', 'targets' => 3],'4'=>['title' => 'Sucursal', 'targets' => 4],'5'=>['title' => 'Productor', 'targets' => 5],
-			'6'=>['title' => 'Art&iacute;culo', 'targets' => 6],'7'=>['title' => 'Cantidad', 'targets' => 7],'8'=>['targets' => 'no-sort', 'orderable' => false],
-			'9'=>['targets' => 1, 'visible' => false],'10'=>['targets' => 4, 'visible' => true],'11'=>['title' => 'Precio Total', 'targets' => 8]
-		);
-		$anio = $this->Servicios_model->anio();
-		$mes = $this->Servicios_model->mes();
-		
-		$data = ['headers' => $headers, 'anio' => $anio, 'mes' => $mes];
 		$this->load->view('main',$data);
 	}
 	public function curl(){
