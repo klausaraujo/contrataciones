@@ -11,7 +11,14 @@ DROP TABLE IF EXISTS modulo;
 DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS perfil;
 DROP TABLE IF EXISTS ubigeo;
-
+DROP TABLE IF EXISTS tipo_documento;
+DROP TABLE IF EXISTS convocatoria_locadores_postulantes;
+DROP TABLE IF EXISTS profesion;
+DROP TABLE IF EXISTS nivel;
+DROP TABLE IF EXISTS convocatoria_locadores;
+DROP TABLE IF EXISTS dependencia;
+DROP TABLE IF EXISTS estado;
+DROP VIEW IF EXISTS lista_ubigeo;
 
 CREATE TABLE ubigeo(
 	idubigeo smallint(4) NOT NULL AUTO_INCREMENT,
@@ -1906,8 +1913,6 @@ CREATE VIEW lista_ubigeo
 As
 Select ubigeo,departamento,provincia,distrito,CONCAT_WS(' - ',departamento,provincia,distrito)  As 'descripcion',latitud, longitud From ubigeo;
 
-
-
 CREATE TABLE anio  (
 idanio smallint(4) NOT NULL AUTO_INCREMENT,
 anio smallint(4) NOT NULL,
@@ -1985,9 +1990,11 @@ CREATE TABLE modulo  (
   mini varchar(30) NOT NULL,
   orden smallint(4) NOT NULL,
   PRIMARY KEY (idmodulo)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+  
 	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (1,'Módulo de Registro de Usuarios y Accesos Personalizados','Módulo Usuarios','usuarios.png','usuarios','1','fa fa-users',1);
-	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (2,'Módulo de Registro Convocatorias','Módulo Convocatorias','proveedores.png','proveedores','1','fa fa-bar-chart',2);
-	
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (2,'Módulo de Convocatorias Locadores','Módulo Locadores','proveedores.png','locadores','1','fa fa-bar-chart',2);
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (3,'Módulo de Convocatorias Bienes','Módulo Locadores','proveedores.png','bienes','1','fa fa-bar-chart',3);
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (4,'Módulo de Convocatorias Servicios','Módulo Locadores','proveedores.png','servicios','1','fa fa-bar-chart',4);
 	
 CREATE TABLE modulo_rol  (	
 	idmodulorol smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2021,8 +2028,6 @@ CREATE TABLE permiso  (
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(4,'Resetar Clave','1',4,1);
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(5,'Activar/Desactivar','1',5,1);
 	
-
-
 CREATE TABLE menu  (
   idmenu smallint(4) NOT NULL AUTO_INCREMENT,
   idmodulo smallint(4) NOT NULL,
@@ -2037,7 +2042,6 @@ CREATE TABLE menu  (
 	/*Menus del Módulo de Usuarios*/
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(1,1,'Lista Usuarios','0','usuarios','fa fa-list');
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(2,1,'Nuevo Registro','0','nuevousuario','fa fa-pencil-square-o');
-
 	
 CREATE TABLE menu_detalle  (
   idmenudetalle smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2053,7 +2057,6 @@ CREATE TABLE menu_detalle  (
 	/*SubMenus del Módulo de Proveedores*/
 	INSERT INTO menu_detalle (idmenudetalle,idmenu,descripcion,url,icono,orden) VALUES(1,2,'Reporte Convocatorias','#','fa fa-th-list',1);
 
-
 CREATE TABLE permisos_menu  (
   idpermisosmenu smallint(4) NOT NULL AUTO_INCREMENT,
   idmenu smallint(4) NOT NULL,
@@ -2065,7 +2068,6 @@ CREATE TABLE permisos_menu  (
 	
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(1,1,1);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(2,2,1);
-
 	
 CREATE TABLE permisos_menu_detalle  (
   idpermisosmenudetalle smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2073,11 +2075,10 @@ CREATE TABLE permisos_menu_detalle  (
   idusuario smallint(4) NOT NULL,
   activo char(1) DEFAULT '1',
   PRIMARY KEY (idpermisosmenudetalle),
-	FOREIGN KEY (idmenudetalle) REFERENCES menu_detalle (idmenudetalle) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (idmenudetalle) REFERENCES menu_detalle (idmenudetalle) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 	
 	Insert Into permisos_menu_detalle(idpermisosmenudetalle,idmenudetalle,idusuario) Values (1,1,1);
-
 
 CREATE TABLE permisos_opcion  (
   idpermisoopcion smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2093,8 +2094,530 @@ CREATE TABLE permisos_opcion  (
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(3,3,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(4,4,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(5,5,1);
+
+CREATE TABLE estado(
+	idestado smallint(4) NOT NULL AUTO_INCREMENT,
+	descripcion varchar(20),
+	activo char(1) DEFAULT '1',
+	PRIMARY KEY (idestado))ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+	
+	INSERT INTO estado (idestado,descripcion) values (1,'EN PROCESO');
+	INSERT INTO estado (idestado,descripcion) values (2,'FINALIZADO');
+	INSERT INTO estado (idestado,descripcion) values (3,'CANCELADO');
+	INSERT INTO estado (idestado,descripcion) values (4,'DESIERTO');
+	
+CREATE TABLE dependencia(
+	iddependencia smallint(4) NOT NULL AUTO_INCREMENT,
+	descripcion varchar(100),
+	activo char(1) DEFAULT '1',
+	PRIMARY KEY (iddependencia))ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+	
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(1,'GERENCIA DE RED PRESTACIONAL SABOGAL');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(2,'OFICINA DE GESTIÓN Y DESARROLLO');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(3,'OFICINA DE PLANIFICACIÓN Y DESARROLLO');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(4,'OFICINA DE PRESUPUESTO Y COSTOS');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(5,'OFICINA DE INTELIGENCIA SANITARIA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(6,'UNIDAD DE EPIDEMIOLOGÍA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(7,'UNIDAD DE ESTADÍSTICA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(8,'OFICINA DE CALIDAD, GESTIÓN DE RIESGOS Y AUDITORÍA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(9,'UNIDAD DE GESTIÓN DE RIESGOS Y SEGURIDAD DEL PACIENTE');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(10,'UNIDAD DE AUDITORIA EN CALIDAD');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(11,'UNIDAD DE APOYO TÉCNICO Y GESTIÓN DOCUMENTARIA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(12,'UNIDAD DE COMUNICACIONES');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(13,'OFICINA DE BIENES ESTRATÉGICOS');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(14,'OFICINA DE INVESTIGACIÓN Y DOCENCIA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(15,'OFICINA DE ADMINISTRACIÓN');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(16,'OFICINA DE RECURSOS HUMANOS');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(17,'OFICINA DE TESORERÍA Y CONTABILIDAD');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(18,'OFICINA DE ABASTECIMIENTO Y CONTROL PATRIMONIAL');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(19,'OFICINA DE INGENIERÍA HOSPITALARIA Y SERVICIOS GENERALES');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(20,'OFICINA DE SOPORTE INFORMÁTICO');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(21,'UNIDAD DE SOPORTE A LA TECNOLOGÍA MÉDICA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(22,'GERENCIA DE SERVICIOS PRESTACIONALES DEL NIVEL I Y II');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(23,'OFICINA DE CONTROL DE LAS PRESTACIONES DE SALUD Y SOCIALES');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(24,'OFICINA DE EVALUACIÓN DE LOS PROCESOS DEL CUIDADO DEL PACIENTE');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(25,'HOSPITAL NACIONAL ALBERTO SABOGAL SOLOGUREN');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(26,'HOSPITAL II LIMA NORTE – CALLAO LUIS NEGREIROS VEGA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(27,'HOSPITAL II GUSTAVO LANATTA LUJAN');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(28,'HOSPITAL I OCTAVIO MONGRUT MUÑOZ');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(29,'HOSPITAL I MARINO MOLINA SCIPPA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(30,'POLICLÍNICO FIORI');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(31,'POLICLÍNICO DE COMPLEJIDAD CRECIENTE EL RETABLO');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(32,'CENTRO DE ATENCIÓN PRIMARIA III CARABAYLLO');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(33,'CENTRO DE ATENCIÓN PRIMARIA III HERMANA MARÍA DONROSE SUTMOLLER');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(34,'CENTRO DE ATENCIÓN PRIMARIA III LUIS NEGREIROS VEGA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(35,'CENTRO DE ATENCIÓN PRIMARIA III METROPOLITANO DEL CALLAO');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(36,'CENTRO DE ATENCIÓN PRIMARIA III HUARAL');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(37,'CENTRO DE ATENCIÓN PRIMARIA III PEDRO REYES BARBOZA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(38,'CENTRO DE ATENCIÓN PRIMARIA III PUENTE PIEDRA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(39,'CENTRO DE ATENCIÓN PRIMARIA II CHANCAYC');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(40,'CENTRO DE ATENCIÓN PRIMARIA II PARAMONGA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(41,'CENTRO DE ATENCIÓN PRIMARIA II SAYÁN');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(42,'CENTRO DE REHABILITACIÓN PROFESIONAL Y SOCIAL (CERPS)');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(43,'POSTA MEDICA HUMAYA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(44,'POSTA MEDICA OYÓN');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(45,'POSTA MEDICA RAURA');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(46,'CENTRO DE ATENCIÓN DE MEDICINA COMPLEMENTARIA (CAMEC)');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(47,'CENTRO DE PRODUCCIÓN DE RADIOFÁRMACOS');
+	INSERT INTO dependencia(iddependencia,descripcion) VALUES(48,'CENTRO DEL ADULTO MAYOR (CAM)');
+
+	CREATE TABLE convocatoria_locadores(
+	idconvocatoria smallint(4) NOT NULL AUTO_INCREMENT,
+	iddependencia smallint(4) NOT NULL,
+	denominacion varchar(200) NOT NULL,
+	idestado smallint(4) NOT NULL,
+	fecha_inicio datetime,
+	fecha_fin datetime,
+	archivo_base varchar(20),
+	archivo_anexos varchar(20),
+	idusuario_registro smallint(4),
+	fecha_registro datetime,
+	idusuario_modificacion smallint(4),
+	fecha_modificacion datetime,
+	idusuario_anulacion smallint(4),
+	fecha_anulacion datetime,
+	activo char(1) DEFAULT '1',
+	PRIMARY KEY (idconvocatoria),
+	FOREIGN KEY (iddependencia) REFERENCES dependencia (iddependencia) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idestado) REFERENCES estado (idestado) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+create table profesion(
+	idprofesion smallint(4) NOT NULL AUTO_INCREMENT,
+	profesion varchar(100) NOT NULL,
+	activo char(1) DEFAULT '1',
+	PRIMARY KEY (idprofesion))ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+	
+	insert into profesion (idprofesion,profesion) values (1,'NO APLICA');
+	insert into profesion (idprofesion,profesion) values (2,'ADMINISTRACIÓN');
+	insert into profesion (idprofesion,profesion) values (3,'ADMINISTRACIÓN DE EMPRESAS');
+	insert into profesion (idprofesion,profesion) values (4,'ADMINISTRACIÓN Y FINANZAS');
+	insert into profesion (idprofesion,profesion) values (5,'ADMINISTRACIÓN Y MARKETING');
+	insert into profesion (idprofesion,profesion) values (6,'ADMINISTRACIÓN Y NEGOCIOS INTERNACIONALES');
+	insert into profesion (idprofesion,profesion) values (7,'ADMINISTRACIÓN Y RECURSOS HUMANOS');
+	insert into profesion (idprofesion,profesion) values (8,'ARQUITECTURA');
+	insert into profesion (idprofesion,profesion) values (9,'BIOLOGÍA');
+	insert into profesion (idprofesion,profesion) values (10,'CIENCIAS DE LA COMUNICACIÓN');
+	insert into profesion (idprofesion,profesion) values (11,'CONTABILIDAD');
+	insert into profesion (idprofesion,profesion) values (12,'DERECHO');
+	insert into profesion (idprofesion,profesion) values (13,'EDUCACIÓN');
+	insert into profesion (idprofesion,profesion) values (14,'ENFERMERÍA EN  PACIENTE CLÍNICO QUIRÚRGICO');
+	insert into profesion (idprofesion,profesion) values (15,'ENFERMERÍA EN CARDIOLOGÍA');
+	insert into profesion (idprofesion,profesion) values (16,'ENFERMERÍA EN CARDIOLOGÍA Y CARDIOVASCULAR');
+	insert into profesion (idprofesion,profesion) values (17,'ENFERMERÍA EN CARDIOLÓGICA');
+	insert into profesion (idprofesion,profesion) values (18,'ENFERMERÍA EN CENTRO QUIRÚRGICO');
+	insert into profesion (idprofesion,profesion) values (19,'ENFERMERÍA EN CIRUGÍA');
+	insert into profesion (idprofesion,profesion) values (20,'ENFERMERÍA EN CIRUGÍA PLÁSTICA');
+	insert into profesion (idprofesion,profesion) values (21,'ENFERMERÍA EN CRECIMIENTO Y DESARROLLO HUMANO');
+	insert into profesion (idprofesion,profesion) values (22,'ENFERMERÍA EN CUIDADO ENFERMERO NEFROLÓGICO Y/O UROLÓGICO');
+	insert into profesion (idprofesion,profesion) values (23,'ENFERMERÍA EN CUIDADOS INTENSIVOS');
+	insert into profesion (idprofesion,profesion) values (24,'ENFERMERÍA EN CUIDADOS INTENSIVOS');
+	insert into profesion (idprofesion,profesion) values (25,'ENFERMERÍA EN CUIDADOS INTENSIVOS NEONATALES');
+	insert into profesion (idprofesion,profesion) values (26,'ENFERMERÍA EN CUIDADOS INTENSIVOS PEDIÁTRICOS');
+	insert into profesion (idprofesion,profesion) values (27,'ENFERMERÍA EN CUIDADOS NEFROLÓGICOS');
+	insert into profesion (idprofesion,profesion) values (28,'ENFERMERÍA EN CUIDADOS QUIRÚRGICOS');
+	insert into profesion (idprofesion,profesion) values (29,'ENFERMERÍA EN EMERGENCIAS Y DESASTRES');
+	insert into profesion (idprofesion,profesion) values (30,'ENFERMERÍA EN GASTROENTEROLOGÍA');
+	insert into profesion (idprofesion,profesion) values (31,'ENFERMERÍA EN GASTROENTEROLOGÍA, ENDOSCOPIA Y PROCEDIMIENTOS ESPECIALES');
+	insert into profesion (idprofesion,profesion) values (32,'ENFERMERÍA EN GERENCIA DE SERVICIOS DE SALUD');
+	insert into profesion (idprofesion,profesion) values (33,'ENFERMERÍA EN GERIATRÍA');
+	insert into profesion (idprofesion,profesion) values (34,'ENFERMERÍA EN GERIATRÍA Y GERONTOLOGÍA');
+	insert into profesion (idprofesion,profesion) values (35,'ENFERMERÍA EN MEDICINA INTERNA');
+	insert into profesion (idprofesion,profesion) values (36,'ENFERMERÍA EN NEFROLOGÍA');
+	insert into profesion (idprofesion,profesion) values (37,'ENFERMERÍA EN NEONATOLOGÍA');
+	insert into profesion (idprofesion,profesion) values (38,'ENFERMERÍA EN NEONATOLOGÍA');
+	insert into profesion (idprofesion,profesion) values (39,'ENFERMERÍA EN NEUROLOGÍA Y NEUROCIRUGÍA');
+	insert into profesion (idprofesion,profesion) values (40,'ENFERMERÍA EN PACIENTE QUEMADO');
+	insert into profesion (idprofesion,profesion) values (41,'ENFERMERÍA EN PEDIATRÍA');
+	insert into profesion (idprofesion,profesion) values (42,'ENFERMERÍA EN PROMOCIÓN DE LA SALUD');
+	insert into profesion (idprofesion,profesion) values (43,'ENFERMERÍA EN QUIRÚRGICO ESPECIALIZADO');
+	insert into profesion (idprofesion,profesion) values (44,'ENFERMERÍA EN SALUD DE LA MUJER');
+	insert into profesion (idprofesion,profesion) values (45,'ENFERMERÍA EN SALUD MENTAL Y PSIQUIATRÍA');
+	insert into profesion (idprofesion,profesion) values (46,'ENFERMERÍA EN SALUD OCUPACIONAL');
+	insert into profesion (idprofesion,profesion) values (47,'ENFERMERÍA EN SALUD PÚBLICA Y COMUNITARIA');
+	insert into profesion (idprofesion,profesion) values (48,'ENFERMERÍA EN SALUD PÚBLICA');
+	insert into profesion (idprofesion,profesion) values (49,'ENFERMERÍA EN SOPORTE NUTRICIONAL FARMACOLÓGICO');
+	insert into profesion (idprofesion,profesion) values (50,'ENFERMERÍA EN TRATAMIENTO BIOENERGÉTICO');
+	insert into profesion (idprofesion,profesion) values (51,'ENFERMERÍA GERENCIAL');
+	insert into profesion (idprofesion,profesion) values (52,'ENFERMERÍA INTENSIVISTA');
+	insert into profesion (idprofesion,profesion) values (53,'ENFERMERÍA PEDIÁTRICA');
+	insert into profesion (idprofesion,profesion) values (54,'ENFERMERÍAONCOLÓGÍCA');
+	insert into profesion (idprofesion,profesion) values (55,'INGENIERÍA ADMINISTRATIVA');
+	insert into profesion (idprofesion,profesion) values (56,'INGENIERÍA AERONÁUTICA');
+	insert into profesion (idprofesion,profesion) values (57,'INGENIERÍA AGRÍCOLA');
+	insert into profesion (idprofesion,profesion) values (58,'INGENIERÍA AGROINDUSTRIAL');
+	insert into profesion (idprofesion,profesion) values (59,'INGENIERÍA AMBIENTAL');
+	insert into profesion (idprofesion,profesion) values (60,'INGENIERÍA BIOMÉDICA');
+	insert into profesion (idprofesion,profesion) values (61,'INGENIERÍA CERÁMICA');
+	insert into profesion (idprofesion,profesion) values (62,'INGENIERÍA CIVIL');
+	insert into profesion (idprofesion,profesion) values (63,'INGENIERÍA COMERCIAL');
+	insert into profesion (idprofesion,profesion) values (64,'INGENIERÍA DE ALIMENTOS Y AFINES');
+	insert into profesion (idprofesion,profesion) values (65,'INGENIERÍA DE DISEÑO DE PRODUCTO');
+	insert into profesion (idprofesion,profesion) values (66,'INGENIERÍA DE MATERIALES');
+	insert into profesion (idprofesion,profesion) values (67,'INGENIERÍA DE MINAS');
+	insert into profesion (idprofesion,profesion) values (68,'INGENIERÍA DE PETRÓLEOS');
+	insert into profesion (idprofesion,profesion) values (69,'INGENIERÍA DE PROCESOS');
+	insert into profesion (idprofesion,profesion) values (70,'INGENIERÍA DE PRODUCCIÓN');
+	insert into profesion (idprofesion,profesion) values (71,'INGENIERÍA DE SISTEMAS Y AFINES');
+	insert into profesion (idprofesion,profesion) values (72,'INGENIERÍA DE SONIDO');
+	insert into profesion (idprofesion,profesion) values (73,'INGENIERÍA DE TELECOMUNICACIONES');
+	insert into profesion (idprofesion,profesion) values (74,'INGENIERÍA ELÉCTRICA');
+	insert into profesion (idprofesion,profesion) values (75,'INGENIERÍA ELECTROMECÁNICA');
+	insert into profesion (idprofesion,profesion) values (76,'INGENIERÍA ELECTRÓNICA');
+	insert into profesion (idprofesion,profesion) values (77,'INGENIERÍA EN ALIMENTOS');
+	insert into profesion (idprofesion,profesion) values (78,'INGENIERÍA EN COMPUTACIÓN');
+	insert into profesion (idprofesion,profesion) values (79,'INGENIERÍA EN PETRÓLEO');
+	insert into profesion (idprofesion,profesion) values (80,'INGENIERÍA EN SISTEMAS');
+	insert into profesion (idprofesion,profesion) values (81,'INGENIERÍA FINANCIERA');
+	insert into profesion (idprofesion,profesion) values (82,'INGENIERÍA FÍSICA');
+	insert into profesion (idprofesion,profesion) values (83,'INGENIERÍA FORESTAL');
+	insert into profesion (idprofesion,profesion) values (84,'INGENIERÍA GEOLÓGICA');
+	insert into profesion (idprofesion,profesion) values (85,'INGENIERÍA INDUSTRIAL');
+	insert into profesion (idprofesion,profesion) values (86,'INGENIERÍA INFORMÁTICA');
+	insert into profesion (idprofesion,profesion) values (87,'INGENIERÍA MATEMÁTICA');
+	insert into profesion (idprofesion,profesion) values (88,'INGENIERÍA MECÁNICA');
+	insert into profesion (idprofesion,profesion) values (89,'INGENIERÍA MECATRÓNICA');
+	insert into profesion (idprofesion,profesion) values (90,'INGENIERÍA METALÚRGICA');
+	insert into profesion (idprofesion,profesion) values (91,'INGENIERÍA MILITAR');
+	insert into profesion (idprofesion,profesion) values (92,'INGENIERÍA MINERAL');
+	insert into profesion (idprofesion,profesion) values (93,'INGENIERÍA MULTIMEDIA');
+	insert into profesion (idprofesion,profesion) values (94,'INGENIERÍA NAVAL');
+	insert into profesion (idprofesion,profesion) values (95,'INGENIERÍA PESQUERA');
+	insert into profesion (idprofesion,profesion) values (96,'INGENIERÍA QUÍMICA');
+	insert into profesion (idprofesion,profesion) values (97,'INGENIERÍA TELEMÁTICA');
+	insert into profesion (idprofesion,profesion) values (98,'INGENIERÍA TEXTIL');
+	insert into profesion (idprofesion,profesion) values (99,'LENGUA Y LITERATURA');
+	insert into profesion (idprofesion,profesion) values (100,'MEDICO EN ADMINISTRACION DE HOSPITALES');
+	insert into profesion (idprofesion,profesion) values (101,'MEDICO EN ADMINISTRACION DE SALUD');
+	insert into profesion (idprofesion,profesion) values (102,'MEDICO EN ADMINISTRACION Y GESTION EN SALUD');
+	insert into profesion (idprofesion,profesion) values (103,'MEDICO EN ADOLESCENTOLOGIA');
+	insert into profesion (idprofesion,profesion) values (104,'MEDICO EN ALERGIA E INMULOGIA CLINICA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (105,'MEDICO EN ALERGIA E INMUNOPATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (106,'MEDICO EN ALERGOLOGIA');
+	insert into profesion (idprofesion,profesion) values (107,'MEDICO EN ANALISIS CLINICOS');
+	insert into profesion (idprofesion,profesion) values (108,'MEDICO EN ANATOMIA HUMANA');
+	insert into profesion (idprofesion,profesion) values (109,'MEDICO EN ANATOMIA PATOLOGICA');
+	insert into profesion (idprofesion,profesion) values (110,'MEDICO EN ANATOMIA PATOLOGICA - PATOLOGIA CLINICA');
+	insert into profesion (idprofesion,profesion) values (111,'MEDICO EN ANATOMIA PATOLOGICA Y LABORATORIO');
+	insert into profesion (idprofesion,profesion) values (112,'MEDICO EN ANESTESIA, ANALGESIA Y REANIMACION');
+	insert into profesion (idprofesion,profesion) values (113,'MEDICO EN ANESTESIOLOGIA');
+	insert into profesion (idprofesion,profesion) values (114,'MEDICO EN ANESTESIOLOGIA CARDIOVASCULAR');
+	insert into profesion (idprofesion,profesion) values (115,'MEDICO EN ANESTESIOLOGIA OBSTETRICA');
+	insert into profesion (idprofesion,profesion) values (116,'MEDICO EN ANESTESIOLOGIA Y CUIDADOS INTENSIVOS');
+	insert into profesion (idprofesion,profesion) values (117,'MEDICO EN ANESTESIOLOGIA Y TERAPIA INTENSIVA CARDIOVASCULAR');
+	insert into profesion (idprofesion,profesion) values (118,'MEDICO EN ANGIOLOGIA');
+	insert into profesion (idprofesion,profesion) values (119,'MEDICO EN APARATO DIGESTIVO');
+	insert into profesion (idprofesion,profesion) values (120,'MEDICO EN ARTROSCOPIA Y CIRUGIA DE RODILLA');
+	insert into profesion (idprofesion,profesion) values (121,'MEDICO EN BIOQUIMICA');
+	insert into profesion (idprofesion,profesion) values (122,'MEDICO EN CARDIOLOGIA');
+	insert into profesion (idprofesion,profesion) values (123,'MEDICO EN CARDIOLOGIA INFANTIL');
+	insert into profesion (idprofesion,profesion) values (124,'MEDICO EN CIRUGIA');
+	insert into profesion (idprofesion,profesion) values (125,'MEDICO EN CIRUGIA CARDIOVASCULAR');
+	insert into profesion (idprofesion,profesion) values (126,'MEDICO EN CIRUGIA CARDIOVASCULAR PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (127,'MEDICO EN CIRUGIA COLORRECTAL');
+	insert into profesion (idprofesion,profesion) values (128,'MEDICO EN CIRUGIA CRANEOMAXILOFACIAL');
+	insert into profesion (idprofesion,profesion) values (129,'MEDICO EN CIRUGIA DE CABEZA Y CUELLO');
+	insert into profesion (idprofesion,profesion) values (130,'MEDICO EN CIRUGIA DE CABEZA, CUELLO Y MAXILOFACIAL');
+	insert into profesion (idprofesion,profesion) values (131,'MEDICO EN CIRUGIA DE LA RODILLA');
+	insert into profesion (idprofesion,profesion) values (132,'MEDICO EN CIRUGIA DE MANO');
+	insert into profesion (idprofesion,profesion) values (133,'MEDICO EN CIRUGIA DE TORAX');
+	insert into profesion (idprofesion,profesion) values (134,'MEDICO EN CIRUGIA DEL APARATO DIGESTIVO');
+	insert into profesion (idprofesion,profesion) values (135,'MEDICO EN CIRUGIA ENDOSCOPICA GINECOLOGICA');
+	insert into profesion (idprofesion,profesion) values (136,'MEDICO EN CIRUGIA GASTROENTEROLOGICA');
+	insert into profesion (idprofesion,profesion) values (137,'MEDICO EN CIRUGIA GENERAL');
+	insert into profesion (idprofesion,profesion) values (138,'MEDICO EN CIRUGIA GENERAL Y ONCOLOGICA');
+	insert into profesion (idprofesion,profesion) values (139,'MEDICO EN CIRUGIA HEPATOPANCREATOBILIAR Y TRANSPLANTE');
+	insert into profesion (idprofesion,profesion) values (140,'MEDICO EN CIRUGIA HOSPITALARIA');
+	insert into profesion (idprofesion,profesion) values (141,'MEDICO EN CIRUGIA NEUMOLOGICA');
+	insert into profesion (idprofesion,profesion) values (142,'MEDICO EN CIRUGIA ONCOLOGICA');
+	insert into profesion (idprofesion,profesion) values (143,'MEDICO EN CIRUGIA ONCOLOGICA ABDOMINAL');
+	insert into profesion (idprofesion,profesion) values (144,'MEDICO EN CIRUGIA ONCOLOGICA DE CABEZA Y CUELLO');
+	insert into profesion (idprofesion,profesion) values (145,'MEDICO EN CIRUGIA ONCOLOGICA DE MAMAS, TEJIDOS BLANDOS Y PIEL');
+	insert into profesion (idprofesion,profesion) values (146,'MEDICO EN CIRUGIA ORTOPEDICA Y TRAUMATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (147,'MEDICO EN CIRUGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (148,'MEDICO EN CIRUGIA PLASTICA');
+	insert into profesion (idprofesion,profesion) values (149,'MEDICO EN CIRUGIA PLASTICA FACIAL');
+	insert into profesion (idprofesion,profesion) values (150,'MEDICO EN CIRUGIA PLASTICA Y CAUMATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (151,'MEDICO EN CIRUGIA PLASTICA Y RECONSTRUCTIVA');
+	insert into profesion (idprofesion,profesion) values (152,'MEDICO EN CIRUGIA PLASTICA Y REPARADORA');
+	insert into profesion (idprofesion,profesion) values (153,'MEDICO EN CIRUGIA PLASTICA Y REPARADORA DE MANO');
+	insert into profesion (idprofesion,profesion) values (154,'MEDICO EN CIRUGIA PLASTICA, RECONSTRUCTIVA Y ESTETICA');
+	insert into profesion (idprofesion,profesion) values (155,'MEDICO EN CIRUGIA PLASTICA, RECONSTRUCTIVA, ESTETICA Y MAXILO FACIAL');
+	insert into profesion (idprofesion,profesion) values (156,'MEDICO EN CIRUGIA TORACICA Y CARDIOVASCULAR');
+	insert into profesion (idprofesion,profesion) values (157,'MEDICO EN CIRUGIA VASCULAR PERIFERICA');
+	insert into profesion (idprofesion,profesion) values (158,'MEDICO EN CIRUGIA VASCULAR Y ANGIOLOGIA');
+	insert into profesion (idprofesion,profesion) values (159,'MEDICO EN CIRUGIA, TRANSPLANTOLOGIA Y ANDROLOGIA');
+	insert into profesion (idprofesion,profesion) values (160,'MEDICO EN DERMATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (161,'MEDICO EN DERMATOLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (162,'MEDICO EN DERMATOLOGIA Y VENEREOLOGIA');
+	insert into profesion (idprofesion,profesion) values (163,'MEDICO EN DIAGNOSTICO POR IMAGENES');
+	insert into profesion (idprofesion,profesion) values (164,'MEDICO EN EMBRIOLOGIA');
+	insert into profesion (idprofesion,profesion) values (165,'MEDICO EN EMERGENCIAS Y DESASTRES');
+	insert into profesion (idprofesion,profesion) values (166,'MEDICO EN ENDOCRINOLOGIA');
+	insert into profesion (idprofesion,profesion) values (167,'MEDICO EN ENDOCRINOLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (168,'MEDICO EN ENDOCRINOLOGIA PEDIATRICA Y GENETICA');
+	insert into profesion (idprofesion,profesion) values (169,'MEDICO EN ENDOCRINOLOGIA Y NUTRICION');
+	insert into profesion (idprofesion,profesion) values (170,'MEDICO EN ENFERMEDADES INFECCIOSAS');
+	insert into profesion (idprofesion,profesion) values (171,'MEDICO EN ENFERMEDADES INFECCIOSAS Y TROPICALES');
+	insert into profesion (idprofesion,profesion) values (172,'MEDICO EN EPIDEMIOLOGIA');
+	insert into profesion (idprofesion,profesion) values (173,'MEDICO EN EPIDEMIOLOGIA DE CAMPO');
+	insert into profesion (idprofesion,profesion) values (174,'MEDICO EN FARMACOLOGIA');
+	insert into profesion (idprofesion,profesion) values (175,'MEDICO EN FISIOLOGIA');
+	insert into profesion (idprofesion,profesion) values (176,'MEDICO EN FLEBOLOGIA Y LINFOLOGIA');
+	insert into profesion (idprofesion,profesion) values (177,'MEDICO EN GASTROENTEROLOGIA');
+	insert into profesion (idprofesion,profesion) values (178,'MEDICO EN GASTROENTEROLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (179,'MEDICO EN GENETICA');
+	insert into profesion (idprofesion,profesion) values (180,'MEDICO EN GENETICA MEDICA');
+	insert into profesion (idprofesion,profesion) values (181,'MEDICO EN GERENCIA DE LA SALUD OCUPACIONAL');
+	insert into profesion (idprofesion,profesion) values (182,'MEDICO EN GERIATRIA');
+	insert into profesion (idprofesion,profesion) values (183,'MEDICO EN GESTION EN SALUD');
+	insert into profesion (idprofesion,profesion) values (184,'MEDICO EN GINECOLOGIA DE LA NIÑA Y ADOLESCENTE');
+	insert into profesion (idprofesion,profesion) values (185,'MEDICO EN GINECOLOGIA ONCOLOGICA');
+	insert into profesion (idprofesion,profesion) values (186,'MEDICO EN GINECOLOGIA Y OBSTETRICIA');
+	insert into profesion (idprofesion,profesion) values (187,'MEDICO EN HEMATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (188,'MEDICO EN HEMATOLOGIA CLINICA');
+	insert into profesion (idprofesion,profesion) values (189,'MEDICO EN HEMATOLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (190,'MEDICO EN HEMATOLOGIA Y HEMOTERAPIA');
+	insert into profesion (idprofesion,profesion) values (191,'MEDICO EN HEPATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (192,'MEDICO EN HISTOLOGIA');
+	insert into profesion (idprofesion,profesion) values (193,'MEDICO EN HISTOPATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (194,'MEDICO EN INFECTOLOGIA');
+	insert into profesion (idprofesion,profesion) values (195,'MEDICO EN INFECTOLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (196,'MEDICO EN INMUNOLOGIA');
+	insert into profesion (idprofesion,profesion) values (197,'MEDICO EN INMUNOLOGIA CLINICA Y ALERGOLOGIA');
+	insert into profesion (idprofesion,profesion) values (198,'MEDICO EN INMUNOLOGIA Y ALERGIA');
+	insert into profesion (idprofesion,profesion) values (199,'MEDICO EN INMUNOLOGIA Y REUMATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (200,'MEDICO EN LABORATORIO CLINICO');
+	insert into profesion (idprofesion,profesion) values (201,'MEDICO EN LABORATORIO CLINICO Y ANATOMIA PATOLOGICA');
+	insert into profesion (idprofesion,profesion) values (202,'MEDICO EN MEDICINA AEROESPACIAL');
+	insert into profesion (idprofesion,profesion) values (203,'MEDICO EN MEDICINA CRITICA');
+	insert into profesion (idprofesion,profesion) values (204,'MEDICO EN MEDICINA CRITICA DE ADULTO');
+	insert into profesion (idprofesion,profesion) values (205,'MEDICO EN MEDICINA CRITICA Y TERAPIA INTENSIVA');
+	insert into profesion (idprofesion,profesion) values (206,'MEDICO EN MEDICINA DE EMERGENCIAS Y DESASTRES');
+	insert into profesion (idprofesion,profesion) values (207,'MEDICO EN MEDICINA DE ENFERMEDADES INFECCIOSAS Y TROPICALES');
+	insert into profesion (idprofesion,profesion) values (208,'MEDICO EN MEDICINA DE REHABILITACION');
+	insert into profesion (idprofesion,profesion) values (209,'MEDICO EN MEDICINA DEL DEPORTE');
+	insert into profesion (idprofesion,profesion) values (210,'MEDICO EN MEDICINA DEL TRABAJO');
+	insert into profesion (idprofesion,profesion) values (211,'MEDICO EN MEDICINA FAMILIAR');
+	insert into profesion (idprofesion,profesion) values (212,'MEDICO EN MEDICINA FAMILIAR Y COMUNITARIA');
+	insert into profesion (idprofesion,profesion) values (213,'MEDICO EN MEDICINA FAMILIAR Y SALUD COMUNITARIA');
+	insert into profesion (idprofesion,profesion) values (214,'MEDICO EN MEDICINA FISICA Y REHABILITACION');
+	insert into profesion (idprofesion,profesion) values (215,'MEDICO EN MEDICINA GENERAL INTEGRAL');
+	insert into profesion (idprofesion,profesion) values (216,'MEDICO EN MEDICINA GENERAL Y ONCOLOGICA');
+	insert into profesion (idprofesion,profesion) values (217,'MEDICO EN MEDICINA HIPERBARICA Y SUBACUATICA');
+	insert into profesion (idprofesion,profesion) values (218,'MEDICO EN MEDICINA INTEGRAL Y GESTION EN SALUD');
+	insert into profesion (idprofesion,profesion) values (219,'MEDICO EN MEDICINA INTENSIVA');
+	insert into profesion (idprofesion,profesion) values (220,'MEDICO EN MEDICINA INTENSIVA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (221,'MEDICO EN MEDICINA INTENSIVA Y DE EMERGENCIA');
+	insert into profesion (idprofesion,profesion) values (222,'MEDICO EN MEDICINA INTERNA');
+	insert into profesion (idprofesion,profesion) values (223,'MEDICO EN MEDICINA INTERNA - GASTROENTEROLOGIA');
+	insert into profesion (idprofesion,profesion) values (224,'MEDICO EN MEDICINA INTERNA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (225,'MEDICO EN MEDICINA INTERNA Y PEDIATRIA');
+	insert into profesion (idprofesion,profesion) values (226,'MEDICO EN MEDICINA LEGAL');
+	insert into profesion (idprofesion,profesion) values (227,'MEDICO EN MEDICINA MATERNO FETAL');
+	insert into profesion (idprofesion,profesion) values (228,'MEDICO EN MEDICINA NUCLEAR');
+	insert into profesion (idprofesion,profesion) values (229,'MEDICO EN MEDICINA OCUPACIONAL Y MEDIO AMBIENTE');
+	insert into profesion (idprofesion,profesion) values (230,'MEDICO EN MEDICINA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (231,'MEDICO EN MEDICINA PREVENTIVA Y SALUD PUBLICA');
+	insert into profesion (idprofesion,profesion) values (232,'MEDICO EN NEFROLOGIA');
+	insert into profesion (idprofesion,profesion) values (233,'MEDICO EN NEFROLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (234,'MEDICO EN NEONATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (235,'MEDICO EN NEUMOLOGIA');
+	insert into profesion (idprofesion,profesion) values (236,'MEDICO EN NEUMOLOGIA CLINICA');
+	insert into profesion (idprofesion,profesion) values (237,'MEDICO EN NEUMOLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (238,'MEDICO EN NEUMONOLOGIA CLINICA');
+	insert into profesion (idprofesion,profesion) values (239,'MEDICO EN NEUMONOLOGIA Y TISIOLOGIA');
+	insert into profesion (idprofesion,profesion) values (240,'MEDICO EN NEUROCIRUGIA');
+	insert into profesion (idprofesion,profesion) values (241,'MEDICO EN NEUROCIRUGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (242,'MEDICO EN NEUROFISIOLOGIA CLINICA');
+	insert into profesion (idprofesion,profesion) values (243,'MEDICO EN NEUROLOGIA');
+	insert into profesion (idprofesion,profesion) values (244,'MEDICO EN NEUROLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (245,'MEDICO EN NUTRICION');
+	insert into profesion (idprofesion,profesion) values (246,'MEDICO EN NUTRICION CON ORIENTACION EN OBESIDAD');
+	insert into profesion (idprofesion,profesion) values (247,'MEDICO EN OFTALMOLOGIA');
+	insert into profesion (idprofesion,profesion) values (248,'MEDICO EN OFTALMOLOGIA ONCOLOGICA');
+	insert into profesion (idprofesion,profesion) values (249,'MEDICO EN OFTALMOLOGIA PEDIATRICA Y ESTRABISMO');
+	insert into profesion (idprofesion,profesion) values (250,'MEDICO EN ONCOLOGIA');
+	insert into profesion (idprofesion,profesion) values (251,'MEDICO EN ONCOLOGIA CLINICA');
+	insert into profesion (idprofesion,profesion) values (252,'MEDICO EN ONCOLOGIA MEDICA');
+	insert into profesion (idprofesion,profesion) values (253,'MEDICO EN ONCOLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (254,'MEDICO EN ONCOLOGIA QUIRURGICA');
+	insert into profesion (idprofesion,profesion) values (255,'MEDICO EN ONCOLOGIA RADIOTERAPICA');
+	insert into profesion (idprofesion,profesion) values (256,'MEDICO EN ORTOPEDIA ONCOLOGICA');
+	insert into profesion (idprofesion,profesion) values (257,'MEDICO EN ORTOPEDIA Y TRAUMATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (258,'MEDICO EN OTORRINOLARINGOLOGIA');
+	insert into profesion (idprofesion,profesion) values (259,'MEDICO EN OTORRINOLARINGOLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (260,'MEDICO EN OTORRINOLARINGOLOGIA Y CIRUGIA DE CABEZA Y CUELLO');
+	insert into profesion (idprofesion,profesion) values (261,'MEDICO EN PARASITOLOGIA');
+	insert into profesion (idprofesion,profesion) values (262,'MEDICO EN PATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (263,'MEDICO EN PATOLOGIA CLINICA');
+	insert into profesion (idprofesion,profesion) values (264,'MEDICO EN PATOLOGIA ONCOLOGICA');
+	insert into profesion (idprofesion,profesion) values (265,'MEDICO EN PATOLOGIA Y LABORATORIO CLINICO');
+	insert into profesion (idprofesion,profesion) values (266,'MEDICO EN PEDIATRIA');
+	insert into profesion (idprofesion,profesion) values (267,'MEDICO EN PEDIATRIA DE EMERGENCIAS Y DESASTRES');
+	insert into profesion (idprofesion,profesion) values (268,'MEDICO EN PEDIATRIA Y PUERICULTURA');
+	insert into profesion (idprofesion,profesion) values (269,'MEDICO EN PROCTOLOGIA');
+	insert into profesion (idprofesion,profesion) values (270,'MEDICO EN PSIQUIATRIA');
+	insert into profesion (idprofesion,profesion) values (271,'MEDICO EN PSIQUIATRIA DE NIÑOS Y ADOLESCENTES');
+	insert into profesion (idprofesion,profesion) values (272,'MEDICO EN PSIQUIATRIA EN ADICCIONES');
+	insert into profesion (idprofesion,profesion) values (273,'MEDICO EN RADIODIAGNOSTICO');
+	insert into profesion (idprofesion,profesion) values (274,'MEDICO EN RADIOLOGIA');
+	insert into profesion (idprofesion,profesion) values (275,'MEDICO EN RADIOLOGIA E IMAGEN');
+	insert into profesion (idprofesion,profesion) values (276,'MEDICO EN RADIOLOGIA INTERVENCIONISTA');
+	insert into profesion (idprofesion,profesion) values (277,'MEDICO EN RADIOLOGIA Y DIAGNOSTICO POR IMAGENES');
+	insert into profesion (idprofesion,profesion) values (278,'MEDICO EN RADIOTERAPIA');
+	insert into profesion (idprofesion,profesion) values (279,'MEDICO EN REUMATOLOGIA');
+	insert into profesion (idprofesion,profesion) values (280,'MEDICO EN SALUD OCUPACIONAL');
+	insert into profesion (idprofesion,profesion) values (281,'MEDICO EN SALUD PUBLICA');
+	insert into profesion (idprofesion,profesion) values (282,'MEDICO EN TERAPEUTICAS ALTERNATIVAS Y FARMACOLOGIA VEGETAL');
+	insert into profesion (idprofesion,profesion) values (283,'MEDICO EN TERAPIA INTENSIVA');
+	insert into profesion (idprofesion,profesion) values (284,'MEDICO EN TOCOGINECOLOGIA');
+	insert into profesion (idprofesion,profesion) values (285,'MEDICO EN TOXICOLOGIA');
+	insert into profesion (idprofesion,profesion) values (286,'MEDICO EN TOXICOLOGIA MEDICA');
+	insert into profesion (idprofesion,profesion) values (287,'MEDICO EN UROLOGIA');
+	insert into profesion (idprofesion,profesion) values (288,'MEDICO EN UROLOGIA GENERAL Y ONCOLOGICA');
+	insert into profesion (idprofesion,profesion) values (289,'MEDICO EN UROLOGIA ONCOLOGICA');
+	insert into profesion (idprofesion,profesion) values (290,'MEDICO EN UROLOGIA PEDIATRICA');
+	insert into profesion (idprofesion,profesion) values (291,'MEDICO EN VENEREOLOGIA');
+	insert into profesion (idprofesion,profesion) values (292,'NUTRICIÓN');
+	insert into profesion (idprofesion,profesion) values (293,'PSICOLOGÍA');
+	insert into profesion (idprofesion,profesion) values (294,'TECNICO ADMINISTRATIVO');
+	insert into profesion (idprofesion,profesion) values (295,'TECNICO EDUCADOR PARA LA SALUD');
+	insert into profesion (idprofesion,profesion) values (296,'TÉCNICO EN ADMINISTRACIÓN');
+	insert into profesion (idprofesion,profesion) values (297,'TÉCNICO EN ADMINISTRACIÓN BANCARIA Y FINANCIERA');
+	insert into profesion (idprofesion,profesion) values (298,'TÉCNICO EN ADMINISTRACIÓN DE EMPRESAS');
+	insert into profesion (idprofesion,profesion) values (299,'TÉCNICO EN ADMINISTRATIVO');
+	insert into profesion (idprofesion,profesion) values (300,'TÉCNICO EN AGROPECUARIA');
+	insert into profesion (idprofesion,profesion) values (301,'TÉCNICO EN ARQUITECTURA Y URBANISMO');
+	insert into profesion (idprofesion,profesion) values (302,'TÉCNICO EN BACTERIOLOGÍA Y LABORATORIO CLÍNICO');
+	insert into profesion (idprofesion,profesion) values (303,'TÉCNICO EN BIOLOGÍA');
+	insert into profesion (idprofesion,profesion) values (304,'TECNICO EN COMPUTACIÓN');
+	insert into profesion (idprofesion,profesion) values (305,'TECNICO EN COMPUTACIÓN E INFORMÁTICA');
+	insert into profesion (idprofesion,profesion) values (306,'TÉCNICO EN COMUNICACIÓN AUDIOVISUAL');
+	insert into profesion (idprofesion,profesion) values (307,'TÉCNICO EN CONSTRUCCIÓN');
+	insert into profesion (idprofesion,profesion) values (308,'TÉCNICO EN CONTABILIDAD');
+	insert into profesion (idprofesion,profesion) values (309,'TÉCNICO EN CONTABILIDAD Y ADMINISTRACIÓN BANCARIA Y FINANCIERA');
+	insert into profesion (idprofesion,profesion) values (310,'TÉCNICO EN CONTABILIDAD Y FINANZAS');
+	insert into profesion (idprofesion,profesion) values (311,'TÉCNICO EN DESARROLLO 3D');
+	insert into profesion (idprofesion,profesion) values (312,'TÉCNICO EN DISEÑO DE INTERIORES');
+	insert into profesion (idprofesion,profesion) values (313,'TÉCNICO EN DISEÑO DE MÁQUINAS INDUSTRIALES');
+	insert into profesion (idprofesion,profesion) values (314,'TÉCNICO EN DISEÑO DE MODAS');
+	insert into profesion (idprofesion,profesion) values (315,'TÉCNICO EN DISEÑO GRÁFICO');
+	insert into profesion (idprofesion,profesion) values (316,'TÉCNICO EN EDUCACIÓN SECUNDARIA');
+	insert into profesion (idprofesion,profesion) values (317,'TÉCNICO EN ELECTRÓNICA INDUSTRIAL');
+	insert into profesion (idprofesion,profesion) values (318,'TECNICO EN ENFERMERÍA');
+	insert into profesion (idprofesion,profesion) values (319,'TECNICO EN FARMACIA');
+	insert into profesion (idprofesion,profesion) values (320,'TÉCNICO EN FISIOTERAPIA');
+	insert into profesion (idprofesion,profesion) values (321,'TÉCNICO EN GEOLOGÍA Y PETRÓLEO');
+	insert into profesion (idprofesion,profesion) values (322,'TÉCNICO EN HIGIENE DENTAL');
+	insert into profesion (idprofesion,profesion) values (323,'TÉCNICO EN HOTELERÍA');
+	insert into profesion (idprofesion,profesion) values (324,'TECNICO EN INFORMATICA');
+	insert into profesion (idprofesion,profesion) values (325,'TÉCNICO EN INGENIERÍA CIVIL');
+	insert into profesion (idprofesion,profesion) values (326,'TÉCNICO EN INGENIERÍA DE INDUSTRIAS ALIMENTARIAS');
+	insert into profesion (idprofesion,profesion) values (327,'TÉCNICO EN INSTRUMENTACIÓN, AUTOMATIZACIÓN Y CONTROL INDUSTRIAL');
+	insert into profesion (idprofesion,profesion) values (328,'TECNICO EN LABORATORIO CLÍNICO');
+	insert into profesion (idprofesion,profesion) values (329,'TÉCNICO EN LOCUCIÓN Y PERIODISMO DEPORTIVO');
+	insert into profesion (idprofesion,profesion) values (330,'TÉCNICO EN LOGÍSTICA');
+	insert into profesion (idprofesion,profesion) values (331,'TECNICO EN MANTENIMIENTO');
+	insert into profesion (idprofesion,profesion) values (332,'TÉCNICO EN MANTENIMIENTO INDUSTRIAL');
+	insert into profesion (idprofesion,profesion) values (333,'TÉCNICO EN MANTENIMIENTO MECÁNICO');
+	insert into profesion (idprofesion,profesion) values (334,'TÉCNICO EN MAQUINARIA PESADA');
+	insert into profesion (idprofesion,profesion) values (335,'TÉCNICO EN MARKETING');
+	insert into profesion (idprofesion,profesion) values (336,'TÉCNICO EN MARROQUINERÍA Y CALZADO');
+	insert into profesion (idprofesion,profesion) values (337,'TÉCNICO EN MECÁNICA AUTOMOTRIZ');
+	insert into profesion (idprofesion,profesion) values (338,'TÉCNICO EN MECATRÓNICA');
+	insert into profesion (idprofesion,profesion) values (339,'TÉCNICO EN METALURGIA');
+	insert into profesion (idprofesion,profesion) values (340,'TÉCNICO EN MINERÍA');
+	insert into profesion (idprofesion,profesion) values (341,'TÉCNICO EN NEGOCIOS INTERNACIONALES');
+	insert into profesion (idprofesion,profesion) values (342,'TÉCNICO EN OBSTETRICIA');
+	insert into profesion (idprofesion,profesion) values (343,'TÉCNICO EN ODONTOLOGÍA');
+	insert into profesion (idprofesion,profesion) values (344,'TECNICO EN PRESUPUESTO');
+	insert into profesion (idprofesion,profesion) values (345,'TÉCNICO EN PREVENCIÓN DE RIESGOS');
+	insert into profesion (idprofesion,profesion) values (346,'TÉCNICO EN QUÍMICA');
+	insert into profesion (idprofesion,profesion) values (347,'TÉCNICO EN RADIOLOGO');
+	insert into profesion (idprofesion,profesion) values (348,'TÉCNICO EN REDES Y CONECTIVIDAD');
+	insert into profesion (idprofesion,profesion) values (349,'TÉCNICO EN REFRIGERACIÓN Y CLIMATIZACIÓN');
+	insert into profesion (idprofesion,profesion) values (350,'TÉCNICO EN REHABILITACIÓN');
+	insert into profesion (idprofesion,profesion) values (351,'TECNICO EN SALUD AMBIENTAL');
+	insert into profesion (idprofesion,profesion) values (352,'TÉCNICO EN SALUD MENTAL');
+	insert into profesion (idprofesion,profesion) values (353,'TÉCNICO EN SALUD Y SEGURIDAD OCUPACIONAL');
+	insert into profesion (idprofesion,profesion) values (354,'TÉCNICO EN SECRETARIADO');
+	insert into profesion (idprofesion,profesion) values (355,'TECNICO EN SEGURIDAD');
+	insert into profesion (idprofesion,profesion) values (356,'TÉCNICO EN SEGURIDAD RADIOLÓGICA');
+	insert into profesion (idprofesion,profesion) values (357,'TÉCNICO EN SOLDADURA');
+	insert into profesion (idprofesion,profesion) values (358,'TÉCNICO EN TECNOLOGÍA MÉDICA');
+	insert into profesion (idprofesion,profesion) values (359,'TÉCNICO EN TELECOMUNICACIONES');
+	insert into profesion (idprofesion,profesion) values (360,'TECNICO EN TERAPIA FÍSICA');
+	insert into profesion (idprofesion,profesion) values (361,'TÉCNICO EN TOPOGRAFÍA');
+	insert into profesion (idprofesion,profesion) values (362,'TÉCNICO EN TOXICOLOGÍA');
+	insert into profesion (idprofesion,profesion) values (363,'TÉCNICO EN TURISMO');
+	insert into profesion (idprofesion,profesion) values (364,'TÉCNICO EN VETERINARIA');
+	insert into profesion (idprofesion,profesion) values (365,'TECNICO RADIOLOGO');
+	insert into profesion (idprofesion,profesion) values (366,'TECNICO SANITARIO');
+	insert into profesion (idprofesion,profesion) values (367,'TECNICO TRABAJADOR DE SERVICIOS GENERALES');
+	
+create table nivel(
+	idnivel smallint(4) NOT NULL AUTO_INCREMENT,
+	nivel varchar(30) NOT NULL,
+	activo char(1) DEFAULT '1',
+	PRIMARY KEY (idnivel))ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+	insert into nivel (idnivel,nivel) values (1,'Estudiante en Curso');
+	insert into nivel (idnivel,nivel) values (2,'Egresado');
+	insert into nivel (idnivel,nivel) values (3,'Técnico');
+	insert into nivel (idnivel,nivel) values (4,'Bachiller');
+	insert into nivel (idnivel,nivel) values (5,'Licenciado');
+	insert into nivel (idnivel,nivel) values (6,'Titulado');
+	insert into nivel (idnivel,nivel) values (7,'Magister');
+	insert into nivel (idnivel,nivel) values (8,'Doctorado');
+	insert into nivel (idnivel,nivel) values (9,'Otro');
+	
+	CREATE TABLE convocatoria_locadores_postulantes(
+	idpostulacion smallint(4) NOT NULL AUTO_INCREMENT,
+	idconvocatoria smallint(4) NOT NULL,
+	idtipodocumento smallint(4) NOT NULL,
+	numero_documento varchar(10) NOT NULL,
+	numero_ruc varchar(11) NOT NULL,
+	nombre varchar(100) NOT NULL,
+	domicilio varchar(100)NULL,
+	celular varchar(9) NULL,
+	correo varchar(100) NULL,
+	ubigeo varchar(6),
+	latitud varchar(25),
+	longitud varchar(25),
+	idprofesion smallint(4) NOT NULL,
+	idnivel smallint(4) NOT NULL,
+	anexo_01 varchar(20),
+	anexo_02 varchar(20),
+	anexo_03 varchar(20),
+	anexo_04 varchar(20),
+	anexo_05 varchar(20),
+	anexo_06 varchar(20),
+	fecha_postulacion datetime,
+	PRIMARY KEY (idpostulacion),
+	FOREIGN KEY (idconvocatoria) REFERENCES convocatoria_locadores (idconvocatoria) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idtipodocumento) REFERENCES tipo_documento (idtipodocumento) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idprofesion) REFERENCES profesion (idprofesion) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (idnivel) REFERENCES nivel (idnivel) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
-
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
