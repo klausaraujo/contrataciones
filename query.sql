@@ -1992,9 +1992,9 @@ CREATE TABLE modulo  (
   PRIMARY KEY (idmodulo)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
   
 	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (1,'Módulo de Registro de Usuarios y Accesos Personalizados','Módulo Usuarios','usuarios.png','usuarios','1','fa fa-users',1);
-	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (2,'Módulo de Convocatorias Locadores','Módulo Locadores','proveedores.png','locadores','1','fa fa-bar-chart',2);
-	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (3,'Módulo de Convocatorias Bienes','Módulo Locadores','proveedores.png','bienes','1','fa fa-bar-chart',3);
-	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (4,'Módulo de Convocatorias Servicios','Módulo Locadores','proveedores.png','servicios','1','fa fa-bar-chart',4);
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (2,'Módulo de Registro de Convocatorias para Contratación de Locadores de Servicio','Módulo Locadores','locadores.png','locadores','1','fa fa-bar-chart',2);
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (3,'Módulo de Registro de Convocatorias para Adquisición de Bienes','Módulo Bienes','bienes.png','bienes','1','fa fa-bar-chart',3);
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (4,'Módulo de Registro de Convocatorias para Contratación de Servicios','Módulo Servicios','servicios.png','servicios','1','fa fa-bar-chart',4);
 	
 CREATE TABLE modulo_rol  (	
 	idmodulorol smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2007,10 +2007,14 @@ CREATE TABLE modulo_rol  (
 	/*Administrador*/
 	INSERT INTO modulo_rol(idmodulorol,idmodulo,idperfil,activo) VALUES(1,1,1,'1');
 	INSERT INTO modulo_rol(idmodulorol,idmodulo,idperfil,activo) VALUES(2,2,1,'1');
+	INSERT INTO modulo_rol(idmodulorol,idmodulo,idperfil,activo) VALUES(3,3,1,'1');
+	INSERT INTO modulo_rol(idmodulorol,idmodulo,idperfil,activo) VALUES(4,4,1,'1');
 		
 	/*Estandar*/
-	INSERT INTO modulo_rol(idmodulorol,idmodulo,idperfil,activo) VALUES(3,1,2,'0');
-	INSERT INTO modulo_rol(idmodulorol,idmodulo,idperfil,activo) VALUES(4,2,2,'1');
+	INSERT INTO modulo_rol(idmodulorol,idmodulo,idperfil,activo) VALUES(5,1,2,'0');
+	INSERT INTO modulo_rol(idmodulorol,idmodulo,idperfil,activo) VALUES(6,2,2,'1');
+	INSERT INTO modulo_rol(idmodulorol,idmodulo,idperfil,activo) VALUES(7,3,2,'1');
+	INSERT INTO modulo_rol(idmodulorol,idmodulo,idperfil,activo) VALUES(8,4,2,'1');
 
 CREATE TABLE permiso  (
   idpermiso smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2023,10 +2027,15 @@ CREATE TABLE permiso  (
 	FOREIGN KEY (idmodulo) REFERENCES modulo (idmodulo) ON DELETE CASCADE ON UPDATE CASCADE)ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(1,'Editar Usuario','1',1,1);
-	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(2,'Asignar Sucursales','1',2,1);
-	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(3,'Asignar Permisos','1',3,1);
-	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(4,'Resetar Clave','1',4,1);
-	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(5,'Activar/Desactivar','1',5,1);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(2,'Asignar Permisos','1',2,1);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(3,'Resetar Clave','1',3,1);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(4,'Activar/Desactivar','1',4,1);
+	
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(5,'Editar Convocatoria','1',5,2);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(6,'Cancelar Convocatoria','1',6,2);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(7,'Evaluar Postulantes','1',7,2);
+	INSERT INTO permiso(idpermiso,descripcion,tipo,orden,idmodulo) VALUES(8,'Publicar Resultados','1',8,2);
+	
 	
 CREATE TABLE menu  (
   idmenu smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2042,6 +2051,10 @@ CREATE TABLE menu  (
 	/*Menus del Módulo de Usuarios*/
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(1,1,'Lista Usuarios','0','usuarios','fa fa-list');
 	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(2,1,'Nuevo Registro','0','nuevousuario','fa fa-pencil-square-o');
+	
+	/*Menus del Módulo de Convocatoria de Locadores*/
+	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(3,2,'Lista Convocatorias','0','locadores','fa fa-list');
+	INSERT INTO menu(idmenu,idmodulo,descripcion,nivel,url,icono) VALUES(4,2,'Nuevo Registro','0','nuevaconvocatoria','fa fa-pencil-square-o');
 	
 CREATE TABLE menu_detalle  (
   idmenudetalle smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2068,6 +2081,8 @@ CREATE TABLE permisos_menu  (
 	
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(1,1,1);
 	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(2,2,1);
+	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(3,3,1);
+	INSERT INTO permisos_menu(idpermisosmenu,idmenu,idusuario) VALUES(4,4,1);
 	
 CREATE TABLE permisos_menu_detalle  (
   idpermisosmenudetalle smallint(4) NOT NULL AUTO_INCREMENT,
@@ -2094,6 +2109,9 @@ CREATE TABLE permisos_opcion  (
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(3,3,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(4,4,1);
 	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(5,5,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(6,6,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(7,7,1);
+	INSERT INTO permisos_opcion(idpermisoopcion,idpermiso,idusuario) VALUES(8,8,1);
 
 CREATE TABLE estado(
 	idestado smallint(4) NOT NULL AUTO_INCREMENT,

@@ -3,7 +3,7 @@
 				<div class="iq-card-header d-flex justify-content-between">
 				   <div class="iq-header-title card-body ">
 				<h3 style="font-size:22px;" class="text-center">
-				   <b>CONTRATACIONES</b>
+				   <b>Tablero de Control Estratégico de Aplicativos de la Red Prestacional Sabogal</b>
 				</h3>
 					</div>
 				</div>
