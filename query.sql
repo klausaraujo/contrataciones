@@ -1992,9 +1992,9 @@ CREATE TABLE modulo  (
   PRIMARY KEY (idmodulo)) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
   
 	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (1,'Módulo de Registro de Usuarios y Accesos Personalizados','Módulo Usuarios','usuarios.png','usuarios','1','fa fa-users',1);
-	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (2,'Módulo de Registro de Convocatorias para Contratación de Locadores de Servicio','Módulo Locadores','locadores.png','locadores','1','fa fa-bar-chart',2);
-	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (3,'Módulo de Registro de Convocatorias para Adquisición de Bienes','Módulo Bienes','bienes.png','bienes','1','fa fa-bar-chart',3);
-	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (4,'Módulo de Registro de Convocatorias para Contratación de Servicios','Módulo Servicios','servicios.png','servicios','1','fa fa-bar-chart',4);
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (2,'Módulo de Registro de Convocatorias para Contratación de Locadores de Servicio','Módulo Locadores','locadores.png','locadores','1','fa fa-id-card',2);
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (3,'Módulo de Registro de Convocatorias para Adquisición de Bienes','Módulo Bienes','bienes.png','bienes','1','fa fa-ambulance',3);
+	INSERT INTO modulo (idmodulo,descripcion,menu,icono,url,imagen,mini,orden) VALUES (4,'Módulo de Registro de Convocatorias para Contratación de Servicios','Módulo Servicios','servicios.png','servicios','1','fa fa-list-alt',4);
 	
 CREATE TABLE modulo_rol  (	
 	idmodulorol smallint(4) NOT NULL AUTO_INCREMENT,

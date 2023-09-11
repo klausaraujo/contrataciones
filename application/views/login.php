@@ -25,23 +25,23 @@
                             <div class="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
                                 <div class="item">
                                     <img src="<?=base_url()?>/public/images/1.png" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Titulo 01</h4>
-                                    <p>Descripcion 01</p>
+                                    <h4 class="mb-1 text-white">Anuncian Construcción del Nuevo Hospital Alberto Sabogal</h4>
+                                    <p>El presidente ejecutivo de #EsSalud, Dr. César Linares, anunció el inicio formal de los trámites para la construcción del nuevo Hospital Alberto Sabogal durante la ceremonia por el 82 aniversario del emblemático hospital chalaco.</p>
                                 </div>
                                 <div class="item">
                                     <img src="<?=base_url()?>/public/images/2.png" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Titulo 02</h4>
-                                    <p>Descripcion 02</p>
+                                    <h4 class="mb-1 text-white">Inaguran Unidade de Medicina Fetal</h4>
+                                    <p>El titular de #EsSalud, César Linares, inauguró la unidad de medicina fetal en el Hospital Alberto Sabogal. Este ambiente está equipado con un ecógrafo Doppler y un monitor para un diagnóstico temprano de posibles problemas congénitos que afecten a los bebés en gestación.</p>
                                 </div>
                                 <div class="item">
                                     <img src="<?=base_url()?>/public/images/3.png" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Titulo 03</h4>
-                                    <p>Descripcion 03</p>
+                                    <h4 class="mb-1 text-white">Caminata  5k Corazones Turquesas</h4>
+                                    <p>#Deporte El Sindicato Nacional de Enfermeras del Seguro Social del Perú desarrolla en estos momentos la Caminata  5k Corazones Turquesas, en el marco del Día de la Enfermera.</p>
                                 </div>
                                 <div class="item">
                                     <img src="<?=base_url()?>/public/images/4.png" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Titulo 04</h4>
-                                    <p>Descripcion 04</p>
+                                    <h4 class="mb-1 text-white">Abuelita de 72 años supera extraño «síndrome de wilkie»</h4>
+                                    <p>Flavia Domitila Real Minaya, de 72 años de edad, llegó al hospital Negreiros con una prominente y dolorosa inflamación en el estómago y, tras los exámenes médicos, se le diagnosticó «Síndrome de Wilkie», la extraña enfermedad que provoca una obstrucción en el estómago e impide ingerir todo tipo de alimento.</p>
                                 </div>
                             </div>
                         </div>
