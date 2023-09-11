@@ -26,8 +26,7 @@ class Main extends CI_Controller
 		if($this->uri->segment(1) === 'nuevousuario')header('location:' .base_url(). 'usuarios/nuevo');
 		else{
 			$this->load->model('Usuarios_model');
-			$this->load->model('Proveedores_model');
-			$tipodoc = $this->Proveedores_model->tipodoc();
+			$tipodoc = $this->Usuarios_model->tipodoc();
 			$perfil = $this->Usuarios_model->perfil();
 			$data = array( 'tipodoc' => $tipodoc, 'perfil' => $perfil );
 			if($this->uri->segment(2) === 'editar'){
@@ -40,8 +39,9 @@ class Main extends CI_Controller
 	}
 	public function registrar()
 	{
-		$this->session->set_flashdata('claseMsg', 'alert-danger');
 		$this->load->model('Usuarios_model');
+		$this->session->set_flashdata('claseMsg', 'alert-danger');
+		
 		if($this->input->post('tipodoc') != '' && $this->input->post('doc') != '' && $this->input->post('apellidos') != '' && $this->input->post('nombres') != ''
 			&& $this->input->post('usuario') != '' && $this->input->post('perfil') != '' && $this->input->post('tiporegistro') === 'registrar')
 		{
@@ -76,8 +76,8 @@ class Main extends CI_Controller
 	}
 	public function habilitar()
 	{
-		$id = $this->input->get('id'); $stat = $this->input->get('stat'); $msg = ''; $status = 500;
 		$this->load->model('Usuarios_model');
+		$id = $this->input->get('id'); $stat = $this->input->get('stat'); $msg = ''; $status = 500;
 		
 		if($stat === '1'){
 			$msg = 'No se pudo deshabilitar el Usuario';
@@ -99,12 +99,11 @@ class Main extends CI_Controller
 		);
 		
 		echo json_encode($data);
-		//header('location:'. base_url() .'usuarios');
 	}
 	public function resetear()
 	{
-		$id = $this->input->get('id'); $doc = $this->input->get('doc'); $status = 500;
 		$this->load->model('Usuarios_model');
+		$id = $this->input->get('id'); $doc = $this->input->get('doc'); $status = 500;
 		
 		if($this->Usuarios_model->actualizar( ['passwd'=> sha1($doc)], ['idusuario'=>$id] )) $status = 200;
 		
@@ -112,14 +111,13 @@ class Main extends CI_Controller
 	}
 	public function permisosUsuario()
 	{
-		$id = $this->input->get('id');
 		$this->load->model('Usuarios_model');
+		$id = $this->input->get('id');
+		
 		$permisos = $this->Usuarios_model->buscaPermisos(['idusuario'=>$id]);
-		$modulos = $this->Usuarios_model->permisosModulos(['u.idusuario'=>$id,'mr.activo' => 1]);
+		$modulos = $this->Usuarios_model->permisosModulos(['idusuario'=>$id,'mr.activo' => 1]);
 		$menus = $this->Usuarios_model->permisosMenus(['idusuario'=>$id, 'activo' => 1]);
 		$submenus = $this->Usuarios_model->permisosMenuDetalle(['idusuario'=>$id, 'activo' => 1]);
-		$idperfil = !empty($modulos)? $modulos[0]->idperfil : '';
-		$perfil = !empty($modulos)? $modulos[0]->perfil : '';
 		
 		$data = array(
 			'data' => $permisos,
@@ -127,8 +125,6 @@ class Main extends CI_Controller
 			'modulos' => $modulos,
 			'menus' => $menus,
 			'submenus' => $submenus,
-			'idperfil' => $idperfil,
-			'perfil' => $perfil,
 		);
 		
 		echo json_encode($data);
@@ -136,14 +132,12 @@ class Main extends CI_Controller
 	public function asignarPermisos()
 	{
 		$this->load->model('Usuarios_model');
-		$arrayPer = []; $i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500; $modulos = []; $arrayMenu = []; $arraySubm = [];
+		$i = 0; $msg = 'No se pudo asignar los permisos'; $status = 500; $arrayMenu = []; $arraySubm = []; $arrayPer = [];
 		
 		$id = (isset($_POST['idusuarioPer'])?$_POST['idusuarioPer'] : '');
 		$permisos = (isset($_POST['permisos'])?$_POST['permisos'] : array());
 		$menus = (isset($_POST['menus'])?$_POST['menus'] : array());
 		$submenus = (isset($_POST['submenus'])?$_POST['submenus'] : array());
-		$perMod = (isset($_POST['modPer'])?$_POST['modPer'] : array());
-		$idperfil = (isset($_POST['perfilUsuario'])?$_POST['perfilUsuario'] : '');
 		
 		if(!empty($permisos)){
 			foreach($permisos as $row):
@@ -168,37 +162,9 @@ class Main extends CI_Controller
 		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$arrayPer,'permisos_opcion');
 		$regMenu = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$arrayMenu,'permisos_menu');
 		$regSub = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$arraySubm,'permisos_menu_detalle');
-		$regMod = $this->Usuarios_model->actualizaModulosUser(['activo' => 1],$perMod,['idperfil' => $idperfil]);
 		
-		if($regPer || $regMenu || $regSub || $regMod){ $msg = 'Permisos Asignados'; $status = 200; }
+		if($regPer || $regMenu || $regSub){ $msg = 'Permisos Asignados'; $status = 200; }
 		
 		echo json_encode(['msg'=>$msg, 'status'=>$status]);
-	}
-	public function sucursalesUsuario()
-	{
-		$id = $this->input->get('id');
-		$this->load->model('Usuarios_model');
-		$sucursales = $this->Usuarios_model->buscaSucursales(['idusuario'=>$id]);
-		
-		echo json_encode(['data'=>$sucursales,'idusuario'=>$id]);
-	}
-	public function asignarSucursales()
-	{
-		$this->load->model('Usuarios_model');
-		$perSuc = (isset($_POST['usuariosSuc'])?$_POST['usuariosSuc'] : array()); $id = (isset($_POST['idusuarioSuc'])?$_POST['idusuarioSuc'] : '');
-		$dataArray = []; $i = 0; $msg = 'No se pudo asignar los sucursales'; $status = 500;
-		
-		if(!empty($perSuc)){
-			foreach($perSuc as $row):
-				$dataArray[$i] = ['idsucursal'=>$row,'idusuario'=>$id,'activo'=>1];
-				$i++;
-			endforeach;
-		}
-		
-		$regPer = $this->Usuarios_model->registrarPer(['idusuario'=>$id],$dataArray,'usuarios_sucursal');
-		
-		if($regPer){ $msg = 'Sucursales Asignadas'; $status = 200; }
-		
-		echo json_encode(['msg'=>$msg, 'status'=>$status,'data'=>$dataArray]);
 	}
 }

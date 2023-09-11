@@ -51,20 +51,11 @@ class Usuarios_model extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from('permiso');
-		$this->db->where('activo','1');
+		$this->db->where('activo', 1);
 		$this->db->order_by('orden','asc');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	/*public function sucursalesUser()
-	{
-		$this->db->select('*');
-		$this->db->from('sucursal');
-		$this->db->where('activo','1');
-		$this->db->order_by('idsucursal','asc');
-		$result = $this->db->get();
-		return ($result->num_rows() > 0)? $result->result() : array();
-	}*/
 	public function buscaPermisos($data)
 	{
 		$this->db->select('*');
@@ -74,15 +65,6 @@ class Usuarios_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	/*public function buscaSucursales($data)
-	{
-		$this->db->select('*');
-		$this->db->from('usuarios_sucursal');
-		$this->db->where($data);
-		$this->db->order_by('idsucursal','asc');
-		$result = $this->db->get();
-		return ($result->num_rows() > 0)? $result->result() : array();
-	}*/
 	public function registrarPer($where,$data,$tabla)
 	{
 		$this->db->trans_begin();
@@ -110,46 +92,6 @@ class Usuarios_model extends CI_Model
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}
-	public function buscaModulos()
-	{
-		$this->db->select('idmodulo,descripcion,url');
-		$this->db->from('modulo');
-		$this->db->order_by('orden','asc');
-		$result = $this->db->get();
-		return ($result->num_rows() > 0)? $result->result() : array();
-	}
-	public function permisosModulos($where)
-	{
-		$this->db->select('u.idperfil,mr.idmodulo,p.perfil');
-		$this->db->from('usuarios u');
-		$this->db->join('modulo_rol mr','mr.idperfil = u.idperfil');
-		$this->db->join('perfil p','p.idperfil = u.idperfil');
-		$this->db->where($where);
-		$this->db->order_by('idmodulo','asc');
-		$result = $this->db->get();
-		return ($result->num_rows() > 0)? $result->result() : array();
-	}
-	public function actualizaModulosUser($data,$where,$perfil)
-	{
-		$this->db->trans_begin();
-		$this->db->db_debug = FALSE;
-		
-		$this->db->where($perfil);
-		$this->db->where_in('idmodulo',$where);
-		$this->db->update('modulo_rol',$data);
-		
-		$this->db->where($perfil);
-		$this->db->where_not_in('idmodulo',$where);
-		$this->db->update('modulo_rol',['activo' => 0]);
-		
-		if ($this->db->trans_status() === FALSE){
-			$this->db->trans_rollback();
-			return false;
-		}else{
-			$this->db->trans_commit();
-			return true;
-		}
-	}
 	public function permisosMenus($where)
 	{
 		$this->db->select('*');
@@ -165,6 +107,34 @@ class Usuarios_model extends CI_Model
 		$this->db->from('permisos_menu_detalle');
 		$this->db->where($where);
 		$this->db->order_by('idmenudetalle','asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function buscaModulos()
+	{
+		$this->db->select('idmodulo,descripcion,url');
+		$this->db->from('modulo');
+		$this->db->order_by('orden','asc');
+		$result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function tipodoc()
+	{
+		$this->db->select('idtipodocumento,codigo_curl,tipo_documento,longitud');
+        $this->db->from('tipo_documento');
+		$this->db->where('activo',1);
+		$this->db->order_by('idtipodocumento', 'ASC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
+	public function permisosModulos($where)
+	{
+		$this->db->select('mr.idmodulo,md.url');
+		$this->db->from('modulo_rol mr');
+		$this->db->join('usuarios u', 'u.idperfil = mr.idperfil');
+		$this->db->join('modulo md', 'mr.idmodulo = md.idmodulo');
+		$this->db->where($where);
+		$this->db->order_by('idmodulo','asc');
 		$result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
 	}

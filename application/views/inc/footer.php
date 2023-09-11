@@ -83,15 +83,29 @@
 			
 			$.each(botonesUser,function(i,e){
 				if(e.idpermiso === '1') btnEditUser = true;
-				//else if(e.idpermiso === '11') btnSucur = true;
 				else if(e.idpermiso === '3') btnPermisos = true;
 				else if(e.idpermiso === '4') btnClave = true;
 				else if(e.idpermiso === '5') btnActiva = true;
 			});
 			<?}?>
 		</script>
+		<?}elseif($this->uri->segment(1) === 'locadores'){ ?>
+		<script src="<?=base_url()?>/public/js/locadores/locadores.js"></script>
+		<script>
+			let botonesLoc = JSON.parse('<?=$this->session->userdata('perLocadores')?>');
+			<?if($this->uri->segment(2) == ''){?>
+			/*let btnEditUser = false, btnSucur = false, btnPermisos = false, btnClave = false, btnActiva = false;
+			
+			$.each(botonesUser,function(i,e){
+				if(e.idpermiso === '1') btnEditUser = true;
+				else if(e.idpermiso === '3') btnPermisos = true;
+				else if(e.idpermiso === '4') btnClave = true;
+				else if(e.idpermiso === '5') btnActiva = true;
+			});*/
+			<?}?>
+		</script>
 		<?}
-			if(($this->uri->segment(1) === 'usuarios') && $this->uri->segment(2) == ''){ ?>
+		if(($this->uri->segment(1) === 'usuarios' || $this->uri->segment(1) === 'locadores') && $this->uri->segment(2) == ''){ ?>
 		<script>
 			const headers = JSON.parse('<?=json_encode($headers)?>');
 		</script>

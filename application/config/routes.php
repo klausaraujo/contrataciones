@@ -59,6 +59,7 @@ $route['logout'] = 'login/logout';
 
 /* Programacion en general */
 $route['usuarios'] = 'main/usuarios';
+$route['locadores'] = 'main/locadores';
 $route['main/curl'] = 'main/curl';
 $route['main/ruccurl'] = 'main/ruccurl';
 $route['main/upload'] = 'main/upload';
@@ -75,8 +76,9 @@ $route['usuarios/habilitar'] = 'usuarios/main/habilitar';
 $route['usuarios/reset'] = 'usuarios/main/resetear';
 $route['usuarios/permisos'] = 'usuarios/main/permisosUsuario';
 $route['usuarios/permisos/asignar'] = 'usuarios/main/asignarPermisos';
-$route['usuarios/sucursales'] = 'usuarios/main/sucursalesUsuario';
-$route['usuarios/sucursales/asignar'] = 'usuarios/main/asignarSucursales';
+
+/* Locadores */
+$route['locadores/lista'] = 'locadores/main/listaLocadores';
 
 /**/
 $route['404_override'] = '';

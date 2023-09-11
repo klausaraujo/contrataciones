@@ -11,7 +11,7 @@ class Main extends CI_Controller
 		parent::__construct();
 		if($this->session->userdata('user')){
 			$this->usuario = json_decode($this->session->userdata('user'));
-			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/narsa/';
+			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/contrataciones/';
 			$seg = $this->uri->segment(1);
 			foreach($this->usuario->modulos as $mod):
 				if($mod->url === $seg){
@@ -31,24 +31,51 @@ class Main extends CI_Controller
 	public function usuarios()
 	{
 		$this->load->model('Usuarios_model');
-		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => 1,'po.activo' => 1]);
+		$idmodulo = '';
+		foreach($this->usuario->modulos as $valor):
+			if($valor->url === $this->uri->segment(1)){
+				$idmodulo = $valor->idmodulo; break;
+			}
+		endforeach;
+		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => $idmodulo,'po.activo' => 1]);
 		$this->session->set_userdata('perUser', json_encode($bot));
 		$permisos = $this->Usuarios_model->permisosOpciones();
-		//$sucursales = $this->Usuarios_model->sucursalesUser();
 		$modulos = $this->Usuarios_model->buscaModulos();
-		//$pMenus = $this->Usuarios_model->permisosOpciones();
 		
 		$headers = array(
-			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Documento', 'targets' => 2],'3'=>['title' => 'N&uacute;mero', 'targets' => 3],
-			'4'=>['title' => 'Avatar', 'targets' => 4],'5'=>['title' => 'Apellidos', 'targets' => 5],'6'=>['title' => 'nombres', 'targets' => 6],'7'=>['title' => 'Usuario', 'targets' => 7],
-			'8'=>['title' => 'Perfil', 'targets' => 8],'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['title' => 'Estado', 'targets' => 10],'11'=>['targets' => 'no-sort', 'orderable' => false],
-			'10'=>['targets' => 1, 'visible' => false],
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Documento', 'targets' => 2],
+			'3'=>['title' => 'N&uacute;mero', 'targets' => 3],'4'=>['title' => 'Avatar', 'targets' => 4],'5'=>['title' => 'Apellidos', 'targets' => 5],
+			'6'=>['title' => 'nombres', 'targets' => 6],'7'=>['title' => 'Usuario', 'targets' => 7],'8'=>['title' => 'Perfil', 'targets' => 8],
+			'9'=>['title' => 'Estado', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],'11'=>['targets' => 1, 'visible' => false],
 		);
 		$data = array(
 			'permisos' => $permisos,
 			'headers' => $headers,
-			//'sucursales' => $sucursales,
 			'modulos' => $modulos,
+		);
+		$this->load->view('main',$data);
+	}
+	public function locadores()
+	{
+		$this->load->model('Locadores_model');
+		$this->load->model('Usuarios_model');
+		foreach($this->usuario->modulos as $valor):
+			if($valor->url === $this->uri->segment(1)){
+				$idmodulo = $valor->idmodulo; break;
+			}
+		endforeach;
+		$bot = $this->Usuarios_model->buscaPerByModByUser(['idusuario' => $this->usuario->idusuario,'idmodulo' => $idmodulo,'po.activo' => 1]);
+		$this->session->set_userdata('perLocadores', json_encode($bot));
+		
+		$headers = array(
+			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Dependencia', 'targets' => 2],
+			'3'=>['title' => 'Denominaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Estado', 'targets' => 4],'5'=>['title' => 'F.Inicio', 'targets' => 5],
+			'6'=>['title' => 'F.Fin', 'targets' => 6],'7'=>['title' => 'Archivo Base', 'targets' => 7],'8'=>['title' => 'Archivos Anexos', 'targets' => 8],
+			'9'=>['title' => 'F.Registro', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],'11'=>['targets' => 1, 'visible' => false],
+			
+		);
+		$data = array(
+			'headers' => $headers,
 		);
 		$this->load->view('main',$data);
 	}
@@ -70,9 +97,6 @@ class Main extends CI_Controller
 				CURLOPT_URL => $api.$tipo.'/'.$doc.'/',
 				CURLOPT_HEADER => false,
 				CURLOPT_MAXREDIRS => 2,
-				//CURLOPT_FOLLOWLOCATION => true,
-				//CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-				//CURLOPT_TIMEOUT => 0,
 				CURLOPT_HTTPHEADER => array('Authorization: '.$token, 'Content-Type: application/json'),
 				CURLOPT_RETURNTRANSFER => true,
 			));		
@@ -177,7 +201,6 @@ class Main extends CI_Controller
 	}
 	public function ruccurl()
 	{
-		// Datos
 		$url = 'https://api.apis.net.pe/v1/ruc?numero='.$this->input->post('ruc');
 
 		$curl = curl_init();
@@ -190,7 +213,6 @@ class Main extends CI_Controller
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_HEADER => 0,
 			CURLOPT_SSL_VERIFYPEER => 0,
-			//CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
 		));
 		
 		$result = curl_exec($curl);

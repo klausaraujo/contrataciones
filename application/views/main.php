@@ -3,7 +3,7 @@
 	<head>
 		<!-- Loader Header -->
 		<?php	require_once('inc/header.php');	date_default_timezone_set('America/Lima');?>
-		<title>NARSA</title>
+		<title>CONTRATACIONES</title>
 	</head>
 	<body>
 		<!-- loader Start -->
@@ -28,67 +28,12 @@
 					<?php 
 						//echo date_default_timezone_get();
 						if($this->uri->segment(1) == '') $this->load->view('modulos');
+						elseif($this->uri->segment(1) === 'locadores' && $this->uri->segment(2) == '') $this->load->view('locadores/locadores');
 						elseif($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) == '') $this->load->view('usuarios/usuarios');
 						elseif($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) === 'nuevo') $this->load->view('usuarios/form-new');
 						elseif($this->uri->segment(1) === 'usuarios' && $this->uri->segment(2) === 'editar') $this->load->view('usuarios/form-editar');
-						elseif($this->uri->segment(2) === 'perfil') $this->load->view('usuario/perfil');//Anular
+						elseif($this->uri->segment(2) === 'perfil') $this->load->view('usuario/perfil');
 					?>
-						<!--<div class="col-lg-12">
-						 <!--<div class="row">
-							<div class="col-md-6 col-lg-3">
-							   <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-								  <div class="iq-card-body iq-bg-primary rounded">
-									 <div class="d-flex align-items-center justify-content-between">
-										<div class="rounded-circle iq-card-icon bg-primary"><i class="ri-user-fill"></i></div>
-										<div class="text-right">                                 
-										   <h2 class="mb-0"><span class="counter">5600</span></h2>
-										   <h5 class="">Doctors</h5>
-										</div>
-									 </div>
-								  </div>
-							   </div>
-							</div>
-							<div class="col-md-6 col-lg-3">
-							   <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-								  <div class="iq-card-body iq-bg-warning rounded">
-									 <div class="d-flex align-items-center justify-content-between">
-										<div class="rounded-circle iq-card-icon bg-warning"><i class="ri-women-fill"></i></div>
-										<div class="text-right">                                 
-										   <h2 class="mb-0"><span class="counter">3450</span></h2>
-										   <h5 class="">Nurses</h5>
-										</div>
-									 </div>
-								  </div>
-							   </div>
-							</div>
-							<div class="col-md-6 col-lg-3">
-							   <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-								  <div class="iq-card-body iq-bg-danger rounded">
-									 <div class="d-flex align-items-center justify-content-between">
-										<div class="rounded-circle iq-card-icon bg-danger"><i class="ri-group-fill"></i></div>
-										<div class="text-right">                                 
-										   <h2 class="mb-0"><span class="counter">3500</span></h2>
-										   <h5 class="">Patients</h5>
-										</div>
-									 </div>
-								  </div>
-							   </div>
-							</div>
-							<div class="col-md-6 col-lg-3">
-							   <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-								  <div class="iq-card-body iq-bg-info rounded">
-									 <div class="d-flex align-items-center justify-content-between">
-										<div class="rounded-circle iq-card-icon bg-info"><i class="ri-hospital-line"></i></div>
-										<div class="text-right">                                 
-										   <h2 class="mb-0"><span class="counter">4500</span></h2>
-										   <h5 class="">Pharmacists</h5>
-										</div>
-									 </div>
-								  </div>
-							   </div>
-							</div>
-						 </div>
-						</div>-->
 					</div>
 				</div>
 				<!-- Footer -->

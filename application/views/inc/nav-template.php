@@ -19,6 +19,7 @@
 							<a href="<?=base_url()?>" class="iq-waves-effect"><i class="ri-home-8-fill"></i><span>Inicio</span></a>
 						</li>
 				<? 
+						$idmodulo = '';
 						if($this->uri->segment(1) == ''){
 							foreach($usuario->modulos as $row): ?>
 						<li>

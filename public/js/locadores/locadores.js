@@ -1,10 +1,10 @@
-let tablaUser = null;
+let tablaLocadores = null;
 
 $(document).ready(function (){
 	if(segmento2 == ''){
-		tablaUser = $('#tablaUsuarios').DataTable({
+		tablaLocadores = $('#tablaLocadores').DataTable({
 			ajax: {
-				url: base_url + 'usuarios/lista',
+				url: base_url + 'locadores/lista',
 			},
 			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, 'Todas']], language: lngDataTable,
 			columns:[
@@ -16,51 +16,27 @@ $(document).ready(function (){
 						let hrefPer = 'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"';
 						let hrefReset = 'href="'+base_url+'usuarios/reset?id='+data.idusuario+'&doc='+data.numero_documento+'&stat='+data.activo+'"';
 						let hrefActiva = 'href="'+base_url+'usuarios/habilitar?id='+data.idusuario+'"';
-						let btnAccion =
+						let btnAccion = '';
 						/* Boton de edicion */
-						'<div class="btn-group"><a title="Editar Usuario" '+((data.activo === '1' && btnEditUser)? hrefEdit:'')+' class="bg-warning btnTable '+
-							((data.activo === '0' || !btnEditUser)?'disabled':'')+' editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
+						//'<div class="btn-group"><a title="Editar Usuario" '+((data.activo === '1' && btnEditUser)? hrefEdit:'')+' class="bg-warning btnTable '+
+						//	((data.activo === '0' || !btnEditUser)?'disabled':'')+' editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
 						/* Boton de permisos */
-						'<a title="Permisos" '+((data.activo === '1' && btnPermisos)? hrefPer:'')+' class="bg-secondary btnTable '+
-							((data.activo === '0' || !btnPermisos)?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal">'+
-							'<i class="fa fa-cogs" aria-hidden="true"></i></a>'+
+						//'<a title="Permisos" '+((data.activo === '1' && btnPermisos)? hrefPer:'')+' class="bg-secondary btnTable '+
+						//	((data.activo === '0' || !btnPermisos)?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal">'+
+						//	'<i class="fa fa-cogs" aria-hidden="true"></i></a>'+
 						/* Boton de Reset Clave */
-						'<a title="Resetear Clave" '+((data.activo === '1' && btnClave)? hrefReset:'')+' class="bg-info btnTable '+
-							((data.activo === '0' || !btnClave)?'disabled':'')+' resetclave"><i class="fa fa-key" aria-hidden="true"></i></a>'+
+						//'<a title="Resetear Clave" '+((data.activo === '1' && btnClave)? hrefReset:'')+' class="bg-info btnTable '+
+						//	((data.activo === '0' || !btnClave)?'disabled':'')+' resetclave"><i class="fa fa-key" aria-hidden="true"></i></a>'+
 						/* Boton de activacion */
-						'<a title="'+(data.activo === '0'?'Habilitar Usuario':'Deshabilitar Usuario')+'" '+((data.activo === '1' && btnActiva)? hrefActiva:'')+
-							' class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' '+(!btnActiva?'disabled':'')+' activar" >'+
-							'<i class="fa '+(data.activo === '1'? 'fa-unlock':'fa-lock')+'" aria-hidden="true"></i></a></div>';
+						//'<a title="'+(data.activo === '0'?'Habilitar Usuario':'Deshabilitar Usuario')+'" '+((data.activo === '1' && btnActiva)? hrefActiva:'')+
+						//	' class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' '+(!btnActiva?'disabled':'')+' activar" >'+
+						//	'<i class="fa '+(data.activo === '1'? 'fa-unlock':'fa-lock')+'" aria-hidden="true"></i></a></div>';
 						return btnAccion;
 					}
 				},
-				{ data: 'idusuario' },
-				{ data: 'tipo_documento' },
-				{ data: 'numero_documento' },
-				{ 
-					data: 'avatar',
-					createdCell: function(td,cellData,rowData,row,col){
-						$(td).addClass('p-1');
-					},
-					render: function(data){
-						return '<img src="'+base_url+'public/images/perfil/'+data+'" style="display:block;margin:auto;width:40px" class="img img-fluid" >';
-					}
-				},
-				{ data: 'apellidos' },
-				{ data: 'nombres' },
-				{ data: 'usuario' },
-				{ 
-					data: 'idperfil',
-					render: function(data){
-						let var_perfil = '';
-						switch(data){
-							case '1': var_perfil = 'ADMINISTRADOR'; break;
-							case '2': var_perfil = 'EST&Aacute;NDAR'; break;
-						}
-						return var_perfil;
-					}
-				},
-				{
+				{ data: 'idconvocatoria' },{ data: 'dependencia' },{ data: 'denominacion' },{ data: 'estadodesc' },{ data: 'fecha_inicio' },{ data: 'fecha_fin' },
+				{ data: 'archivo_base' },{ data: 'archivo_anexos' },{ data: 'fecha_registro' },
+				/*{
 					data: 'activo',
 					render: function(data){
 						let var_status = '';
@@ -70,7 +46,7 @@ $(document).ready(function (){
 						}
 						return var_status;
 					}
-				},
+				},*/
 			],
 			columnDefs:headers, order: [],
 		});

@@ -58,18 +58,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Contrase&ntilde;a</label>
-                                    <!--<a href="#" class="float-right">Forgot password?</a>-->
 									<input type="password" class="form-control mb-0" name="pass" id="pass" placeholder="Ingrese su contraseña" autocomplete="new-password" >
                                 </div>
                                 <div class="d-inline-block w-100">
-                                    <!--<div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                        <label class="custom-control-label" for="customCheck1">Remember Me</label>
-                                    </div>-->
                                     <button type="submit" class="btn btn-narsa float-right">Iniciar Sesi&oacute;n</button>
                                 </div>
                                 <div class="sign-info">
-                                    <!--<span class="dark-color d-inline-block line-height-2">Don't have an account? <a href="#">Sign up</a></span>-->
                                     Acceso directo a nuestras Redes Sociales
 									<ul class="iq-social-media">
                                         <li><a href="#"><i class="ri-facebook-box-line"></i></a></li>
