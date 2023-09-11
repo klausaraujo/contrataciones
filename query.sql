@@ -2186,6 +2186,7 @@ CREATE TABLE dependencia(
 	idestado smallint(4) NOT NULL,
 	fecha_inicio datetime,
 	fecha_fin datetime,
+	monto decimal(20,2),
 	archivo_base varchar(20),
 	archivo_anexos varchar(20),
 	idusuario_registro smallint(4),
