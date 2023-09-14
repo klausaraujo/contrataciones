@@ -78,7 +78,7 @@ class Main extends CI_Controller
 					$this->load->library('upload', $config);
 					$this->upload->initialize($config);
 					
-					if ($this->upload->do_upload('customfile')){
+					if ($this->upload->do_upload('customfile1')){
 						$guardado = true;
 					}else{
 						unlink($path.$nombre);
@@ -143,8 +143,7 @@ class Main extends CI_Controller
 					$this->session->set_flashdata('claseMsg', 'alert-primary');
 				}
 			}
+			header('location:'.base_url().'locadores');
 		}
-		
-		header('location:'.base_url().'locadores');
 	}
 }

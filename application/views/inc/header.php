@@ -30,7 +30,8 @@
 @media (max-width: 992px){
 	.iq-top-navbar .navbar-toggler{ right: 20px; }
 	.iq-top-navbar .iq-navbar-custom .iq-menu-bt { right: 80px; }
-}*/
+}
+.dashboard__title{ font-size: 1.07em; margin-right: 0.5rem; margin-left: 0.5rem }*/
 
 .sign-in-from { bottom: 30%; }
 
