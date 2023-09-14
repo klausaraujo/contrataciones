@@ -79,13 +79,13 @@
 		<script>
 			let botonesUser = JSON.parse('<?=$this->session->userdata('perUser')?>');
 			<?if($this->uri->segment(2) == ''){?>
-			let btnEditUser = false, btnSucur = false, btnPermisos = false, btnClave = false, btnActiva = false;
+			let btnEditUser = false, btnPermisos = false, btnClave = false, btnActiva = false;
 			
 			$.each(botonesUser,function(i,e){
 				if(e.idpermiso === '1') btnEditUser = true;
-				else if(e.idpermiso === '3') btnPermisos = true;
-				else if(e.idpermiso === '4') btnClave = true;
-				else if(e.idpermiso === '5') btnActiva = true;
+				else if(e.idpermiso === '2') btnPermisos = true;
+				else if(e.idpermiso === '3') btnClave = true;
+				else if(e.idpermiso === '4') btnActiva = true;
 			});
 			<?}?>
 		</script>
@@ -94,14 +94,14 @@
 		<script>
 			let botonesLoc = JSON.parse('<?=$this->session->userdata('perLocadores')?>');
 			<?if($this->uri->segment(2) == ''){?>
-			/*let btnEditUser = false, btnSucur = false, btnPermisos = false, btnClave = false, btnActiva = false;
+			let btnEdit = false, btnCan = false, btnEvaluar = false, btnPublicar = false;
 			
-			$.each(botonesUser,function(i,e){
-				if(e.idpermiso === '1') btnEditUser = true;
-				else if(e.idpermiso === '3') btnPermisos = true;
-				else if(e.idpermiso === '4') btnClave = true;
-				else if(e.idpermiso === '5') btnActiva = true;
-			});*/
+			$.each(botonesLoc,function(i,e){
+				if(e.idpermiso === '5') btnEdit = true;
+				else if(e.idpermiso === '6') btnCan = true;
+				else if(e.idpermiso === '7') btnEvaluar = true;
+				else if(e.idpermiso === '8') btnPublicar = true;
+			});
 			<?}?>
 		</script>
 		<?}

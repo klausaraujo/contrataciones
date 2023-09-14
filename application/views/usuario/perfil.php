@@ -4,7 +4,7 @@
 	?>
 	<div class="container-fluid my-3">
         <div class="row">
-            <div class="card tab-perfil bg-narsa">
+            <div class="card tab-perfil bg-sabogal">
 				<div class="card-body"><h4 class="text-white">Modificar Perfil</h4></div>
 			</div>
             <div class="col-lg-12">
@@ -20,8 +20,8 @@
                                        <?php }else{ ?>
 											<img class="profile-pic" src="<?=base_url()?>public/images/perfil/user.jpg" alt="profile-pic">
                                        <?php } ?>
-											<div class="p-image bg-narsa">
-												<i class="ri-pencil-line upload-button bg-narsa"></i>
+											<div class="p-image bg-sabogal">
+												<i class="ri-pencil-line upload-button"></i>
 												<form class="uploadFileAjax" enctype="multipart/form-data" method="post">
 													<input name="perfil" class="file-upload" type="file" accept="image/*" />
 												</form>
@@ -57,7 +57,7 @@
 										</div>
 										<div class="col-md-12 text-center pt-3 resp" style="font-size:1.3em">&nbsp;</div>
 										<div class="row"><hr class="col-sm-11 mx-auto"></div>
-										<button type="submit" class="btn btn-narsa mr-2">Realizar Cambio</button>
+										<button type="submit" class="btn btn-sabogal mr-2">Realizar Cambio</button>
 									</form>
 								</div>
 							</div>

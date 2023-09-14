@@ -113,8 +113,8 @@
 										<div class="modal-footer">
 											<div class="row">
 												<div class="col-md-12">
-													<button class="btn btn-narsa mr-3" data-dismiss="modal" id="cancelPer">Cancelar</button>
-													<button type="submit" class="btn btn-narsa" data-dismiss="modal" id="asignarPer">Asignar Permisos</button>
+													<button class="btn btn-cancel mr-3" data-dismiss="modal" id="cancelPer">Cancelar</button>
+													<button type="submit" class="btn btn-sabogal" data-dismiss="modal" id="asignarPer">Asignar Permisos</button>
 												</div>
 											</div>
 										</div>

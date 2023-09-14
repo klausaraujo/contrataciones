@@ -61,8 +61,8 @@
 								</div>
 								<div class="row"><hr class="col-sm-11"></div>
 								<div class="col-sm-12 mx-auto pb-2">
-									<button type="submit" class="btn btn-narsa ml-3 mr-4" id="btnEnviar">Editar registro</button>
-									<button type="reset" class="btn btn-narsa btn-cancelar">Cancelar</button>
+									<button type="submit" class="btn btn-sabogal ml-3 mr-4" id="btnEnviar">Editar registro</button>
+									<button type="reset" class="btn btn-cancel btn-cancelar">Cancelar</button>
 								</div>
 							</form>
 						</div>

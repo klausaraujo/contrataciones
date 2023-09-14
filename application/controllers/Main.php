@@ -179,6 +179,7 @@ class Main extends CI_Controller
         }
         echo json_encode(array('status'=>$status,'message'=>$message));
     }
+	/*
 	public function provincias(){
 		$this->load->model('Proveedores_model');
 		
@@ -220,5 +221,5 @@ class Main extends CI_Controller
 		curl_close($curl);
 		
 		echo json_encode(array('data' => json_decode($result),'status' => $code));
-	}
+	}*/
 }

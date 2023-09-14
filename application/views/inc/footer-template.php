@@ -8,7 +8,7 @@
 								</ul>
 							</div>
 							<div class="col-lg-8 text-right">
-							Copyright © 2022 - <a href="<?=base_url()?>" target="_blank" class="font-narsa"> Negociaciones Agroindustrial Ar&eacute;valo S.A. - NARSA</a> 
+							Copyright © 2022 - <a href="<?=base_url()?>" target="_blank" class="font-sabogal"> Red Prestacional SABOGAL</a> 
 							- Todos los Derechos Reservados
 							</div>
 						</div>
