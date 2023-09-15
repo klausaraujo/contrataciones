@@ -4,8 +4,13 @@
 						</div>
 						<div class="iq-card-body">
 							<form method="post" id="form_locadores" enctype="multipart/form-data" action="<?=base_url()?>locadores/registrar" class="form">
-								<input type="hidden" name="tiporegistro" value="editar" /><input type="hidden" name="idestado" value="<?=$convocatoria->idestado?>"/>
+								<input type="hidden" name="tiporegistro" value="editar" />
+								<input type="hidden" name="idestado" value="<?=$convocatoria->idestado?>"/>
 								<input type="hidden" name="idconvocatoria" value="<?=$convocatoria->idconvocatoria?>"/>
+								<input type="hidden" name="file1ant" value="<?=$convocatoria->archivo_base?>"/>
+								<input type="hidden" name="file2ant" value="<?=$convocatoria->archivo_anexos?>"/>
+								<input type="hidden" id="file1" name="file1" value="<?=$convocatoria->archivo_base?>" />
+								<input type="hidden"  id="file2" name="file2" value="<?=$convocatoria->archivo_anexos?>" />
 								<div class="form-row">
 									<div class="col-12 my-1">
 										<div class="row justify-content-center">
@@ -69,12 +74,11 @@
 												<div class="row">
 													<div class="custom-file">
 														<label class="custom-file-label tdr" for="customfile"><?=$convocatoria->archivo_base?></label>
-														<input type="file" class="custom-file-input" id="customfile" name="customfile">
-														<input type="hidden" id="file1" name="file1" value="<?=$convocatoria->archivo_base?>" />
-														<div class="invalid-feedback">Debe subir un archivo</div>
+														<input type="file" class="custom-file-input atach" id="customfile" name="customfile">
 													</div>
 												</div>
 											</div>
+											<div class="col-md-4 col-lg-2 align-self-center mb-0 pr-0 sptdr"></div>
 										</div>
 										<div class="row my-2">
 											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0 pr-0">Archivos Anexos:</label>
@@ -82,12 +86,11 @@
 												<div class="row">
 													<div class="custom-file">
 														<label class="custom-file-label anexo" for="customfile1"><?=$convocatoria->archivo_anexos?></label>
-														<input type="file" class="custom-file-input" id="customfile1" name="customfile1">
-														<input type="hidden"  id="file2" name="file2" value="<?=$convocatoria->archivo_anexos?>" />
-														<div class="invalid-feedback">Debe subir un archivo</div>
+														<input type="file" class="custom-file-input atach" id="customfile1" name="customfile1">
 													</div>
 												</div>
 											</div>
+											<div class="col-md-4 col-lg-2 align-self-center mb-0 pr-0 spanexo"></div>
 										</div>
 									</div>
 								</div>

@@ -70,7 +70,7 @@ class Main extends CI_Controller
 		$headers = array(
 			'0'=>['title' => 'Acciones', 'targets' => 0],'1'=>['title' => 'ID', 'targets' => 1],'2'=>['title' => 'Dependencia', 'targets' => 2],
 			'3'=>['title' => 'Denominaci&oacute;n', 'targets' => 3],'4'=>['title' => 'Estado', 'targets' => 4],'5'=>['title' => 'F.Inicio', 'targets' => 5],
-			'6'=>['title' => 'F.Fin', 'targets' => 6],'7'=>['title' => 'Archivo Base', 'targets' => 7],'8'=>['title' => 'Archivos Anexos', 'targets' => 8],
+			'6'=>['title' => 'F.Fin', 'targets' => 6],'7'=>['title' => 'Base', 'targets' => 7],'8'=>['title' => 'Anexos', 'targets' => 8],
 			'9'=>['title' => 'F.Registro', 'targets' => 9],'10'=>['targets' => 'no-sort', 'orderable' => false],'11'=>['targets' => 1, 'visible' => false],
 			
 		);

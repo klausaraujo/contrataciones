@@ -83,6 +83,7 @@ $route['nuevaconvocatoria'] = 'locadores/main/nueva';
 $route['locadores/nueva'] = 'locadores/main/nueva';
 $route['locadores/editar'] = 'locadores/main/nueva';
 $route['locadores/registrar'] = 'locadores/main/registrar';
+$route['locadores/descargar'] = 'locadores/main/descargar';
 
 /**/
 $route['404_override'] = '';
