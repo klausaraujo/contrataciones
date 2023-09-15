@@ -18,7 +18,8 @@ class Locadores_model extends CI_Model
     }
 	public function listaConvocatoria($where)
     {
-        $this->db->select('*,DATE_FORMAT(fecha_inicio,"%Y-%m-%d") as fecha_inicio,DATE_FORMAT(fecha_fin,"%Y-%m-%d") as fecha_fin');
+        $this->db->select('*,DATE_FORMAT(fecha_inicio,"%Y-%m-%d") as fecha_inicio,DATE_FORMAT(fecha_fin,"%Y-%m-%d") as fecha_fin,
+			DATE_FORMAT(fecha_inicio,"%H:%i:%s") as hinicio,DATE_FORMAT(fecha_fin,"%H:%i:%s") as hfin,');
         $this->db->from('convocatoria_locadores');
 		$this->db->where($where);
         $result = $this->db->get();

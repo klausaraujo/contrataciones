@@ -43,18 +43,18 @@
 											</div>
 										</div>
 										<div class="row mt-2">
-											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0" for="finicio">Fecha Inicio:</label>
+											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0" for="finicio">Fecha/Hora Inicio:</label>
 											<div class="col-md-2 col-lg-3">
-												<div class="row">
-													<input type="date" class="form-control" value="<?=$convocatoria->fecha_inicio?>" name="finicio" id="finicio" required="" />
-													<div class="invalid-feedback">Campo requerido</div>
+												<div class="row form-inline">
+													<input type="date" class="form-control col-md-7" value="<?=$convocatoria->fecha_inicio?>" name="finicio" id="finicio" />
+													<input type="time" name="ihora" id="ihora" class="form-control col-md-5" value="<?=$convocatoria->hinicio?>" />
 												</div>
 											</div>
-											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0 offset-md-1 offset-lg-0 text-md-right" for="ffin">Fecha Fin:</label>
+											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0 text-md-right" for="ffin">Fecha/Hora Fin:</label>
 											<div class="col-md-2 col-lg-3">
-												<div class="row">
-													<input type="date" class="form-control" value="<?=$convocatoria->fecha_fin?>" name="ffin" id="ffin" required="" />
-													<div class="invalid-feedback">Campo requerido</div>
+												<div class="row form-inline">
+													<input type="date" class="form-control col-md-7" value="<?=$convocatoria->fecha_fin?>" name="ffin" id="ffin" />
+													<input type="time" name="fhora" id="fhora" class="form-control col-md-5" value="<?=$convocatoria->hfin?>" />
 												</div>
 											</div>
 										</div>

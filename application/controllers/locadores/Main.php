@@ -45,6 +45,8 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Locadores_model');
 		$this->session->set_flashdata('claseMsg', 'alert-danger'); $nombre = ''; $nombre1 = ''; $guardado = false; $data = [];
+		$itiempo = date_format(date_create($this->input->post('finicio').' '.$this->input->post('ihora')),'Y-m-d H:i:s');
+		$ftiempo = date_format(date_create($this->input->post('ffin').' '.$this->input->post('fhora')),'Y-m-d H:i:s');
 		
 		if($this->input->post('file1ant') === $this->input->post('file1') && $this->input->post('tiporegistro') === 'editar'){
 			$nombre = $this->input->post('file1ant');
@@ -80,8 +82,8 @@ class Main extends CI_Controller
 				'iddependencia' => $this->input->post('dependencia'),
 				'denominacion' => $this->input->post('denominacion'),
 				'idestado' => 1,
-				'fecha_inicio' => $this->input->post('finicio'),
-				'fecha_fin' => $this->input->post('ffin'),
+				'fecha_inicio' => $itiempo,
+				'fecha_fin' => $ftiempo,
 				'monto' => $this->input->post('monto'),
 				'archivo_base' => $nombre,
 				'archivo_anexos' => $nombre1,
@@ -101,8 +103,8 @@ class Main extends CI_Controller
 				'iddependencia' => $this->input->post('dependencia'),
 				'denominacion' => $this->input->post('denominacion'),
 				'idestado' => $this->input->post('idestado'),
-				'fecha_inicio' => $this->input->post('finicio'),
-				'fecha_fin' => $this->input->post('ffin'),
+				'fecha_inicio' => $itiempo,
+				'fecha_fin' => $ftiempo,
 				'monto' => $this->input->post('monto'),
 				'archivo_base' => $nombre,
 				'archivo_anexos' => $nombre1,
@@ -159,7 +161,7 @@ class Main extends CI_Controller
 				readfile($filePath);
 				exit;
 			}else{
-				echo 'The file does not exist.';
+				echo 'El archivo no existe';
 			}
 		}
 	}
