@@ -72,7 +72,7 @@ table.dataTable tr, table.dataTable th, table.dataTable td{ font-size: 0.8rem }
 .content-page{ padding: 96px 15px 0; } .no-sort::after{ display: none!important; } .no-sort{ pointer-events: none!important; cursor: default!important; }
 .form_error{ color: #dc3545; display: block; margin-top: 0.25rem; font-size: 80%; width: 100%; }
 .tab-perfil{ border-radius: 20px; }
-.btnTable{ -webkit-transition-duration: 0.4s;transition-duration: 0.4s;margin-right:5px;padding:0px 5px;border-radius:5px;box-shadow:3px 3px 2px 0 rgb(1 0 2 / 50%); color: #fff; }
+.btnTable{ -webkit-transition-duration: 0.4s;transition-duration: 0.4s;margin-right:5px;padding:3px;border-radius:5px;box-shadow:3px 3px 2px 0 rgb(1 0 2 / 50%); color: #fff; }
 .btnTable:hover{ color: #000 }
 .ripple{ width: 0; height: 0; border-radius: 50%; background: rgba(62,26,6,0.1); transform: scale(0); position: absolute; opacity: 1; }
 .disable{ white-space: nowrap; display: block; color: #AAAAAA/*9C9C9C*/; position: relative; padding: 15px 0 15px 15px; line-height: 17px; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-align: center; -ms-flex-align: center; align-items: center; overflow: hidden; border-radius: 15px; text-transform: capitalize; }

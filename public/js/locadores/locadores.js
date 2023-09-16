@@ -18,8 +18,8 @@ $(document).ready(function (){
 						let hrefActiva = 'href="'+base_url+'usuarios/habilitar?id='+data.idusuario+'"';*/
 						let btnAccion = 
 						/* Boton de edicion */
-							'<div class="btn-group"><a title="Editar Convocatoria" '+((data.activo === '1' && btnEdit)? hrefEdit:'')+' class="bg-warning btnTable '+
-							((data.activo === '0' || !btnEdit)?'disabled':'')+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
+							'<div class="btn-group"><a title="Editar Convocatoria" '+((data.activo === '1' && btnEdit)? hrefEdit:'')+' class="bg-info btnTable '+
+							((data.activo === '0' || !btnEdit)?'disabled':'')+'"><img src="'+base_url+'public/images/edit_ico.png" width="22"></a>'+
 						/* Boton de permisos */
 						//'<a title="Permisos" '+((data.activo === '1' && btnPermisos)? hrefPer:'')+' class="bg-secondary btnTable '+
 						//	((data.activo === '0' || !btnPermisos)?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal">'+
