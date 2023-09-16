@@ -143,26 +143,34 @@ class Main extends CI_Controller
 	}
 	public function descargar()
 	{
-		$this->load->model('Locadores_model');
 		$path =  $_SERVER['DOCUMENT_ROOT'].'/contrataciones/public/adjuntos/anexos_locadores/';
-		
-		if(!empty($this->input->get('file'))){
-			$fileName = basename($this->input->get('file'));
-			$filePath = $path.$fileName;
-			if(!empty($fileName) && file_exists($filePath)){
-				// Define headers
-				header("Cache-Control: public");
-				header("Content-Description: File Transfer");
-				header("Content-Disposition: attachment; filename=$fileName");
-				header("Content-Type: application/zip");
-				header("Content-Transfer-Encoding: binary");
-				
-				// Read the file
-				readfile($filePath);
-				exit;
-			}else{
-				echo 'El archivo no existe';
+		$filen = basename($this->input->get('file')); $type = '';
+		if(is_file($path.$filen)){
+			$size = filesize($path.$filen);
+		 
+			if(function_exists('mime_content_type')) {
+				$type = mime_content_type($path.$filen);
+			}else if (function_exists('finfo_file')) {
+				$info = finfo_open(FILEINFO_MIME);
+				$type = finfo_file($info, $path.$filen);
+				finfo_close($info);
 			}
+		 
+			if ($type == '') {
+				$type = "application/force-download";
+			}
+			header('Content-Description: File Transfer');
+			header("Content-Type: $type");
+			header("Content-Disposition: attachment; filename=$filen");
+			header('Content-Transfer-Encoding: binary');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+			header("Content-Length: $size");
+			ob_clean();
+			flush();
+			readfile($path.$filen);
+			exit();
 		}
 	}
 }

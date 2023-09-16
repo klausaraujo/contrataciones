@@ -35,17 +35,26 @@ $(document).ready(function (){
 						return btnAccion;
 					}
 				},
-				{ data: 'idconvocatoria' },{ data: 'dependencia' },{ data: 'denominacion' },{ data: 'estadodesc' },{ data: 'fecha_inicio' },{ data: 'fecha_fin' },
+				{ data: 'idconvocatoria' },{ data: 'dependencia' },{ data: 'denominacion' },{ data: 'estadodesc' },
+				{
+					data: 'fecha_inicio',
+					render: function(data,type,row,meta){
+						return data+'('+row.hinicio.substring(0,5)+')';
+					}
+				},
+				{
+					data: 'fecha_fin',
+					render: function(data,type,row,meta){
+						return data+'('+row.hfin.substring(0,5)+')';
+					}
+				},
 				{
 					data: 'archivo_base',
 					render: function(data){
-						let href = 'href="'+base_url+'locadores/descargar?file='+data+'"';
-						let ext = $(data.split('.')).get(-1);
-						let img = '<div class="row col-12"><a title="Descargar" '+href+' class="bg-danger btnTable mx-auto"><i class="fa fa-file-pdf-o"'+
-							'aria-hidden="true" style="font-size:0.9rem"></i></a></div>'
+						let href = 'href="'+base_url+'locadores/descargar?file='+data+'"', ext = $(data.split('.')).get(-1);
+						let img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/pdf_ico.png" width="27"></a>'
 						if(ext === 'doc' || ext === 'docx'){
-							img = '<div class="row col-12"><a title="Descargar" '+href+' class="bg-primary btnTable mx-auto"><i class="fa fa-file-word"'+
-								'aria-hidden="true" style="font-size:0.9rem;padding:0;margin:0"></i></a></div>';
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/word_ico.png" width="27"></a>';
 						}
 						return img;
 					}
@@ -53,13 +62,10 @@ $(document).ready(function (){
 				{
 					data: 'archivo_anexos',
 					render: function(data){
-						let href = 'href="'+base_url+'locadores/descargar?file='+data+'"';
-						let ext = $(data.split('.')).get(-1);
-						let img = '<div class="row col-12"><a title="Descargar" '+href+' class="bg-danger btnTable mx-auto"><i class="fa fa-file-pdf-o"'+
-							'aria-hidden="true" style="font-size:0.9rem"></i></a></div>'
+						let href = 'href="'+base_url+'locadores/descargar?file='+data+'"', ext = $(data.split('.')).get(-1);
+						let img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/pdf_ico.png" width="27"></a>'
 						if(ext === 'doc' || ext === 'docx'){
-							img = '<div class="row col-12"><a title="Descargar" '+href+' class="bg-primary btnTable mx-auto"><i class="fa fa-file-word"'+
-								'aria-hidden="true" style="font-size:0.9rem;padding:0;margin:0"></i></a></div>';
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/word_ico.png" width="27"></a>';
 						}
 						return img;
 					}

@@ -102,6 +102,7 @@
 				else if(e.idpermiso === '7') btnEvaluar = true;
 				else if(e.idpermiso === '8') btnPublicar = true;
 			});
+			console.log(base_url+'public/');
 			<?}?>
 		</script>
 		<?}

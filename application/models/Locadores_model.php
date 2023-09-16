@@ -8,7 +8,8 @@ class Locadores_model extends CI_Model
 	public function listaLocadores()
     {
         $this->db->select('lc.*,DATE_FORMAT(fecha_inicio,"%d/%m/%Y") as fecha_inicio,DATE_FORMAT(fecha_fin,"%d/%m/%Y") as fecha_fin,
-			DATE_FORMAT(fecha_registro,"%d/%m/%Y") as fecha_registro,d.descripcion as dependencia,e.descripcion estadodesc');
+			DATE_FORMAT(fecha_registro,"%d/%m/%Y") as fecha_registro,d.descripcion as dependencia,e.descripcion estadodesc,
+			DATE_FORMAT(fecha_inicio,"%H:%i:%s") as hinicio,DATE_FORMAT(fecha_fin,"%H:%i:%s") as hfin');
         $this->db->from('convocatoria_locadores lc');
 		$this->db->join('dependencia d','d.iddependencia = lc.iddependencia');
 		$this->db->join('estado e','e.idestado = lc.idestado');
@@ -19,7 +20,7 @@ class Locadores_model extends CI_Model
 	public function listaConvocatoria($where)
     {
         $this->db->select('*,DATE_FORMAT(fecha_inicio,"%Y-%m-%d") as fecha_inicio,DATE_FORMAT(fecha_fin,"%Y-%m-%d") as fecha_fin,
-			DATE_FORMAT(fecha_inicio,"%H:%i:%s") as hinicio,DATE_FORMAT(fecha_fin,"%H:%i:%s") as hfin,');
+			DATE_FORMAT(fecha_inicio,"%H:%i:%s") as hinicio,DATE_FORMAT(fecha_fin,"%H:%i:%s") as hfin');
         $this->db->from('convocatoria_locadores');
 		$this->db->where($where);
         $result = $this->db->get();
