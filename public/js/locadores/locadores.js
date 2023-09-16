@@ -13,24 +13,19 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let hrefEdit = 'href="'+base_url+'locadores/editar?id='+data.idconvocatoria+'"';
-						/*let hrefPer = 'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"';
-						let hrefReset = 'href="'+base_url+'usuarios/reset?id='+data.idusuario+'&doc='+data.numero_documento+'&stat='+data.activo+'"';
-						let hrefActiva = 'href="'+base_url+'usuarios/habilitar?id='+data.idusuario+'"';*/
-						let btnAccion = 
-						/* Boton de edicion */
-							'<div class="btn-group"><a title="Editar Convocatoria" '+((data.activo === '1' && btnEdit)? hrefEdit:'')+' class="bg-info btnTable '+
-							((data.activo === '0' || !btnEdit)?'disabled':'')+'"><img src="'+base_url+'public/images/edit_ico.png" width="22"></a>'+
-						/* Boton de permisos */
-						//'<a title="Permisos" '+((data.activo === '1' && btnPermisos)? hrefPer:'')+' class="bg-secondary btnTable '+
-						//	((data.activo === '0' || !btnPermisos)?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal">'+
-						//	'<i class="fa fa-cogs" aria-hidden="true"></i></a>'+
-						/* Boton de Reset Clave */
-						//'<a title="Resetear Clave" '+((data.activo === '1' && btnClave)? hrefReset:'')+' class="bg-info btnTable '+
-						//	((data.activo === '0' || !btnClave)?'disabled':'')+' resetclave"><i class="fa fa-key" aria-hidden="true"></i></a>'+
-						/* Boton de activacion */
-						//'<a title="'+(data.activo === '0'?'Habilitar Usuario':'Deshabilitar Usuario')+'" '+((data.activo === '1' && btnActiva)? hrefActiva:'')+
-						//	' class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' '+(!btnActiva?'disabled':'')+' activar" >'+
-						//	'<i class="fa '+(data.activo === '1'? 'fa-unlock':'fa-lock')+'" aria-hidden="true"></i></a></div>';
+						let hrefCan = 'href="'+base_url+'locadores/cancelar?id='+data.idconvocatoria+'"';
+						let hrefEval = 'href="'+base_url+'locadores/evaluar?id='+data.idconvocatoria+'"';
+						let hrefPub = 'href="'+base_url+'locadores/publicar?id='+data.idconvocatoria+'"';
+						let btnAccion =
+							'<div class="btn-group">'+
+								'<a title="Editar Convocatoria" '+((data.activo === '1' && btnEdit)? hrefEdit:'')+' class="bg-info btnTable">'+
+									'<img src="'+base_url+'public/images/edit_ico.png" width="22"></a>'+
+								'<a title="Cancelar Convocatoria" '+((data.activo === '1' && btnCan)? hrefCan:'')+' class="bg-danger btnTable">'+
+									'<img src="'+base_url+'public/images/cancel_ico.png" width="22"></a>'+
+								'<a title="Evaluar Postulantes" '+((data.activo === '1' && btnEval)? hrefEval:'')+' class="bg-warning btnTable px-1">'+
+									'<img src="'+base_url+'public/images/evaluar_ico.png" width="15"></a>'+
+								'<a title="Publicar Resultados" '+((data.activo === '1' && btnPub)? hrefPub:'')+' class="bg-light btnTable border '+
+									'border-secondary"><img src="'+base_url+'public/images/result_ico.png" width="18"></a>'+
 							'</div>';
 						return btnAccion;
 					}
@@ -70,17 +65,6 @@ $(document).ready(function (){
 						return img;
 					}
 				},{ data: 'fecha_registro' },
-				/*{
-					data: 'activo',
-					render: function(data){
-						let var_status = '';
-						switch(data){
-							case '1': var_status = '<span class="text-success">Activo</span>'; break;
-							case '0': var_status = '<span class="text-danger">Inactivo</span>'; break;
-						}
-						return var_status;
-					}
-				},*/
 			],
 			columnDefs:headers, order: [],
 		});

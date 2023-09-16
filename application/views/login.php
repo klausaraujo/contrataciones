@@ -61,7 +61,7 @@
 									<input type="password" class="form-control mb-0" name="pass" id="pass" placeholder="Ingrese su contraseña" autocomplete="new-password" >
                                 </div>
                                 <div class="d-inline-block w-100">
-                                    <button type="submit" class="btn btn-narsa float-right">Iniciar Sesi&oacute;n</button>
+                                    <button type="submit" class="btn btn-sabogal float-right">Iniciar Sesi&oacute;n</button>
                                 </div>
                                 <div class="sign-info">
                                     Acceso directo a nuestras Redes Sociales
