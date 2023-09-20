@@ -37,6 +37,13 @@
 	</head>
 	<body class="wrapper">
 		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<?
+				session_start();
+				if($_SESSION['claseMsg']){?><div class="alert <?=$_SESSION['claseMsg']?> py-0 px-5 msg fade show" role="alert">
+					<div class="iq-alert-text"><?=$_SESSION['mensaje']?></div>
+					</div><?session_destroy();}?>
+			</div>
 			<div class="row my-4">
 				<label class="ml-3">Seleccionar Dependencia:</label>
 				<select class="form-control form-control-sm col-md-3 ml-3" id="dependencia" name="dependencia">
@@ -62,6 +69,7 @@
 		<script src="js/jquery.validate.min.js"></script>
 		<script src="js/javascript.js"></script>
 		<script>
+			const base = '<?=$_SERVER['HOSTNAME'].'/contrataciones/'?>';
 			const language = {
 				"processing": "Procesando...",
 				"lengthMenu": "Mostrar _MENU_ registros",

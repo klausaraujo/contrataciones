@@ -13,7 +13,7 @@ class Locadores_model extends CI_Model
         $this->db->from('convocatoria_locadores lc');
 		$this->db->join('dependencia d','d.iddependencia = lc.iddependencia');
 		$this->db->join('estado e','e.idestado = lc.idestado');
-		$this->db->order_by('idconvocatoria', 'asc');
+		$this->db->order_by('lc.fecha_registro', 'desc');
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
