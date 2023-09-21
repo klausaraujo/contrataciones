@@ -4,6 +4,7 @@ function mapa(macc) {
 	var lat = macc.lat;
 	var lng = macc.lng;
 	var zoom = macc.zoom;
+	let i = 0;
 	
 	const map = new google.maps.Map(document.getElementById('map'), {
 		//center: { lat: lati, lng: longi },
@@ -18,7 +19,7 @@ function mapa(macc) {
 		draggable: true,
 		position: new google.maps.LatLng(lat, lng)
 	});
-/*	
+	
 	const card = document.getElementById("pac-card");
 	const input = document.getElementById("pac-input");
 	const options = {
@@ -27,7 +28,7 @@ function mapa(macc) {
 		strictBounds: false,
 		types: ["establishment"],
 	};
-	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+	//map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
 	const autocomplete = new google.maps.places.Autocomplete(input, options);
 	// Bind the map's bounds (viewport) property to the autocomplete object,
 	// so that the autocomplete requests use the current map bounds for the
@@ -36,7 +37,7 @@ function mapa(macc) {
 	const infowindow = new google.maps.InfoWindow();
 	const infowindowContent = document.getElementById("infowindow-content");
 	infowindow.setContent(infowindowContent);
-	
+
 	autocomplete.addListener("place_changed", () => {
 		infowindow.close();
 		marker.setVisible(false);
@@ -60,11 +61,12 @@ function mapa(macc) {
 		infowindowContent.children["place-address"].textContent = place.formatted_address;
 		infowindow.open(map, marker);
 		
+		$('#lat').val(place.geometry.location.lat());
+		$('#lng').val(place.geometry.location.lng());
 		//lat = place.geometry.location.lat();
 		//lng = place.geometry.location.lng();
 		//console.log(lat+",  "+lng);
 	});
-*/
 		  
 	google.maps.event.addListener(marker, "dragend", function (event) {		
 		//document.getElementById("latitud").value = lat;
@@ -72,10 +74,10 @@ function mapa(macc) {
 		geocoder.geocode({'latLng': marker.getPosition()},function (results, status) {
 			if (status == google.maps.GeocoderStatus.OK) {
 				//console.log  (results[0].address_components);
-				//var address = results[0]['formatted_address'];
-				//infowindowContent.children["place-name"].textContent = results[0].geometry.location;
-				//infowindowContent.children["place-address"].textContent = results[0]['formatted_address'];
-				//infowindow.open(map, marker);
+				var address = results[0]['formatted_address'];
+				infowindowContent.children["place-name"].textContent = results[0].geometry.location;
+				infowindowContent.children["place-address"].textContent = results[0]['formatted_address'];
+				infowindow.open(map, marker);
 			}
 		});
 		lat = marker.getPosition().lat();
@@ -90,7 +92,7 @@ function mapa(macc) {
 		//var c = map.getCenter();
 		//console.log(c);
 		//map.setZoom(16);
-		marker.setPosition(map.getCenter());
+		if(i === 0) marker.setPosition(map.getCenter()), i++;
 		lat = marker.getPosition().lat();
 		lng = marker.getPosition().lng();
 		$('#lat').val(lat);

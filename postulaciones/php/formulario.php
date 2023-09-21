@@ -21,6 +21,7 @@
 			//.wrapper{ background-color: #fff; }
 			.btn-postular{ background-color: #428bca; border-color: #066ed7; color: #fff; border-color: #428bca; }
 		</style>
+		<script src="https://maps.googleapis.com/maps/api/js?key=<?='AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0'?>&libraries=places&v=weekly" async ></script>
 	</head>
 	<body class="wrapper">
 	<div class="container-fluid">	
@@ -135,17 +136,18 @@
 									</div>
 								</div>
 							</div>
-							<div class="row ajaxMap mt-3 d-none">
+							<div class="row ajaxMap mt-1 d-none">
 								<div class="col-12 px-0">
-									<!--<div class="pac-card" id="pac-card">
+									<div class="pac-card pull-right px-2 py-2" id="pac-card" style="border:1px dotted #cdcdcd;background-color:#d6d6d6">
 									  <div id="pac-container" class="place-map">
-										<input id="pac-input" type="text" placeholder="Enter a location" />
+										<input id="pac-input" type="text" class="form-control form-control-sm" 
+											style="width:250px;border:2px solid #CDCDCD;background-color:#fff" placeholder="Buscar direcciones" />
 									  </div>
 									</div>
 									<div id="infowindow-content">
 									  <div id="place-name" class="title"></div>
 									  <div id="place-address"></div>
-									</div>-->
+									</div>
 									<input type="hidden" name="lat" id="lat" /><input type="hidden" name="lng" id="lng" />
 									<div id="map" style="min-height:350px;width:100%;margin:auto"></div>
 								</div>
@@ -268,7 +270,8 @@
 		<script>
 			function initMap(){}
 		</script>
-		<script src="<?='https://maps.googleapis.com/maps/api/js?key=AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0&callback=initMap'?>" async ></script>
+		<!--<script src="<?='https://maps.googleapis.com/maps/api/js?key=AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0&callback=initMap'?>" async ></script>-->
+		<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0&libraries=places">-->
 		<script>
 			const base = '<?=$_SERVER['HOSTNAME'].'/contrataciones/'?>';
 			let map = null;
