@@ -1,4 +1,7 @@
 let tabla = null;
+let ojo = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">'+
+			'<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>'+
+		  '</svg>';
 
 $('.num').bind('input',function(e){
 	jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));
@@ -25,7 +28,7 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let href = 'href="'+base+'postulaciones/php/formulario?v='+data.idconvocatoria+'"';
-						let btnAccion = '<div class="row"><a class="btn btn-postular mx-auto" '+href+'>Postular</a></div>';
+						let btnAccion = '<div class="row"><a class="btn btnTable btn-postular mx-auto" '+href+'>Postular</a></div>';
 						return btnAccion;
 					}
 				},
@@ -54,7 +57,13 @@ $(document).ready(function (){
 						}
 						return '<div class="row">'+img+'</div>';
 					}
-				},{ data: null, render: function(){ return '<div clas="row"><a class="btn btn-postular mx-auto disabled">Ver</a></div>'; } },
+				},
+				{
+					data: null,
+					render: function(){
+						return '<div class="row"><a title="Ver Resultados" class="btn btnTable btn-success mx-auto disabled px-1">'+ojo+'</a></div>';
+					}
+				},
 			],
 			columnDefs:[
 				{ title:'ACCIONES', targets:0, orderable: false },{ title:'DEPENDENCIA', targets: 1 },{ title:'DENOMINACION', targets: 2 },

@@ -181,7 +181,6 @@
 								<div class="col-md-6 col-lg-4">
 									<div class="row">
 										<div class="custom-file">
-											<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
 											<label class="custom-file-label anexo01" for="anexo01">Cargar Anexo 01</label>
 											<input type="file" class="custom-file-input atach" id="anexo01" name="anexo01">
 										</div>
@@ -194,7 +193,6 @@
 								<div class="col-md-6 col-lg-4">
 									<div class="row">
 										<div class="custom-file">
-											<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
 											<label class="custom-file-label anexo02" for="anexo02">Cargar Anexo 02</label>
 											<input type="file" class="custom-file-input atach" id="anexo02" name="anexo02">
 										</div>
@@ -207,7 +205,6 @@
 								<div class="col-md-6 col-lg-4">
 									<div class="row">
 										<div class="custom-file">
-											<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
 											<label class="custom-file-label anexo03" for="anexo03">Cargar Anexo 03</label>
 											<input type="file" class="custom-file-input atach" id="anexo03" name="anexo03">
 										</div>
@@ -220,7 +217,6 @@
 								<div class="col-md-6 col-lg-4">
 									<div class="row">
 										<div class="custom-file">
-											<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
 											<label class="custom-file-label anexo04" for="anexo04">Cargar Anexo 04</label>
 											<input type="file" class="custom-file-input atach" id="anexo04" name="anexo04">
 										</div>
@@ -233,7 +229,6 @@
 								<div class="col-md-6 col-lg-4">
 									<div class="row">
 										<div class="custom-file">
-											<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
 											<label class="custom-file-label anexo05" for="anexo05">Cargar Anexo 05</label>
 											<input type="file" class="custom-file-input atach" id="anexo05" name="anexo05">
 										</div>
@@ -246,7 +241,6 @@
 								<div class="col-md-6 col-lg-4">
 									<div class="row">
 										<div class="custom-file">
-											<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
 											<label class="custom-file-label anexo06" for="anexo06">Cargar Anexo 06</label>
 											<input type="file" class="custom-file-input atach" id="anexo06" name="anexo06">
 										</div>

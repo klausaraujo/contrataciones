@@ -33,6 +33,8 @@
 			.page-item.active .page-link { background-color: #428bca; }
 			.paginate_button.page-item.previous, .paginate_button.page-item.next{ display: none }
 			.btn-postular{ background-color: #428bca; border-color: #066ed7; color: #fff; border-color: #428bca; }
+			.btnTable{ -webkit-transition-duration: 0.4s;transition-duration: 0.4s;margin-right:5px;padding:1.5px;border-radius:5px;box-shadow:3px 3px 2px 0 rgb(1 0 2 / 50%); color: #fff; }
+			.btnTable:hover{ color: #000 }
 		</style>
 	</head>
 	<body class="wrapper">

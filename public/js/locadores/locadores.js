@@ -31,18 +31,8 @@ $(document).ready(function (){
 					}
 				},
 				{ data: 'idconvocatoria' },{ data: 'dependencia' },{ data: 'denominacion' },{ data: 'estadodesc' },
-				{
-					data: 'fecha_inicio',
-					render: function(data,type,row,meta){
-						return data+'('+row.hinicio.substring(0,5)+')';
-					}
-				},
-				{
-					data: 'fecha_fin',
-					render: function(data,type,row,meta){
-						return data+'('+row.hfin.substring(0,5)+')';
-					}
-				},
+				{ data: 'fecha_inicio', render: function(data,type,row,meta){ return data+'<br><span style="color:#0000FF;font-weight:bold">'+row.hinicio+'</span>'; } },
+				{ data: 'fecha_fin', render: function(data,type,row,meta){ return data+'<br><span style="color:#0000FF;font-weight:bold">'+row.hfin+'</span>'; } },
 				{
 					data: 'archivo_base',
 					render: function(data){
