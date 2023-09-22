@@ -117,7 +117,6 @@ function formatoFecha(fecha, formato) {
 		d: fecha.getDate(),
         h: fecha.getHours()+':'+fecha.getMinutes(),
     }
-
     return formato.replace(/Y|m|d|h/gi, matched => map[matched])
 }
 
@@ -127,12 +126,10 @@ $('.blur').on('blur',function(){
 		alert('Formato de fecha errado');
 		let fecha = formatoFecha(new Date(),'Y-m-d h'); $('#finicio').val(fecha), $('#ffin').val(fecha);
 	}else{
-		//console.log((new Date($('#ffin').val()).getTime())-(new Date($('#finicio').val()).getTime()));
 		let f2 = new Date($('#ffin').val()), f1 = new Date($('#finicio').val());
 		if((f2.getTime()-f1.getTime()) < 0){
 			alert('La fecha/hora inicial no puede ser mayor que la fecha/hora final');
 			let fecha = formatoFecha(new Date(),'Y-m-d h'); $('#finicio').val(fecha), $('#ffin').val(fecha);
-			//$('#finicio').val($('#ffin').val());
 		}
 	}
 });
