@@ -12,27 +12,27 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
-						let hrefEdit = 'href="'+base_url+'locadores/editar?id='+data.idconvocatoria+'"';
-						let hrefCan = 'href="'+base_url+'locadores/cancelar?id='+data.idconvocatoria+'"';
-						let hrefEval = 'href="'+base_url+'locadores/evaluar?id='+data.idconvocatoria+'"';
-						let hrefPub = 'href="'+base_url+'locadores/publicar?id='+data.idconvocatoria+'"';
+						let hrefEdit = (data.activo === '1' && btnEdit && data.idestado==='1')?'href="'+base_url+'locadores/editar?id='+data.idconvocatoria+'"':'';
+						let hrefCan = (data.activo === '1' && btnCan && data.idestado==='1')?'href="'+base_url+'locadores/cancelar?id='+data.idconvocatoria+'"':'';
+						let hrefEval = (data.activo === '1' && btnEval && parseInt(data.idestado) < 3)?'href="'+base_url+'locadores/evaluar?id='+data.idconvocatoria+'"':'';
+						let hrefPub = (data.activo === '1' && btnPub && parseInt(data.idestado) < 3)?'href="'+base_url+'locadores/publicar?id='+data.idconvocatoria+'"':'';
 						let btnAccion =
 							'<div class="btn-group">'+
-								'<a title="Editar Convocatoria" '+((data.activo === '1' && btnEdit)? hrefEdit:'')+' class="bg-info btnTable">'+
+								'<a '+(hrefEdit?'title="Editar Convocatoria" '+hrefEdit:'')+' class="bg-info btnTable">'+
 									'<img src="'+base_url+'public/images/edit_ico.png" width="22"></a>'+
-								'<a title="Cancelar Convocatoria" '+((data.activo === '1' && btnCan)? hrefCan:'')+' class="bg-danger btnTable">'+
+								'<a '+(hrefCan?'title="Cancelar Convocatoria" '+hrefCan:'')+' class="bg-danger btnTable cancelar">'+
 									'<img src="'+base_url+'public/images/cancel_ico.png" width="22"></a>'+
-								'<a title="Evaluar Postulantes" '+((data.activo === '1' && btnEval)? hrefEval:'')+' class="bg-warning btnTable px-1">'+
+								'<a '+(hrefEval?'title="Evaluar Postulantes" '+hrefEval:'')+' class="bg-warning btnTable px-1">'+
 									'<img src="'+base_url+'public/images/evaluar_ico.png" width="15"></a>'+
-								'<a title="Publicar Resultados" '+((data.activo === '1' && btnPub)? hrefPub:'')+' class="bg-light btnTable border '+
-									'border-secondary"><img src="'+base_url+'public/images/result_ico.png" width="18"></a>'+
+								'<a '+(hrefPub?'title="Publicar Resultados" '+hrefPub:'')+' class="bg-light btnTable border border-secondary">'+
+									'<img src="'+base_url+'public/images/result_ico.png" width="18"></a>'+
 							'</div>';
 						return btnAccion;
 					}
 				},
 				{ data: 'idconvocatoria' },{ data: 'dependencia' },{ data: 'denominacion' },{ data: 'estadodesc' },
-				{ data: 'fecha_inicio', render: function(data,type,row,meta){ return data+'<br><span style="color:#0000FF;font-weight:bold">'+row.hinicio+'</span>'; } },
-				{ data: 'fecha_fin', render: function(data,type,row,meta){ return data+'<br><span style="color:#0000FF;font-weight:bold">'+row.hfin+'</span>'; } },
+				{ data: 'fi', render: function(data,type,row,meta){ return data+'<br><span style="color:#0000FF;font-weight:bold">'+row.hinicio+'</span>'; } },
+				{ data: 'ff', render: function(data,type,row,meta){ return data+'<br><span style="color:#0000FF;font-weight:bold">'+row.hfin+'</span>'; } },
 				{
 					data: 'archivo_base',
 					render: function(data){
@@ -104,6 +104,62 @@ $('.form').validate({
 			event.preventDefault();
 			if($('#file1').val() === '') $('.sptdr').html('<span class="text-danger">Debe cargar un archivo</span>');
 			if($('#file2').val() === '') $('.spanexo').html('<span class="text-danger">Debe cargar un archivo</span>');
+		}
+	}
+});
+
+function formatoFecha(fecha, formato) {
+	let m = (fecha.getMonth()+1).toString();
+	m = m.length < 2? '0'+m : m;
+    const map = {
+        Y: fecha.getFullYear(),
+		m: m,
+		d: fecha.getDate(),
+        h: fecha.getHours()+':'+fecha.getMinutes(),
+    }
+
+    return formato.replace(/Y|m|d|h/gi, matched => map[matched])
+}
+
+$('.blur').on('blur',function(){
+	let id = $(this).attr('id');
+	if(!isNaN(this)){
+		alert('Formato de fecha errado');
+		let fecha = formatoFecha(new Date(),'Y-m-d h'); $('#finicio').val(fecha), $('#ffin').val(fecha);
+	}else{
+		//console.log((new Date($('#ffin').val()).getTime())-(new Date($('#finicio').val()).getTime()));
+		let f2 = new Date($('#ffin').val()), f1 = new Date($('#finicio').val());
+		if((f2.getTime()-f1.getTime()) < 0){
+			alert('La fecha/hora inicial no puede ser mayor que la fecha/hora final');
+			let fecha = formatoFecha(new Date(),'Y-m-d h'); $('#finicio').val(fecha), $('#ffin').val(fecha);
+			//$('#finicio').val($('#ffin').val());
+		}
+	}
+});
+
+$('#tablaLocadores').bind('click','a',function(e){
+	let el = e.target, a = $(el).closest('a'), mensaje = '';
+	let data = tablaLocadores.row(a).child.isShown()? tablaLocadores.row(a).data() : tablaLocadores.row($(el).parents('tr')).data();
+	if($(a).hasClass('cancelar')){
+		e.preventDefault();
+		mensaje = 'Seguro que desea Cancelar la convocatoria?';
+		let confirmacion = confirm(mensaje);
+		if(confirmacion){
+			$.ajax({
+				data: {},
+				url: $(a).attr('href'),
+				method: 'GET',
+				dataType: 'JSON',
+				error: function(xhr){},
+				beforeSend: function(){},
+				success: function(data){
+					if(parseInt(data.status) === 200){
+						tablaLocadores.ajax.reload();
+					}
+					$('.resp').html(data.msg);
+					setTimeout(function () { $('.resp').html(''); }, 2500);
+				}
+			});
 		}
 	}
 });

@@ -168,10 +168,6 @@ $('#formPassword').validate({
 		});
 	}
 });
-
-$('.blur').on('blur',function(){
-	let id = $(this).attr('id');
-});
 /* Seleccionar texto al posicionarse sobre el campo */
 $('.blur').focus(function(){ this.select(); });
 

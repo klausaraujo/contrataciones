@@ -2,7 +2,7 @@
 <html lang="es">
 	<head>
 		<!-- Loader Header -->
-		<?php	require_once('inc/header.php');	date_default_timezone_set('America/Lima');?>
+		<?php	require_once('inc/header.php');?>
 		<title>CONTRATACIONES</title>
 	</head>
 	<body>

@@ -39,17 +39,15 @@
 										</div>
 										<div class="row mt-2">
 											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0" for="finicio">Fecha/Hora Inicio:</label>
-											<div class="col-md-2 col-lg-3">
+											<div class="col-md-2">
 												<div class="row form-inline">
-													<input type="date" class="form-control col-md-7" value="<?=date('Y-m-d')?>" name="finicio" id="finicio" />
-													<input type="time" name="ihora" id="ihora" class="form-control col-md-5" value="<?=date('H:i')?>" />
+													<input type="datetime-local" class="form-control blur col-12" value="<?=date('Y-m-d H:i')?>" name="finicio" id="finicio" />
 												</div>
 											</div>
-											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0 text-md-right" for="ffin">Fecha/Hora Fin:</label>
-											<div class="col-md-2 col-lg-3">
+											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0 text-md-right offset-md-1" for="ffin">Fecha/Hora Fin:</label>
+											<div class="col-md-2">
 												<div class="row form-inline">
-													<input type="date" class="form-control col-md-7" value="<?=date('Y-m-d')?>" name="ffin" id="ffin" />
-													<input type="time" name="fhora" id="fhora" class="form-control col-md-5" value="<?=date('H:i')?>" />
+													<input type="datetime-local" class="form-control blur col-12" value="<?=date('Y-m-d H:i')?>" name="ffin" id="ffin" />
 												</div>
 											</div>
 										</div>

@@ -7,9 +7,9 @@ class Locadores_model extends CI_Model
     
 	public function listaLocadores()
     {
-        $this->db->select('lc.*,DATE_FORMAT(fecha_inicio,"%d/%m/%Y") as fecha_inicio,DATE_FORMAT(fecha_fin,"%d/%m/%Y") as fecha_fin,
+        $this->db->select('lc.*,DATE_FORMAT(fecha_inicio,"%d/%m/%Y") as fi,DATE_FORMAT(fecha_fin,"%d/%m/%Y") as ff,
 			DATE_FORMAT(fecha_registro,"%d/%m/%Y") as fecha_registro,d.descripcion as dependencia,e.descripcion estadodesc,
-			DATE_FORMAT(fecha_inicio,"%H:%i:%s") as hinicio,DATE_FORMAT(fecha_fin,"%H:%i:%s") as hfin');
+			DATE_FORMAT(fecha_inicio,"%l:%i %p") as hinicio,DATE_FORMAT(fecha_fin,"%l:%i %p") as hfin');
         $this->db->from('convocatoria_locadores lc');
 		$this->db->join('dependencia d','d.iddependencia = lc.iddependencia');
 		$this->db->join('estado e','e.idestado = lc.idestado');
@@ -17,10 +17,20 @@ class Locadores_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->result() : array();
     }
+	public function validaLista($where)
+	{
+		return $this->db->where($where)->from('convocatoria_locadores_postulantes')->count_all_results();
+	}
+	public function actualizar($data,$where,$tabla)
+	{
+		$this->db->db_debug = FALSE;
+		$this->db->where($where);
+		if($this->db->update($tabla,$data)) return true;
+        else return false;
+	}
 	public function listaConvocatoria($where)
     {
-        $this->db->select('*,DATE_FORMAT(fecha_inicio,"%Y-%m-%d") as fecha_inicio,DATE_FORMAT(fecha_fin,"%Y-%m-%d") as fecha_fin,
-			DATE_FORMAT(fecha_inicio,"%H:%i:%s") as hinicio,DATE_FORMAT(fecha_fin,"%H:%i:%s") as hfin');
+        $this->db->select('*,DATE_FORMAT(fecha_inicio,"%Y-%m-%d %H:%i") as fecha_inicio,DATE_FORMAT(fecha_fin,"%Y-%m-%d %H:%i") as fecha_fin');
         $this->db->from('convocatoria_locadores');
 		$this->db->where($where);
         $result = $this->db->get();
@@ -47,13 +57,6 @@ class Locadores_model extends CI_Model
 		if($this->db->insert('convocatoria_locadores', $data))return true;
         //else return $error['code'];
 		else return false;
-	}
-	public function actualizar($data,$where)
-	{
-		$this->db->db_debug = FALSE;
-		$this->db->where($where);
-		if($this->db->update('convocatoria_locadores',$data)) return true;
-        else return false;
 	}
 	public function registrarBatch($where,$data,$tabla)
 	{

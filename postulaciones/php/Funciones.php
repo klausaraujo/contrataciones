@@ -17,9 +17,8 @@ Class Funciones{
 		if($dep !== '') $where = ' AND cl.iddependencia='.$dep;
 		
 		$query = 'SELECT cl.*,d.descripcion,e.descripcion as estado,DATE_FORMAT(fecha_inicio,"%d/%m/%Y") as fecha_inicio,DATE_FORMAT(fecha_fin,"%d/%m/%Y") as fecha_fin,
-			DATE_FORMAT(fecha_inicio,"%l:%i %p") as hini,DATE_FORMAT(fecha_fin,"%l:%i %p") as hfin
-			FROM convocatoria_locadores cl INNER JOIN dependencia d ON cl.iddependencia=d.iddependencia INNER JOIN estado e ON cl.idestado=e.idestado WHERE cl.activo=1'.$where.
-			' ORDER BY fecha_registro DESC';
+			DATE_FORMAT(fecha_inicio,"%l:%i %p") as hini,DATE_FORMAT(fecha_fin,"%l:%i %p") as hfin FROM convocatoria_locadores cl INNER JOIN dependencia d ON 
+			cl.iddependencia=d.iddependencia INNER JOIN estado e ON cl.idestado=e.idestado WHERE cl.activo=1'.$where.' ORDER BY fecha_registro DESC';
 		$res = $this->db->query($query);
 		$this->db->close();
 		

@@ -44,17 +44,15 @@
 										</div>
 										<div class="row mt-2">
 											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0" for="finicio">Fecha/Hora Inicio:</label>
-											<div class="col-md-2 col-lg-3">
+											<div class="col-md-2">
 												<div class="row form-inline">
-													<input type="date" class="form-control col-md-7" value="<?=$convocatoria->fecha_inicio?>" name="finicio" id="finicio" />
-													<input type="time" name="ihora" id="ihora" class="form-control col-md-5" value="<?=$convocatoria->hinicio?>" />
+													<input type="datetime-local" class="form-control col-12 blur" value="<?=$convocatoria->fecha_inicio?>" name="finicio" id="finicio" />
 												</div>
 											</div>
 											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0 text-md-right" for="ffin">Fecha/Hora Fin:</label>
-											<div class="col-md-2 col-lg-3">
+											<div class="col-md-2">
 												<div class="row form-inline">
-													<input type="date" class="form-control col-md-7" value="<?=$convocatoria->fecha_fin?>" name="ffin" id="ffin" />
-													<input type="time" name="fhora" id="fhora" class="form-control col-md-5" value="<?=$convocatoria->hfin?>" />
+													<input type="datetime-local" class="form-control col-12 blur" value="<?=$convocatoria->fecha_fin?>" name="ffin" id="ffin" />
 												</div>
 											</div>
 										</div>

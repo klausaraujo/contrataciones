@@ -28,7 +28,9 @@ $(document).ready(function (){
 					orderable: false,
 					render: function(data){
 						let href = 'href="'+base+'postulaciones/php/formulario?v='+data.idconvocatoria+'"';
-						let btnAccion = '<div class="row"><a class="btn btnTable btn-postular mx-auto" '+href+'>Postular</a></div>';
+						let btnAccion = '<div class="row"><a class="btn btnTable btn-postular mx-auto '+(data.idestado === '1'?'':'disabled')+
+										'" '+(data.idestado === '1'?href:'')+'>Postular</a></div>';
+						console.log(data.idestado);
 						return btnAccion;
 					}
 				},

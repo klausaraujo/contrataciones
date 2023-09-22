@@ -8,6 +8,7 @@ class Main extends CI_Controller
     public function __construct()
 	{
 		parent::__construct();
+		date_default_timezone_set('America/Lima');
 		if($this->session->userdata('user')) $this->usuario = json_decode($this->session->userdata('user'));
 		else header('location:' .base_url());
 	}
@@ -17,8 +18,27 @@ class Main extends CI_Controller
 	public function listaLocadores()
 	{
 		$this->load->model('Locadores_model');
-		$locadores = $this->Locadores_model->listaLocadores();
-		echo json_encode(['data'=>$locadores]);
+		$locadores = $this->Locadores_model->listaLocadores(); $hoy = time();
+		foreach($locadores as $row):
+			if((strtotime($row->fecha_fin) - $hoy) < 0){
+				$cta = $this->Locadores_model->validaLista(['idconvocatoria' => $row->idconvocatoria]);
+				if($cta === 0)
+					$this->Locadores_model->actualizar(
+						['idestado' => 4,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i')],
+						['idconvocatoria' => $row->idconvocatoria],
+						'convocatoria_locadores'
+					);
+				elseif($cta > 0)
+					$this->Locadores_model->actualizar(
+						['idestado' => 2,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i')],
+						['idconvocatoria' => $row->idconvocatoria],
+						'convocatoria_locadores'
+					);
+			}
+		endforeach;
+		$listaactualizada = $this->Locadores_model->listaLocadores();
+		
+		echo json_encode(['data' => $listaactualizada]);
 	}
 	public function nueva()
 	{
@@ -45,8 +65,8 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Locadores_model');
 		$this->session->set_flashdata('claseMsg', 'alert-danger'); $nombre = ''; $nombre1 = ''; $guardado = false; $data = [];
-		$itiempo = date_format(date_create($this->input->post('finicio').' '.$this->input->post('ihora')),'Y-m-d H:i:s');
-		$ftiempo = date_format(date_create($this->input->post('ffin').' '.$this->input->post('fhora')),'Y-m-d H:i:s');
+		$itiempo = date_format(date_create($this->input->post('finicio')),'Y-m-d H:i');
+		$ftiempo = date_format(date_create($this->input->post('ffin')),'Y-m-d H:i');
 		
 		if($this->input->post('file1ant') === $this->input->post('file1') && $this->input->post('tiporegistro') === 'editar'){
 			$nombre = $this->input->post('file1ant');
@@ -111,7 +131,8 @@ class Main extends CI_Controller
 				'idusuario_modificacion' => $this->usuario->idusuario,
 				'fecha_modificacion' => date('Y-m-d H:i:s'),
 			);
-			if($this->Locadores_model->actualizar( $data, ['idconvocatoria'=>$id] )){
+			
+			if($this->Locadores_model->actualizar($data, ['idconvocatoria'=>$id], 'convocatoria_locadores')){
 				$this->session->set_flashdata('flashMessage', '<b>Convocatoria</b> Actualizada');
 				$this->session->set_flashdata('claseMsg', 'alert-primary');
 			}
@@ -172,5 +193,26 @@ class Main extends CI_Controller
 			readfile($path.$filen);
 			exit();
 		}
+	}
+	public function cancelar()
+	{
+		$this->load->model('Locadores_model');
+		$id = $this->input->get('id'); $msg = 'No se pudo Cancelar la convocatoria'; $status = 500;
+		
+		if($this->Locadores_model->actualizar(
+			['idestado' => 3,'idusuario_modificacion' => $this->usuario->idusuario,'fecha_modificacion' => date('Y-m-d H:i')],
+			['idconvocatoria' => $id],
+			'convocatoria_locadores'
+		)){
+			$status = 200;
+			$msg = 'Convocatoria cancelada';
+		}
+		
+		$data = array(
+			'status' => $status,
+			'msg' => $msg
+		);
+		
+		echo json_encode($data);
 	}
 }

@@ -82,6 +82,7 @@ $route['locadores/lista'] = 'locadores/main/listaLocadores';
 $route['nuevaconvocatoria'] = 'locadores/main/nueva';
 $route['locadores/nueva'] = 'locadores/main/nueva';
 $route['locadores/editar'] = 'locadores/main/nueva';
+$route['locadores/cancelar'] = 'locadores/main/cancelar';
 $route['locadores/registrar'] = 'locadores/main/registrar';
 $route['locadores/descargar'] = 'locadores/main/descargar';
 
