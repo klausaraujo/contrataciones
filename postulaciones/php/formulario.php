@@ -255,7 +255,7 @@
 					<div class="container-fluid row"><hr class="col-sm-12"></div>
 					<div class="col-12 mx-auto pb-2">
 						<button type="submit" class="btn btn-postular ml-1 mr-4" id="btnPostular">Postular</button>
-						<button type="reset" class="btn btn-postular">Cancelar</button>
+						<a type="reset" class="btn btn-postular btn_canc" href="<?='../'?>">Cancelar</a>
 					</div>
 				</form>
 			</div>
