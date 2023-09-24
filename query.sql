@@ -2612,6 +2612,8 @@ create table nivel(
 	anexo_05 varchar(20),
 	anexo_06 varchar(20),
 	fecha_postulacion datetime,
+	puntaje decimal (19,2) DEFAULT 0,
+	ganador char(1) default '0',
 	PRIMARY KEY (idpostulacion),
 	FOREIGN KEY (idconvocatoria) REFERENCES convocatoria_locadores (idconvocatoria) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (idtipodocumento) REFERENCES tipo_documento (idtipodocumento) ON DELETE CASCADE ON UPDATE CASCADE,
