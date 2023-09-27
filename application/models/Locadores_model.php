@@ -36,6 +36,17 @@ class Locadores_model extends CI_Model
         $result = $this->db->get();
 		return ($result->num_rows() > 0)? $result->row() : array();
     }
+	public function listaPostulantes($where)
+    {
+        $this->db->select('pl.*,p.profesion,n.nivel');
+        $this->db->from('convocatoria_locadores_postulantes pl');
+		$this->db->join('profesion p','p.idprofesion = pl.idprofesion');
+		$this->db->join('nivel n','n.idnivel = pl.idnivel');
+		$this->db->where($where);
+		$this->db->order_by('pl.fecha_postulacion', 'desc');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+    }
 	public function dependencia($where)
 	{
 		$this->db->select('*');

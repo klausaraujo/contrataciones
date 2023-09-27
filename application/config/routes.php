@@ -85,6 +85,8 @@ $route['locadores/editar'] = 'locadores/main/nueva';
 $route['locadores/cancelar'] = 'locadores/main/cancelar';
 $route['locadores/registrar'] = 'locadores/main/registrar';
 $route['locadores/descargar'] = 'locadores/main/descargar';
+$route['locadores/descargarp'] = 'locadores/main/descargarp';
+$route['locadores/evaluar'] = 'locadores/main/evaluar';
 
 /**/
 $route['404_override'] = '';

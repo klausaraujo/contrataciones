@@ -1,4 +1,4 @@
-let tablaLocadores = null;
+let tablaLocadores = null, tablaEval = null;
 
 $(document).ready(function (){
 	if(segmento2 == ''){
@@ -20,7 +20,7 @@ $(document).ready(function (){
 							'<div class="btn-group">'+
 								'<a '+(hrefEdit?'title="Editar Convocatoria" '+hrefEdit:'')+' class="bg-info btnTable">'+
 									'<img src="'+base_url+'public/images/edit_ico.png" width="22"></a>'+
-								'<a '+(hrefCan?'title="Cancelar Convocatoria" '+hrefCan:'')+' class="bg-danger btnTable cancelar">'+
+								'<a '+(hrefCan?'title="Cancelar Convocatoria" '+hrefCan:'')+' class="bg-danger btnTable '+(hrefCan?'cancelar':'')+'">'+
 									'<img src="'+base_url+'public/images/cancel_ico.png" width="22"></a>'+
 								'<a '+(hrefEval?'title="Evaluar Postulantes" '+hrefEval:'')+' class="bg-warning btnTable px-1">'+
 									'<img src="'+base_url+'public/images/evaluar_ico.png" width="15"></a>'+
@@ -57,6 +57,110 @@ $(document).ready(function (){
 				},{ data: 'fecha_registro' },
 			],
 			columnDefs:headers, order: [],
+		});
+	}else if(segmento2 === 'evaluar'){
+		tablaEval = $('#tablaEval').DataTable({
+			data: postulantes,
+			bAutoWidth:false, bDestroy:true, responsive:true, select:false, lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todas']], language: lngDataTable,
+			columns:[
+				{ data: 'idpostulacion' },{ data: 'numero_documento' },{ data: 'numero_ruc' },{ data: 'nombre' },{ data: 'profesion' },{ data: 'nivel' },
+				{
+					data: 'anexo_01',
+					render: function(data){
+						let href = data == ''?'':'href="'+base_url+'locadores/descargarp?file='+data+'"', ext = $(data.split('.')).get(-1);
+						let img = '';
+						if(ext === 'doc' || ext === 'docx'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/word_ico.png" width="27"></a>';
+						}else if(ext === 'pdf'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/pdf_ico.png" width="27"></a>';
+						}
+						return img;
+					}
+				},
+				{
+					data: 'anexo_02',
+					render: function(data){
+						let href = data == ''?'':'href="'+base_url+'locadores/descargarp?file='+data+'"', ext = $(data.split('.')).get(-1);
+						let img = '';
+						if(ext === 'doc' || ext === 'docx'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/word_ico.png" width="27"></a>';
+						}else if(ext === 'pdf'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/pdf_ico.png" width="27"></a>';
+						}
+						return img;
+					}
+				},
+				{
+					data: 'anexo_03',
+					render: function(data){
+						let href = data == ''?'':'href="'+base_url+'locadores/descargarp?file='+data+'"', ext = $(data.split('.')).get(-1);
+						let img = '';
+						if(ext === 'doc' || ext === 'docx'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/word_ico.png" width="27"></a>';
+						}else if(ext === 'pdf'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/pdf_ico.png" width="27"></a>';
+						}
+						return img;
+					}
+				},
+				{
+					data: 'anexo_04',
+					render: function(data){
+						let href = data == ''?'':'href="'+base_url+'locadores/descargarp?file='+data+'"', ext = $(data.split('.')).get(-1);
+						let img = '';
+						if(ext === 'doc' || ext === 'docx'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/word_ico.png" width="27"></a>';
+						}else if(ext === 'pdf'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/pdf_ico.png" width="27"></a>';
+						}
+						return img;
+					}
+				},
+				{
+					data: 'anexo_05',
+					render: function(data){
+						let href = data == ''?'':'href="'+base_url+'locadores/descargarp?file='+data+'"', ext = $(data.split('.')).get(-1);
+						let img = '';
+						if(ext === 'doc' || ext === 'docx'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/word_ico.png" width="27"></a>';
+						}else if(ext === 'pdf'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/pdf_ico.png" width="27"></a>';
+						}
+						return img;
+					}
+				},
+				{
+					data: 'anexo_06',
+					render: function(data){
+						let href = data == ''?'':'href="'+base_url+'locadores/descargarp?file='+data+'"', ext = $(data.split('.')).get(-1);
+						let img = '';
+						if(ext === 'doc' || ext === 'docx'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/word_ico.png" width="27"></a>';
+						}else if(ext === 'pdf'){
+							img = '<a title="Descargar" '+href+'><img src="'+base_url+'public/images/pdf_ico.png" width="27"></a>';
+						}
+						return img;
+					}
+				},
+				{
+					render: function(data,type,full,meta){
+						return '<div class="row"><input type="text" class="form-control form-control-sm puntaje moneda bg-light mx-auto"'
+								+' style="width:4em;font-size:0.8rem" /></div>';
+					},
+					orderable: false,
+				},
+				{
+					render: function(data,type,full,meta){
+						return '<div class="row"><input type="checkbox" class="mx-auto" '+ (full.ganador === '1' ? ' checked' : '') +' /></div>';
+					},
+					orderable: false,
+				},
+			],
+			columnDefs:[
+				{targets: 0,visible: false},{title:'DNI/CE',targets: 1},{title:'RUC',targets: 2},{title:'Postulante',targets: 3},{title:'Profesi&oacute;n',targets: 4},
+				{title:'Nivel',targets: 5},{title:'Anexo 1',targets: 6},{title:'Anexo 2',targets: 7},{title:'Anexo 3',targets: 8},{title:'Anexo 4',targets: 9},
+				{title:'Anexo 5',targets: 10},{title:'Anexo 6',targets: 11},{title:'Puntaje',targets: 12},{title:'Ganador',targets: 13},
+			], order: [],
 		});
 	}
 });
@@ -158,5 +262,16 @@ $('#tablaLocadores').bind('click','a',function(e){
 				}
 			});
 		}
+	}
+});
+
+$('#tablaEval').bind('input',function(e){
+	let el = e.target;
+	if($(el).attr('type') === 'text'){
+		jQuery(el).val(jQuery(el).val().replace(/([^0-9\.]+)/g, ''));
+		jQuery(el).val(jQuery(el).val().replace(/^[\.]/,''));
+		jQuery(el).val(jQuery(el).val().replace(/[\.][\.]/g,''));
+		jQuery(el).val(jQuery(el).val().replace(/\.(\d)(\d)(\d)/g,'.$1$2'));
+		jQuery(el).val(jQuery(el).val().replace(/\.(\d{1,2})\./g,'.$1'));
 	}
 });

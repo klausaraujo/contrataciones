@@ -35,6 +35,7 @@
 						elseif($this->uri->segment(1) === 'locadores' && $this->uri->segment(2) == '') $this->load->view('locadores/locadores');
 						elseif($this->uri->segment(1) === 'locadores' && $this->uri->segment(2) == 'nueva') $this->load->view('locadores/form-new');
 						elseif($this->uri->segment(1) === 'locadores' && $this->uri->segment(2) == 'editar') $this->load->view('locadores/form-editar');
+						elseif($this->uri->segment(1) === 'locadores' && $this->uri->segment(2) == 'evaluar') $this->load->view('locadores/evaluar');
 					?>
 					</div>
 				</div>

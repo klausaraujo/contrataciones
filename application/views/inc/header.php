@@ -86,6 +86,7 @@ table.dataTable tr, table.dataTable th, table.dataTable td{ font-size: 0.8rem }
 .custom-control-input:checked~.custom-control-label::before { border-color: rgba(0,150,210,1); background-color: rgba(0,150,210,1); }
 .custom-control-input:focus:not(:checked)~.custom-control-label::before { border-color: #adb5bd; }
 .success { border: 1px solid #27b345; color: #000; }
+#tablaEval th, #tablaEval tr, #tablaEval td{ font-size: 0.7rem }
 
 @media(max-width: 1299px){
 	body.sidebar-main .iq-sidebar {
