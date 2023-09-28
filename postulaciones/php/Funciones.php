@@ -1,4 +1,7 @@
 <?php
+
+date_default_timezone_set('America/Lima');
+
 Class Funciones{
 	private $host = 'localhost';
 	private $user = 'root';
@@ -110,6 +113,25 @@ Class Funciones{
 	public function close()
 	{
 		$this->db->close();
+	}
+	public function valida()
+	{
+		$query = 'SELECT * FROM convocatoria_locadores';
+		$res = $this->db->query($query);
+		
+		if($res->num_rows > 0) return $res->fetch_all(MYSQLI_ASSOC);
+		else return array();
+	}
+	public function validaLista($where)
+	{
+		$query = 'SELECT * FROM convocatoria_locadores_postulantes WHERE idconvocatoria='.$where;
+		$res = $this->db->query($query);
+		return $res->num_rows;
+	}
+	public function actualizar($where,$data)
+	{
+		$query = 'UPDATE convocatoria_locadores set idestado='.$data.' WHERE idconvocatoria='.$where.' AND idestado=1';
+		return $this->db->query($query);
 	}
 }
 
@@ -246,5 +268,16 @@ if($_POST['data'] === 'listar'){
 		$_SESSION['mensaje'] = 'La postulaci&oacute;n indicada ya est&aacute; activa para el usuario';
 	}
 	header('location: ../');
+}else{
+	$con = new Funciones();
+	$lista = $con->valida(); $hoy = time();
+	foreach($lista as $row):
+		if((strtotime($row['fecha_fin'])-$hoy) < 0){
+			$cta = $con->validaLista($row['idconvocatoria']);
+			if($cta === 0)
+				$con->actualizar($row['idconvocatoria'],4);
+			elseif($cta > 0)
+				$con->actualizar($row['idconvocatoria'],2);
+		}
+	endforeach;
 }
-

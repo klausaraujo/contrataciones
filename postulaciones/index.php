@@ -1,6 +1,7 @@
 <?php
 	include_once(__DIR__.'/php/Funciones.php');
 	date_default_timezone_set('America/Lima');
+	session_start();
 	
 	$con = new Funciones();
 	$dep = $con->dependencias();
@@ -41,7 +42,6 @@
 		<div class="container-fluid">
 			<div class="row justify-content-center">
 				<?
-				session_start();
 				if($_SESSION['claseMsg']){?><div class="alert <?=$_SESSION['claseMsg']?> py-0 px-5 msg fade show" role="alert">
 					<div class="iq-alert-text"><?=$_SESSION['mensaje']?></div>
 					</div><?session_destroy();}?>

@@ -24,14 +24,14 @@ class Main extends CI_Controller
 				$cta = $this->Locadores_model->validaLista(['idconvocatoria' => $row->idconvocatoria]);
 				if($cta === 0)
 					$this->Locadores_model->actualizar(
-						['idestado' => 4,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i')],
-						['idconvocatoria' => $row->idconvocatoria],
+						['idestado' => 4],
+						['idconvocatoria' => $row->idconvocatoria,'idestado' => 1],
 						'convocatoria_locadores'
 					);
 				elseif($cta > 0)
 					$this->Locadores_model->actualizar(
-						['idestado' => 2,'idusuario_modificacion'=>$this->usuario->idusuario,'fecha_modificacion'=>date('Y-m-d H:i')],
-						['idconvocatoria' => $row->idconvocatoria],
+						['idestado' => 2],
+						['idconvocatoria' => $row->idconvocatoria,'idestado' => 1],
 						'convocatoria_locadores'
 					);
 			}
