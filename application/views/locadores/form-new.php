@@ -41,13 +41,15 @@
 											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0" for="finicio">Fecha/Hora Inicio:</label>
 											<div class="col-md-2">
 												<div class="row form-inline">
-													<input type="datetime-local" class="form-control blur col-12" value="<?=date('Y-m-d H:i')?>" name="finicio" id="finicio" />
+													<input type="datetime-local" class="form-control blur col-12" value="<?=date('Y-m-d H:i')?>"
+														min="<?=date('Y-m-d H:i')?>" name="finicio" id="finicio" />
 												</div>
 											</div>
 											<label class="control-label col-md-3 col-lg-2 align-self-center mb-0 text-md-right offset-md-1" for="ffin">Fecha/Hora Fin:</label>
 											<div class="col-md-2">
 												<div class="row form-inline">
-													<input type="datetime-local" class="form-control blur col-12" value="<?=date('Y-m-d H:i')?>" name="ffin" id="ffin" />
+													<input type="datetime-local" class="form-control blur col-12" value="<?=date('Y-m-d H:i')?>"
+														min="<?=date('Y-m-d H:i')?>" name="ffin" id="ffin" />
 												</div>
 											</div>
 										</div>

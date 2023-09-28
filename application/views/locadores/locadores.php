@@ -4,10 +4,10 @@
 								<h4 class="">Listado General de Locadores</h4>
 								<hr>
 								<div class="row justify-content-center">
-									<?if($this->session->flashdata('claseMsg')){?><div class="alert <?=$this->session->flashdata('claseMsg')?> py-1 px-5 msg fade show" role="alert">
+									<?if($this->session->flashdata('claseMsg')){?><div class="alert <?=$this->session->flashdata('claseMsg')?> py-0 px-5 msg fade show" role="alert">
 										<div class="iq-alert-text"><?=$this->session->flashdata('flashMessage')?></div>
 									</div><?}?>
-									<div class="col-md-12 text-center resp" style="font-size:1.3em">&nbsp;</div>
+									<div class="col-md-12 text-center resp" style="font-size:1.3em"></div>
 								</div>
 								<div class="container-fluid">
 									<div class="row">
