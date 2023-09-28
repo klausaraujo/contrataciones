@@ -110,16 +110,20 @@ Class Funciones{
 		if($this->db->query($query)) return true;
 		else return $this->db->error;
 	}
-	public function close()
-	{
-		$this->db->close();
-	}
 	public function valida()
 	{
 		$query = 'SELECT * FROM convocatoria_locadores';
 		$res = $this->db->query($query);
 		
 		if($res->num_rows > 0) return $res->fetch_all(MYSQLI_ASSOC);
+		else return array();
+	}
+	public function validaConvo($where)
+	{
+		$query = 'SELECT * FROM convocatoria_locadores WHERE idconvocatoria='.$where;
+		$res = $this->db->query($query);
+		
+		if($res->num_rows > 0) return $res->fetch_object();
 		else return array();
 	}
 	public function validaLista($where)
@@ -132,6 +136,10 @@ Class Funciones{
 	{
 		$query = 'UPDATE convocatoria_locadores set idestado='.$data.' WHERE idconvocatoria='.$where.' AND idestado=1';
 		return $this->db->query($query);
+	}
+	public function close()
+	{
+		$this->db->close();
 	}
 }
 
@@ -222,6 +230,19 @@ if($_POST['data'] === 'listar'){
 	$a1='';$a2='';$a3='';$a4='';$a5='';$a6='';
 	
 	$con = new Funciones();
+	$lista = $con->validaConvo($_POST['idconvocatoria']); $hoy = time();
+	
+	if((strtotime($lista->fecha_fin)-$hoy) < 0){
+		$cta = $con->validaLista($lista->idconvocatoria);
+		if($cta === 0)
+			$con->actualizar($lista->idconvocatoria,4);
+		elseif($cta > 0)
+			$con->actualizar($lista->idconvocatoria,2);
+		$con->close();
+		header('location: ../');
+		exit;
+	}
+	
 	$rep = $con->repetido($_POST['idconvocatoria'],$_POST['doc']);
 	$ubigeo = $_POST['dep'].$_POST['pro'].$_POST['dis'];
 	
@@ -280,4 +301,5 @@ if($_POST['data'] === 'listar'){
 				$con->actualizar($row['idconvocatoria'],2);
 		}
 	endforeach;
+	$con->close();
 }
