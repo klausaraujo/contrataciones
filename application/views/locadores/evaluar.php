@@ -15,7 +15,7 @@
 									<div class="container-fluid row"><hr class="col-sm-12"></div>
 									<div class="row">
 										<button type="reset" class="btn btn-cancel btn-cancelar ml-auto mr-3">Cancelar</button>
-										<input type="button" class="btn btn-sabogal" value="Guardar y Cerrar" />
+										<input type="button" class="btn btn-sabogal" id="evaluar" value="Guardar y Cerrar" />
 									</div>
 								</div>
 							</div>

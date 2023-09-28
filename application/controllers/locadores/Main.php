@@ -253,4 +253,18 @@ class Main extends CI_Controller
 		$postulantes = $this->Locadores_model->listaPostulantes(['idconvocatoria' => $id]);
 		$this->load->view('main', ['data' => $postulantes]);
 	}
+	public function evaluado()
+	{
+		$this->load->model('Locadores_model');
+		$this->session->set_flashdata('flashMessage', 'No se pudo Evaluar'); $this->session->set_flashdata('claseMsg', 'alert-danger');
+		$data = json_decode($_GET['json']);
+		foreach($data as $row):
+			if($this->Locadores_model->actualizar(['puntaje' => $row->puntaje,'ganador' => $row->ganador],
+					['idpostulacion' => $row->idpostulacion],'convocatoria_locadores_postulantes')){
+				$this->session->set_flashdata('flashMessage', 'Evaluado con &Eacute;xito');
+				$this->session->set_flashdata('claseMsg', 'alert-primary');
+			}				
+		endforeach;
+		header('location:'.base_url().'locadores');
+	}
 }

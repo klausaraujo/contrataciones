@@ -145,7 +145,7 @@ $(document).ready(function (){
 				{
 					render: function(data,type,full,meta){
 						return '<div class="row"><input type="text" class="form-control form-control-sm puntaje moneda bg-light mx-auto"'
-								+' style="width:4em;font-size:0.8rem" /></div>';
+								+' style="width:4em;font-size:0.8rem" value="'+full.puntaje+'" /></div>';
 					},
 					orderable: false,
 				},
@@ -274,4 +274,36 @@ $('#tablaEval').bind('input',function(e){
 		jQuery(el).val(jQuery(el).val().replace(/\.(\d)(\d)(\d)/g,'.$1$2'));
 		jQuery(el).val(jQuery(el).val().replace(/\.(\d{1,2})\./g,'.$1'));
 	}
+});
+$('#tablaEval').bind('click',function(e){
+	let el = e.target;
+	if($(el).attr('type') === 'text') $(el).select();
+});
+$('#evaluar').bind('click',function(e){
+	let arr = tablaEval.rows().data().toArray();
+	let data = [], row = null, dni = '', valor = '', ganador = '', id = '';
+	
+	$('#tablaEval tbody tr').each(function(i, e){
+		dni = $(e).children(':first').html();
+		$('#tablaEval tbody input').each(function(ind, el){
+			row = tablaEval.row($(el).parents('tr')).data();
+			if(dni === row.numero_documento){
+				id = row.idpostulacion;
+				if(el.type === 'text'){
+					valor = el.value;
+				}else if(el.type === 'checkbox' && $(el).prop('checked')){
+					ganador = 1;
+				}if(el.type === 'checkbox' && !$(el).prop('checked')){
+					ganador = 0;
+				}
+			}
+		});
+		data.push({
+			'idpostulacion' : id,
+			'puntaje' : valor,
+			'ganador' : ganador
+		});
+	});
+	$(location).attr('href',base_url+segmento+'/evaluado?json='+JSON.stringify(data));
+	//console.log(JSON.stringify(data));
 });
