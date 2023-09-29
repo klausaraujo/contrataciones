@@ -1,7 +1,7 @@
 						<? $usuario = json_decode($this->session->userdata('user')); ?>
 						<div class="col-12 card px-0 my-3">
 							<div class="card-body">
-								<h4 class="">Listado General de Locadores</h4>
+								<h4 class="">Listado General de Convocatorias para Contratación de Locadores de Servicio</h4>
 								<hr>
 								<div class="row justify-content-center">
 									<?if($this->session->flashdata('claseMsg')){?><div class="alert <?=$this->session->flashdata('claseMsg')?> py-0 px-5 msg fade show" role="alert">

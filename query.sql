@@ -2195,6 +2195,7 @@ CREATE TABLE dependencia(
 	fecha_modificacion datetime,
 	idusuario_anulacion smallint(4),
 	fecha_anulacion datetime,
+	calificado char(1) default '0',
 	activo char(1) DEFAULT '1',
 	PRIMARY KEY (idconvocatoria),
 	FOREIGN KEY (iddependencia) REFERENCES dependencia (iddependencia) ON DELETE CASCADE ON UPDATE CASCADE,
