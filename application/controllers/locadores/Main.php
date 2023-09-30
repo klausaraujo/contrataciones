@@ -261,9 +261,11 @@ class Main extends CI_Controller
 		foreach($data as $row):
 			if($this->Locadores_model->actualizar(['puntaje' => $row->puntaje,'ganador' => $row->ganador],
 					['idpostulacion' => $row->idpostulacion],'convocatoria_locadores_postulantes')){
-				$this->session->set_flashdata('flashMessage', 'Evaluado con &Eacute;xito');
-				$this->session->set_flashdata('claseMsg', 'alert-primary');
-			}				
+				if($this->Locadores_model->actualizar(['calificado' => 1],['idconvocatoria' => $row->idconvocatoria],'convocatoria_locadores')){
+					$this->session->set_flashdata('flashMessage', 'Evaluado con &Eacute;xito');
+					$this->session->set_flashdata('claseMsg', 'alert-primary');
+				}
+			}
 		endforeach;
 		header('location:'.base_url().'locadores');
 	}

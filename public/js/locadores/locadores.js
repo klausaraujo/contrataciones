@@ -14,7 +14,8 @@ $(document).ready(function (){
 					render: function(data){
 						let hrefEdit = (data.activo === '1' && btnEdit && data.idestado==='1')?'href="'+base_url+'locadores/editar?id='+data.idconvocatoria+'"':'';
 						let hrefCan = (data.activo === '1' && btnCan && data.idestado==='1')?'href="'+base_url+'locadores/cancelar?id='+data.idconvocatoria+'"':'';
-						let hrefEval = (data.activo === '1' && btnEval && parseInt(data.idestado) < 3)?'href="'+base_url+'locadores/evaluar?id='+data.idconvocatoria+'"':'';
+						let hrefEval = (data.activo === '1' && btnEval && parseInt(data.idestado) < 3 && 
+							data.calificado === '0' && data.idestado === '2')?'href="'+base_url+'locadores/evaluar?id='+data.idconvocatoria+'"':'';
 						let hrefPub = (data.activo === '1' && btnPub && parseInt(data.idestado) < 3)?'href="'+base_url+'locadores/publicar?id='+data.idconvocatoria+'"':'';
 						let btnAccion =
 							'<div class="btn-group">'+
@@ -280,15 +281,15 @@ $('#tablaEval').bind('click',function(e){
 	if($(el).attr('type') === 'text') $(el).select();
 });
 $('#evaluar').bind('click',function(e){
-	let arr = tablaEval.rows().data().toArray();
-	let data = [], row = null, dni = '', valor = '', ganador = '', id = '';
+	//let arr = tablaEval.rows().data().toArray();
+	let data = [], row = null, dni = '', valor = '', ganador = '', id = '', idpost = '';
 	
 	$('#tablaEval tbody tr').each(function(i, e){
 		dni = $(e).children(':first').html();
 		$('#tablaEval tbody input').each(function(ind, el){
 			row = tablaEval.row($(el).parents('tr')).data();
 			if(dni === row.numero_documento){
-				id = row.idpostulacion;
+				id = row.idpostulacion, idpost = row.idconvocatoria;
 				if(el.type === 'text'){
 					valor = el.value;
 				}else if(el.type === 'checkbox' && $(el).prop('checked')){
@@ -299,6 +300,7 @@ $('#evaluar').bind('click',function(e){
 			}
 		});
 		data.push({
+			'idconvocatoria' : idpost,
 			'idpostulacion' : id,
 			'puntaje' : valor,
 			'ganador' : ganador

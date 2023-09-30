@@ -12,6 +12,7 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
+						let style = 'style="padding:1px 4px"';
 						let hrefEdit = 'href="'+base_url+'usuarios/editar?id='+data.idusuario+'"';
 						let hrefPer = 'href="'+base_url+'usuarios/permisos?id='+data.idusuario+'"';
 						let hrefReset = 'href="'+base_url+'usuarios/reset?id='+data.idusuario+'&doc='+data.numero_documento+'&stat='+data.activo+'"';
@@ -19,17 +20,17 @@ $(document).ready(function (){
 						let btnAccion =
 						/* Boton de edicion */
 						'<div class="btn-group"><a title="Editar Usuario" '+((data.activo === '1' && btnEditUser)? hrefEdit:'')+' class="bg-warning btnTable '+
-							((data.activo === '0' || !btnEditUser)?'disabled':'')+' editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
+							((data.activo === '0' || !btnEditUser)?'disabled':'')+' editar" '+style+'><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
 						/* Boton de permisos */
 						'<a title="Permisos" '+((data.activo === '1' && btnPermisos)? hrefPer:'')+' class="bg-secondary btnTable '+
-							((data.activo === '0' || !btnPermisos)?'disabled':'')+' permisos" data-target="#modalPermisos" data-toggle="modal">'+
+							((data.activo === '0' || !btnPermisos)?'disabled':'')+' permisos" '+style+' data-target="#modalPermisos" data-toggle="modal">'+
 							'<i class="fa fa-cogs" aria-hidden="true"></i></a>'+
 						/* Boton de Reset Clave */
 						'<a title="Resetear Clave" '+((data.activo === '1' && btnClave)? hrefReset:'')+' class="bg-info btnTable '+
-							((data.activo === '0' || !btnClave)?'disabled':'')+' resetclave"><i class="fa fa-key" aria-hidden="true"></i></a>'+
+							((data.activo === '0' || !btnClave)?'disabled':'')+' resetclave" '+style+'><i class="fa fa-key" aria-hidden="true"></i></a>'+
 						/* Boton de activacion */
 						'<a title="'+(data.activo === '0'?'Habilitar Usuario':'Deshabilitar Usuario')+'" '+((data.activo === '1' && btnActiva)? hrefActiva:'')+
-							' class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' '+(!btnActiva?'disabled':'')+' activar" >'+
+							' class="bg-light btnTable '+(data.activo === '1'? 'btnDesactivar':'btnActivar')+' '+(!btnActiva?'disabled':'')+' activar" '+style+'>'+
 							'<i class="fa '+(data.activo === '1'? 'fa-unlock':'fa-lock')+'" aria-hidden="true"></i></a></div>';
 						return btnAccion;
 					}
