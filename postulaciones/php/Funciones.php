@@ -1,5 +1,6 @@
 <?php
-
+require_once(dirname(__DIR__,2).'\application\libraries\Dom.php');
+require_once(dirname(__DIR__,2).'\application\libraries\Dom1.php');
 date_default_timezone_set('America/Lima');
 
 Class Funciones{
@@ -136,6 +137,14 @@ Class Funciones{
 	{
 		$query = 'UPDATE convocatoria_locadores set idestado='.$data.' WHERE idconvocatoria='.$where.' AND idestado=1';
 		return $this->db->query($query);
+	}
+	public function resultado($where)
+	{
+		$query = 'SELECT cp.*,cl.*,e.descripcion as estado FROM convocatoria_locadores_postulantes cp INNER JOIN convocatoria_locadores cl ON cl.idconvocatoria=cp.idconvocatoria
+			INNER JOIN estado e ON e.idestado=cl.idestado WHERE cp.idconvocatoria='.$where.' AND cl.calificado=1';
+		$res = $this->db->query($query);
+		if($res->num_rows > 0) return $res->fetch_all(MYSQLI_ASSOC);
+		else return array();
 	}
 	public function close()
 	{
@@ -301,5 +310,104 @@ if($_POST['data'] === 'listar'){
 				$con->actualizar($row['idconvocatoria'],2);
 		}
 	endforeach;
+	if($_GET['act'] === 'ver'){
+		$versionphp = 7; $data = ['resultado' => 'Hola']; $a5 = 'A4'; $direccion = 'portrait'; $html = null;
+		$img = file_get_contents('http://'.$_SERVER["HTTP_HOST"].'/contrataciones/public/images/logo-white.png');
+		$data = $con->resultado($_GET['res']); $fecha = date_format(date_create($data[0]['fecha_inicio']),'d/m/Y'); $denom = $data[0]['denominacion'];
+		$estado = $data[0]['estado'];	
+		
+		//var_dump($data);
+		$html =
+			'<!doctype html>
+			<html lang="es">
+				<head>
+				<title>Resultados</title>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+					<style>
+						/** Margenes de la pagina en 0 **/
+						@page { margin: 0cm 0cm; }
+						/** Márgenes reales de cada página en el PDF **/
+						body{ width:21cm;font-family:Helvetica;margin-top:3cm;margin-bottom:2cm }
+						/** Reglas del encabezado **/
+						header {
+							position: fixed;
+							top: 0cm;
+							left: 0cm;
+							right: 0cm;
+							width: 100%;
+						}
+
+						/** Reglas del pie de página **/
+						footer {
+							position: fixed; 
+							bottom: 0cm; 
+							left: 0cm; 
+							right: 0cm;
+							height: 1.3cm;
+							width: 100%;
+						}
+						table.footer{font-size:8px;height:2cm;border-top:0.5px solid #AAA;width:20.5cm;line-height:1em}
+						
+						/** Reglas del contenido **/
+						/* *{ text-transform: uppercase; }*/
+						*{ font-size: 13px; }
+						.acciones td, .acciones th{border:1px solid #b9b9b9; border-collapse: collapse; font-size: 12px;}
+						.acc td{border:1px solid #ababab;}
+						.stroke { text-shadow: -1.5px 1px 1px #85C1E9, 1.5px 1px 1px #85C1E9, -1.5px 1px 1px #85C1E9, 1.5px 1px 1px #85C1E9 }
+					</style>
+				</head>
+				<body>
+					<!-- Defina bloques de encabezado y pie de página antes de su contenido -->
+					<header>
+						<table style="width:16cm;margin-top:5mm" cellspacing="1" align="center">
+							<tr>
+								<td width="10"><img src="data:image/png;base64,'.base64_encode($img).'" style="height:70px" /></td>
+								<td><span style="font-size:2rem;font-weight:bold;margin-left:5mm;color:#3f9cd4" class="stroke">Red Prestacional Sabogal</span></td>
+							</tr>
+						</table>
+					</header>
+					<main style="width:100%">
+						<div style="text-align:center;font-weight:bold;margin:5mm;font-size:14px">PROCESO DE CONVOCATORIA PARA LOCADORES DE SERVICIO</div>
+						<table cellspacing="0" style="width:14cm" cellpadding="1" align="center" bgcolor="dcdcdc" class="acciones">
+							<tr>
+								<td style="width:5cm;padding-left:3mm;font-weight:bold">DEPENDENCIA</td><td style="width:3mm;text-align:center">:</td>
+								<td style="padding-left:3mm;font-weight:bold">OFICINA DE SOPORTE INFORM&Aacute;TICO</td>
+							</tr>
+							<tr bgcolor="#eeeeee">
+								<td style="width:5cm;padding-left:3mm;font-weight:bold">FECHA CONVOCATORIA</td><td style="width:3mm;text-align:center">:</td>
+								<td style="padding-left:3mm">'.$fecha.'</td>
+							</tr>
+							<tr>
+								<td style="width:5cm;padding-left:3mm;font-weight:bold">DENOMINACI&Oacute;N</td><td style="width:3mm;text-align:center">:</td>
+								<td style="padding-left:3mm">'.$denom.'</td>
+							</tr>
+							<tr bgcolor="#eeeeee">
+								<td style="width:5cm;padding-left:3mm;font-weight:bold">ESTADO CONVOCATORIA</td><td style="width:3mm;text-align:center">:</td>
+								<td style="padding-left:3mm">'.$estado.'</td>
+							</tr>
+						</table>
+						<div style="text-align:center;font-weight:bold;margin:5mm 0;font-size:14px">RESULTADOS</div>
+						<table cellspacing="0" style="width:14cm" cellpadding="1" align="center" class="acciones acc">
+							<tr bgcolor="#000" style="color:#fff"><th>DNI/CE</th><th>POSTULANTE</th><th>PUNTAJE</th><th>STATUS</th></tr>';
+							foreach($data as $row):
+								$html .= '<tr><td>'.$row['numero_documento'].'</td><td>'.$row['nombre'].'</td><td style="text-align:right">'.$row['puntaje'].'</td>
+									<td style="text-align:center">'.($row['ganador'] === '1'? 'GANADOR' : '-').'</td></tr>';
+							endforeach;
+							
+		$html .=			'<tr bgcolor="#ccc"><td colspan="3" style="text-align:right;padding-right:3mm">TOTAL POSTULANTES</td>
+							<td style="font-weight:bold;text-align:center">'.count($data).'</td></tr>
+						</table>
+					</main>
+				</body>
+			</html>';
+		
+		if(floatval(phpversion()) < $versionphp){
+			$dom = new Dom();
+			$dom->generate($direccion, $a5, $html, 'Informe');
+		}else{
+			$dom = new Dom1();
+			$dom->generate($direccion, $a5, $html, 'Informe');
+		}
+	}
 	$con->close();
 }

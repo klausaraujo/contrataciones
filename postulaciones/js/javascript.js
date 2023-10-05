@@ -61,8 +61,10 @@ $(document).ready(function (){
 				},
 				{
 					data: null,
-					render: function(){
-						return '<div class="row"><a title="Ver Resultados" class="btn btnTable btn-success mx-auto disabled px-1">'+ojo+'</a></div>';
+					render: function(data){
+						console.log(data.idconvocatoria);
+						let hRef = (data.calificado === '1'? 'href="'+base+'postulaciones/php/Funciones?act=ver&res='+data.idconvocatoria+'"' : '');
+						return '<div class="row"><a title="Ver Resultados" class="btn btnTable btn-success mx-auto '+(data.calificado === '0'?'disabled':'')+' px-1" '+hRef+'>'+ojo+'</a></div>';
 					}
 				},
 			],

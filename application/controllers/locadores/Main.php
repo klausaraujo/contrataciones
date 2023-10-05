@@ -269,4 +269,16 @@ class Main extends CI_Controller
 		endforeach;
 		header('location:'.base_url().'locadores');
 	}
+	public function publicar()
+	{
+		$versionphp = 7; $data = []; $a5 = 'A4'; $direccion = 'portrait'; $html = null;
+		$html = $this->load->view('locadores/resultados', $data, true);
+		if(floatval(phpversion()) < $versionphp){
+			$this->load->library('dom');
+			$this->dom->generate($direccion, $a5, $html, 'Informe');
+		}else{
+			$this->load->library('dom1');
+			$this->dom1->generate($direccion, $a5, $html, 'Informe');
+		}
+	}
 }
