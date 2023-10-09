@@ -1,6 +1,8 @@
 <?php
-require_once(dirname(__DIR__,2).'\application\libraries\Dom.php');
-require_once(dirname(__DIR__,2).'\application\libraries\Dom1.php');
+if(intval(phpversion()) < 7)
+	require_once($_SERVER['DOCUMENT_ROOT'].'/contrataciones/application/libraries/Dom.php');
+else
+	require_once($_SERVER['DOCUMENT_ROOT'].'/contrataciones/application/libraries/Dom1.php');
 date_default_timezone_set('America/Lima');
 
 Class Funciones{
