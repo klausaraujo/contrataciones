@@ -23,7 +23,7 @@ class Dom {
 	//$pdf = $dompdf->output();
 
 	// Output the generated PDF to Browser
-	echo $html;
+	//echo $html;
 	$dompdf->stream($nombre, array("Attachment" => false));
 	//return $pdf;
  } 
