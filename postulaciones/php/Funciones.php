@@ -316,7 +316,7 @@ if($_POST['data'] === 'listar'){
 		$versionphp = 7; $data = ['resultado' => 'Hola']; $a5 = 'A4'; $direccion = 'portrait'; $html = null;
 		$img = file_get_contents('http://'.$_SERVER['HTTP_HOST'].'/contrataciones/public/images/logo-white.png');
 		$data = $con->resultado($_GET['res']); $fecha = date_format(date_create($data[0]['fecha_inicio']),'d/m/Y'); $denom = $data[0]['denominacion'];
-		$estado = $data[0]['estado'];	
+		$estado = $data[0]['estado'];
 		
 		//var_dump($data);
 		$html =

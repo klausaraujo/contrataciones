@@ -88,7 +88,7 @@ $route['locadores/descargar'] = 'locadores/main/descargar';
 $route['locadores/descargarp'] = 'locadores/main/descargarp';
 $route['locadores/evaluar'] = 'locadores/main/evaluar';
 $route['locadores/evaluado'] = 'locadores/main/evaluado';
-$route['locadores/publicar'] = 'locadores/main/publicar';
+$route['locadores/ver'] = 'locadores/main/ver';
 
 /**/
 $route['404_override'] = '';

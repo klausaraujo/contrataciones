@@ -16,7 +16,8 @@ $(document).ready(function (){
 						let hrefCan = (data.activo === '1' && btnCan && data.idestado==='1')?'href="'+base_url+'locadores/cancelar?id='+data.idconvocatoria+'"':'';
 						let hrefEval = (data.activo === '1' && btnEval && parseInt(data.idestado) < 3 && 
 							data.calificado === '0' && data.idestado === '2')?'href="'+base_url+'locadores/evaluar?id='+data.idconvocatoria+'"':'';
-						let hrefPub = (data.activo === '1' && btnPub && parseInt(data.idestado) < 3)?'href="'+base_url+'locadores/publicar?id='+data.idconvocatoria+'"':'';
+						let hrefPub = (data.activo === '1' && btnPub && parseInt(data.idestado) < 3 && parseInt(data.calificado))?
+								'href="'+base_url+'locadores/ver?id='+data.idconvocatoria+'"':'';
 						let btnAccion =
 							'<div class="btn-group">'+
 								'<a '+(hrefEdit?'title="Editar Convocatoria" '+hrefEdit:'')+' class="bg-info btnTable">'+
@@ -25,7 +26,7 @@ $(document).ready(function (){
 									'<img src="'+base_url+'public/images/cancel_ico.png" width="22"></a>'+
 								'<a '+(hrefEval?'title="Evaluar Postulantes" '+hrefEval:'')+' class="bg-warning btnTable px-1">'+
 									'<img src="'+base_url+'public/images/evaluar_ico.png" width="15"></a>'+
-								'<a '+(hrefPub?'title="Publicar Resultados" '+hrefPub:'')+' class="bg-light btnTable border border-secondary">'+
+								'<a '+(hrefPub?'title="Publicar Resultados" '+hrefPub:'')+' class="bg-light btnTable border border-secondary" target="_blank">'+
 									'<img src="'+base_url+'public/images/result_ico.png" width="18"></a>'+
 							'</div>';
 						return btnAccion;

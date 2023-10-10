@@ -86,4 +86,15 @@ class Locadores_model extends CI_Model
 			return true;
 		}
 	}
+	public function ver($where)
+	{
+		$this->db->select('cp.*,cl.*,e.descripcion as estado');
+        $this->db->from('convocatoria_locadores_postulantes cp');
+		$this->db->join('convocatoria_locadores cl','cp.idconvocatoria = cl.idconvocatoria');
+		$this->db->join('estado e','e.idestado = cl.idestado');
+		$this->db->where($where);
+		$this->db->order_by('cp.puntaje', 'DESC');
+        $result = $this->db->get();
+		return ($result->num_rows() > 0)? $result->result() : array();
+	}
 }
