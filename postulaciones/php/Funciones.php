@@ -219,6 +219,10 @@ if($_POST['data'] === 'listar'){
 	echo json_encode([data => $lista]);
 }elseif($_GET['act'] === 'descargar'){
 	descargar();
+}elseif($_GET['v']){
+	session_start();
+	$_SESSION['convocatoria'] = $_GET['v'];
+	header('location: formulario');
 }elseif($_POST['ctipo']){
 	echo json_encode(curl());
 }elseif($_POST['dep'] === 'departamentos'){

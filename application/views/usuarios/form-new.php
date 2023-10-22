@@ -30,7 +30,7 @@
 													<div class="invalid-feedback" id="error-doc">Documento requerido</div>
 												</div>
 											</div>
-											<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
+											<!--<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 mt-3 mt-lg-0 align-self-center">
 												<button type="button" class="btn btn-info btn-small btn_curl col-12"><i class="fa fa-search" aria-hidden="true"></i></button>
 											</div>
 											<!--<label class="form_error error_curl col-md-4 my-0"></label>-->
@@ -39,7 +39,7 @@
 											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="apellidos">Apellidos:</label>
 											<div class="col-md-6 col-lg-4">
 												<div class="row">
-													<input type="text" class="form-control borra apellidos" name="apellidos" id="apellidos" placeholder="Apellidos" required="" readonly />
+													<input type="text" class="form-control borra apellidos" name="apellidos" id="apellidos" placeholder="Apellidos" required="" />
 													<div class="invalid-feedback">Campo requerido</div>
 												</div>
 											</div>
@@ -48,7 +48,7 @@
 											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Nombres:</label>
 											<div class="col-md-6 col-lg-4">
 												<div class="row">
-													<input type="text" class="form-control borra nombres" name="nombres" id="nombres" placeholder="Nombres" required="" readonly />
+													<input type="text" class="form-control borra nombres" name="nombres" id="nombres" placeholder="Nombres" required="" />
 													<div class="invalid-feedback" id="error-doc">Campo requerido</div>
 												</div>
 											</div>
@@ -57,7 +57,7 @@
 											<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="usuario">Usuario:</label>
 											<div class="col-md-6 col-lg-4">
 												<div class="row">
-													<input type="text" class="form-control borra usuario" name="usuario" id="usuario" placeholder="Usuario" required="" readonly />
+													<input type="text" class="form-control borra usuario" name="usuario" id="usuario" placeholder="Usuario" required="" />
 													<div class="invalid-feedback">Campo requerido</div>
 												</div>
 											</div>

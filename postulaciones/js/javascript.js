@@ -27,7 +27,7 @@ $(document).ready(function (){
 					data: null,
 					orderable: false,
 					render: function(data){
-						let href = 'href="'+base+'postulaciones/php/formulario?v='+data.idconvocatoria+'"';
+						let href = 'href="php/Funciones?v='+data.idconvocatoria+'"';
 						let btnAccion = '<div class="row"><a class="btn btnTable btn-postular mx-auto '+(data.idestado === '1'?'':'disabled')+
 										'" '+(data.idestado === '1'?href:'')+'>Postular</a></div>';
 						return btnAccion;
@@ -91,10 +91,13 @@ $('#dependencia').bind('change',function(){
 	tabla.ajax.reload();
 });
 $('#tipodoc').bind('change',function(){
+	if(this.value === '1') $('.doc').prop('maxlength',8);
+	else if(this.value === '2') $('.doc').prop('maxlength',9);
 	$.each($('.form-control'),function(i,e){
 		if(this.type !== 'select-one')
 		this.value = '';
 	});
+	$('.doc').focus();
 });
 $('.btn_curl').bind('click',function(e){
 	let doc = $('#doc').val(), tipo = '';

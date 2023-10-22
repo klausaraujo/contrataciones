@@ -1,4 +1,6 @@
 <?php
+	session_start();
+	if(!isset($_SESSION['convocatoria'])) header('location: ../');
 	include_once(__DIR__.'/Funciones.php');
 	date_default_timezone_set('America/Lima');
 	
@@ -8,6 +10,9 @@
 	$dep = $con->departamentos();
 	$tipo = $con->tipodoc();
 	$con->close();
+	$convocatoria = $_SESSION['convocatoria'];
+	unset($_SESSION['convocatoria']);
+	session_destroy();
 ?>
 <!doctype html>
 <html lang="es">
@@ -31,7 +36,7 @@
 			</div>
 			<div class="iq-card-body pt-0">
 				<form method="post" enctype="multipart/form-data" id="form_postulante" action="Funciones">
-					<input type="hidden" name="postular" value="postulaciones" /><input type="hidden" name="idconvocatoria" value="<?=$_GET['v']?>" />
+					<input type="hidden" name="postular" value="postulaciones" /><input type="hidden" name="idconvocatoria" value="<?=$convocatoria?>" />
 					<div class="form-row">
 						<div class="col-12 my-1">
 							<div class="row">
@@ -52,11 +57,11 @@
 								<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="doc">N&uacute;mero de Documento:</label>
 								<div class="col-md-4 col-lg-3">
 									<div class="row">
-										<input type="text" class="form-control form-control-sm num" maxlength="9" minlength="8" name="doc" id="doc" autocomplete="off"
+										<input type="text" class="form-control form-control-sm num doc" maxlength="8" minlength="8" name="doc" id="doc" autocomplete="off"
 											placeholder="Nro. Documento" required="" />
 									</div>
 								</div>
-								<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 align-self-center mt-0">
+								<!--<div class="col-md-2 col-lg-1 px-0 pl-md-3 pl-lg-4 align-self-center mt-0">
 									<button type="button" class="btn btn-postular btn_curl px-1 pl-2 py-1"><i class="fa fa-search" aria-hidden="true"></i></button>
 								</div>
 								<!--<label class="form_error error_curl col-md-4 my-0"></label>-->
@@ -74,7 +79,7 @@
 								<label class="control-label col-md-6 col-lg-3 align-self-center mb-0" for="nombres">Raz&oacute;n Social:</label>
 								<div class="col-md-6 col-lg-4">
 									<div class="row">
-										<input type="text" class="form-control form-control-sm mayusc" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" required="" readonly />
+										<input type="text" class="form-control form-control-sm mayusc" name="nombres" id="nombres" placeholder="Raz&oacute;n Social" required="" />
 									</div>
 								</div>
 							</div>
