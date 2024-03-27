@@ -71,7 +71,7 @@
 		<script src="js/jquery.validate.min.js"></script>
 		<script src="js/javascript.js"></script>
 		<script>
-			const base = '<?=$_SERVER['HOSTNAME'].'/contrataciones/'?>';
+			const base = '<?=$_SERVER['HOSTNAME'].'/arthromeds/'?>';
 			const language = {
 				"processing": "Procesando...",
 				"lengthMenu": "Mostrar _MENU_ registros",

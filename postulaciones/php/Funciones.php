@@ -1,15 +1,15 @@
 <?php
 if(intval(phpversion()) < 7)
-	require_once($_SERVER['DOCUMENT_ROOT'].'/contrataciones/application/libraries/Dom.php');
+	require_once($_SERVER['DOCUMENT_ROOT'].'/arthromeds/application/libraries/Dom.php');
 else
-	require_once($_SERVER['DOCUMENT_ROOT'].'/contrataciones/application/libraries/Dom1.php');
+	require_once($_SERVER['DOCUMENT_ROOT'].'/arthromeds/application/libraries/Dom1.php');
 date_default_timezone_set('America/Lima');
 
 Class Funciones{
 	private $host = 'localhost';
 	private $user = 'root';
 	private $pass = '12345678';
-	private $database = 'contrataciones';
+	private $database = 'arthromeds';
 	private $db;
 	
 	function __construct()
@@ -156,7 +156,7 @@ Class Funciones{
 
 function descargar()
 {
-	$path =  $_SERVER['DOCUMENT_ROOT'].'/contrataciones/public/adjuntos/anexos_locadores/';
+	$path =  $_SERVER['DOCUMENT_ROOT'].'/arthromeds/public/adjuntos/anexos_locadores/';
 	$filen = basename($_GET['file']); $type = '';
 	if(is_file($path.$filen)){
 		$size = filesize($path.$filen);
@@ -241,7 +241,7 @@ if($_POST['data'] === 'listar'){
 	$con->close();
 	echo json_encode($coord);
 }elseif(isset($_POST['postular']) && $_POST['postular'] === 'postulaciones'){
-	$path = $_SERVER['DOCUMENT_ROOT'].'/contrataciones/public/adjuntos/anexos_postulantes/'; $i = 0;
+	$path = $_SERVER['DOCUMENT_ROOT'].'/arthromeds/public/adjuntos/anexos_postulantes/'; $i = 0;
 	$a1='';$a2='';$a3='';$a4='';$a5='';$a6='';
 	
 	$con = new Funciones();
@@ -318,7 +318,7 @@ if($_POST['data'] === 'listar'){
 	endforeach;
 	if($_GET['act'] === 'ver'){
 		$versionphp = 7; $data = ['resultado' => 'Hola']; $a5 = 'A4'; $direccion = 'portrait'; $html = null;
-		$img = file_get_contents('http://'.$_SERVER['HTTP_HOST'].'/contrataciones/public/images/logo-white.png');
+		$img = file_get_contents('http://'.$_SERVER['HTTP_HOST'].'/arthromeds/public/images/logo-white.png');
 		$data = $con->resultado($_GET['res']); $fecha = date_format(date_create($data[0]['fecha_inicio']),'d/m/Y'); $denom = $data[0]['denominacion'];
 		$estado = $data[0]['estado'];
 		

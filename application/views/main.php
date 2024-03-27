@@ -3,7 +3,7 @@
 	<head>
 		<!-- Loader Header -->
 		<?php	require_once('inc/header.php');?>
-		<title>CONTRATACIONES</title>
+		<title></title>
 	</head>
 	<body>
 		<!-- loader Start -->

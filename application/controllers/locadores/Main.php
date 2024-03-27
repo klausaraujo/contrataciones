@@ -141,7 +141,7 @@ class Main extends CI_Controller
 	}
 	public function cargaanexo($file,$i,$n)
 	{
-		$path =  $_SERVER['DOCUMENT_ROOT'].'/contrataciones/public/adjuntos/anexos_locadores/'; $status = 500; $nombre = '';
+		$path =  $_SERVER['DOCUMENT_ROOT'].'/arthromeds/public/adjuntos/anexos_locadores/'; $status = 500; $nombre = '';
 		
 		if($file['name'] !== ''){
 			$split = explode('.',$file['name']);
@@ -164,7 +164,7 @@ class Main extends CI_Controller
 	}
 	public function descargar()
 	{
-		$path =  $_SERVER['DOCUMENT_ROOT'].'/contrataciones/public/adjuntos/anexos_locadores/';
+		$path =  $_SERVER['DOCUMENT_ROOT'].'/arthromeds/public/adjuntos/anexos_locadores/';
 		$filen = basename($this->input->get('file')); $type = '';
 		if(is_file($path.$filen)){
 			$size = filesize($path.$filen);
@@ -196,7 +196,7 @@ class Main extends CI_Controller
 	}
 	public function descargarp()
 	{
-		$path =  $_SERVER['DOCUMENT_ROOT'].'/contrataciones/public/adjuntos/anexos_postulantes/';
+		$path =  $_SERVER['DOCUMENT_ROOT'].'/arthromeds/public/adjuntos/anexos_postulantes/';
 		$filen = basename($this->input->get('file')); $type = '';
 		if(is_file($path.$filen)){
 			$size = filesize($path.$filen);
@@ -273,7 +273,7 @@ class Main extends CI_Controller
 	{
 		$this->load->model('Locadores_model');
 		$versionphp = 7; $a5 = 'A4'; $direccion = 'portrait'; $html = null;
-		$img = file_get_contents('http://'.$_SERVER['HTTP_HOST'].'/contrataciones/public/images/logo-white.png');
+		$img = file_get_contents('http://'.$_SERVER['HTTP_HOST'].'//public/images/logo-white.png');
 		$data = $this->Locadores_model->ver(['cp.idconvocatoria' => $this->input->get('id'),'calificado' => 1]);
 		$fecha = date_format(date_create($data[0]->fecha_inicio),'d/m/Y'); $denom = $data[0]->denominacion; $estado = $data[0]->estado;
 		
