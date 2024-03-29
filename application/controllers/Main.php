@@ -12,7 +12,7 @@ class Main extends CI_Controller
 		date_default_timezone_set('America/Lima');
 		if($this->session->userdata('user')){
 			$this->usuario = json_decode($this->session->userdata('user'));
-			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/arthromeds/';
+			$this->absolutePath = $_SERVER['DOCUMENT_ROOT'].'/contrataciones/';
 			$seg = $this->uri->segment(1);
 			foreach($this->usuario->modulos as $mod):
 				if($mod->url === $seg){

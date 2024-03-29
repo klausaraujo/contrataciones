@@ -20,7 +20,7 @@
 		<title>Postulaciones</title>
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
 		<link rel="stylesheet" href="../css/typography.css">
-		<link rel="stylesheet" href="<?=$_SERVER['HOSTNAME'].'/arthromeds/'?>public/css/fontawesome.css">
+		<link rel="stylesheet" href="<?=$_SERVER['HOSTNAME'].'/contrataciones/'?>public/css/fontawesome.css">
 		<style>
 			body{ margin: 2rem 1rem }
 			//.wrapper{ background-color: #fff; }
@@ -278,7 +278,7 @@
 		<!--<script src="<?='https://maps.googleapis.com/maps/api/js?key=AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0&callback=initMap'?>" async ></script>-->
 		<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA85CP4w2NVLGUH5VQzjVJMcOWdmsj3-r0&libraries=places">-->
 		<script>
-			const base = '<?=$_SERVER['HOSTNAME'].'/arthromeds/'?>';
+			const base = '<?=$_SERVER['HOSTNAME'].'/contrataciones/'?>';
 			let map = null;
 			window.onload = function(){
 				var opt = {lat: -12.0467, lng: -77.0322,zoom: 16};

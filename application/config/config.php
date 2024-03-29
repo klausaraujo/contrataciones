@@ -23,8 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://'.$_SERVER["HTTP_HOST"].'/arthromeds'; 
-$config['path_url'] = 'http://'.$_SERVER["HTTP_HOST"].'/arthromeds/index.php/';
+$config['base_url'] = 'http://'.$_SERVER["HTTP_HOST"].'/contrataciones'; 
+$config['path_url'] = 'http://'.$_SERVER["HTTP_HOST"].'/contrataciones/index.php/';
 
 /*
 |--------------------------------------------------------------------------
